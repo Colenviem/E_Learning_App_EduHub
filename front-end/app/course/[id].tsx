@@ -1,82 +1,99 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'; // <-- Đã thêm SafeAreaView
 import { getCourseData } from '../(tabs)/index';
+import RegistrationModal from '../../components/RegistrationModal';
 import { borderRadius, colors, spacing, typography } from '../../constants/theme';
 
 interface Course {
-  id: string;
-  title: string;
-  lessons: number;
-  duration: string;
-  rating: number;
-  imageUri: string;
+    id: string;
+    title: string;
+    lessons: number;
+    duration: string;
+    rating: number;
+    imageUri: string;
 }
 
 interface Lesson {
-  id: string;
-  title: string;
-  duration: string;
+    id: string;
+    title: string;
+    duration: string;
 }
 
 const mockLessons: Lesson[] = [
-  { id: 'l1', title: 'Giới thiệu về React Native', duration: '04:28 phút' },
-  { id: 'l2', title: 'Cài đặt môi trường', duration: '06:17 phút' },
-  { id: 'l3', title: 'Khởi tạo dự án', duration: '43:58 phút' },
-  { id: 'l4', title: 'Component và Props', duration: '15:30 phút' },
-  { id: 'l5', title: 'Styling cơ bản', duration: '12:05 phút' },
+    { id: 'l1', title: 'Giới thiệu về React Native', duration: '04:28 phút' },
+    { id: 'l2', title: 'Cài đặt môi trường', duration: '06:17 phút' },
+    { id: 'l3', title: 'Khởi tạo dự án', duration: '43:58 phút' },
+    { id: 'l4', title: 'Component và Props', duration: '15:30 phút' },
+    { id: 'l5', title: 'Styling cơ bản', duration: '12:05 phút' },
 ];
 
 export default function CourseDetailScreen() {
-    const { id } = useLocalSearchParams(); 
-    const router = useRouter(); 
+    const { id } = useLocalSearchParams();
+    const router = useRouter();
     const [activeTab, setActiveTab] = useState<'lessons' | 'description'>('lessons');
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+    const handleRegister = (packageId: string) => {
+        console.log(`Đăng ký khóa học ${course?.title} với gói: ${packageId}`);
+        setIsModalVisible(false);
+
+        router.push({
+            pathname: '/CoursePayment',
+            params: { id, packageId },
+        });
+    };
+
 
     const allCourses: Course[] = getCourseData();
     const course = allCourses.find(c => c.id === id);
 
     if (!course) {
         return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background }}>
+            // Dùng SafeAreaView cho màn hình lỗi
+            <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background }}>
                 <Text style={{ padding: 20, color: colors.textPrimary }}>
                     Không tìm thấy khóa học này (ID: {id || 'Không có ID'}).
                 </Text>
-            </View>
+            </SafeAreaView>
         );
     }
 
     return (
-        <View style={styles.fullScreen}>
-            <Stack.Screen options={{ headerShown: false }} /> 
+        // BƯỚC 1: Dùng SafeAreaView bao ngoài cùng
+        <SafeAreaView style={styles.safeAreaWrapper}>
+            <Stack.Screen options={{ headerShown: false }} />
 
-            <ScrollView 
+            {/* BƯỚC 2: CUSTOM HEADER - Đưa ra ngoài ScrollView */}
+            <View style={styles.customHeader}>
+                <TouchableOpacity onPress={() => router.back()} style={styles.iconButton}>
+                    <Ionicons name="arrow-back" size={24} color={colors.textPrimary} />
+                </TouchableOpacity>
+                <Text style={styles.headerTitle}>Overview</Text>
+                <TouchableOpacity style={styles.iconButton}>
+                    <Ionicons name="heart-outline" size={24} color={colors.textPrimary} />
+                </TouchableOpacity>
+            </View>
+
+            <ScrollView
+                // BƯỚC 3: Xoá padding top thừa trong ScrollView
                 contentContainerStyle={styles.scrollContent}
                 showsVerticalScrollIndicator={false}
             >
-                
-                <View style={styles.customHeader}>
-                    <TouchableOpacity onPress={() => router.back()} style={styles.iconButton}>
-                        <Ionicons name="arrow-back" size={24} color={colors.textPrimary} />
-                    </TouchableOpacity>
-                    <Text style={styles.headerTitle}>Overview</Text>
-                    <TouchableOpacity style={styles.iconButton}>
-                        <Ionicons name="heart-outline" size={24} color={colors.textPrimary} />
-                    </TouchableOpacity>
-                </View>
 
-                <Image 
-                    source={{ uri: course.imageUri.replace('/200/120', '/400/250') }} 
-                    style={styles.courseImage} 
-                    resizeMode="cover" 
+                <Image
+                    source={{ uri: course.imageUri.replace('/200/120', '/400/250') }}
+                    style={styles.courseImage}
+                    resizeMode="cover"
                 />
 
                 <View style={styles.infoContainer}>
-                    <Text style={styles.mainTitle}>{course.title}</Text> 
+                    <Text style={styles.mainTitle}>{course.title}</Text>
                     <View style={styles.metaRow}>
                         <Text style={styles.metaText}>{course.duration} • {course.lessons} bài học</Text>
                         <View style={styles.ratingContainer}>
-                            <Ionicons name="star" size={14} color="#FFC300" /> 
+                            <Ionicons name="star" size={14} color="#FFC300" />
                             <Text style={styles.ratingText}>{course.rating}</Text>
                         </View>
                     </View>
@@ -96,7 +113,7 @@ export default function CourseDetailScreen() {
                         <View>
                             {mockLessons.map((lesson, index) => (
                                 <View key={lesson.id} style={[styles.lessonItem, index === mockLessons.length - 1 && { borderBottomWidth: 0 }]}>
-                                    <Ionicons name="play-circle-outline" size={20} color={colors.primaryBlue} /> 
+                                    <Ionicons name="play-circle-outline" size={20} color={colors.primaryBlue} />
                                     <View style={styles.lessonDetails}>
                                         <Text style={styles.lessonTitle}>{lesson.title}</Text>
                                         <Text style={styles.lessonDuration}>{lesson.duration}</Text>
@@ -110,41 +127,57 @@ export default function CourseDetailScreen() {
                         </Text>
                     )}
                 </View>
-                <View style={{ height: 100 }} /> 
+                {/* Giảm khoảng cách Spacer để tính toán cho Footer cố định */}
+                <View style={{ height: 80 }} />
             </ScrollView>
 
+            {/* FOOTER - Cố định ở dưới cùng */}
             <View style={styles.footer}>
                 <View>
                     <Text style={styles.priceOld}>499.000 VNĐ</Text>
                     <Text style={styles.priceNew}>299.000 VNĐ</Text>
                 </View>
-                <TouchableOpacity style={styles.registerButton}>
+                <TouchableOpacity
+                    style={styles.registerButton}
+                    onPress={() => setIsModalVisible(true)}
+                >
                     <Text style={styles.registerText}>Đăng ký ngay</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+
+            {/* MODAL ĐĂNG KÝ */}
+            {isModalVisible && course && (
+                <RegistrationModal
+                    onCancel={() => setIsModalVisible(false)}
+                    onRegister={handleRegister}
+                    courseTitle={course.title}
+                />
+            )}
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    fullScreen: {
+    // STYLE MỚI CHO SAFEAREAVIEW
+    safeAreaWrapper: {
         flex: 1,
         backgroundColor: colors.background,
     },
+    // fullScreen đã bị loại bỏ vì được thay thế bằng safeAreaWrapper
     scrollContent: {
-        paddingBottom: spacing.md,
+        // paddingBottom: spacing.md đã được thay thế bằng View height: 80
     },
     customHeader: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingHorizontal: spacing.screenPadding,
-        paddingTop: spacing.md + 10, 
+        // Đã xóa paddingTop cố định (spacing.md + 10) để SafeAreaView xử lý
         paddingBottom: spacing.sm,
         backgroundColor: colors.background,
     },
     headerTitle: {
-        fontSize: typography.body.fontSize, 
+        fontSize: typography.body.fontSize,
         fontWeight: '600',
         color: colors.textPrimary,
     },
@@ -152,14 +185,14 @@ const styles = StyleSheet.create({
     },
     courseImage: {
         width: '100%',
-        height: 200, 
+        height: 200,
     },
     infoContainer: {
         paddingHorizontal: spacing.screenPadding,
-        paddingVertical: spacing.md, 
+        paddingVertical: spacing.md,
     },
     mainTitle: {
-        fontSize: 22, 
+        fontSize: 22,
         fontWeight: '700',
         color: colors.textPrimary,
     },
@@ -189,12 +222,12 @@ const styles = StyleSheet.create({
         marginHorizontal: spacing.screenPadding,
     },
     tabButton: {
-        paddingVertical: spacing.sm, 
+        paddingVertical: spacing.sm,
         marginRight: spacing.lg,
     },
     tabText: {
         ...typography.body,
-        fontSize: typography.body.fontSize, 
+        fontSize: typography.body.fontSize,
         color: colors.textSecondary,
         fontWeight: '500',
     },
@@ -208,14 +241,14 @@ const styles = StyleSheet.create({
     },
     contentSection: {
         paddingHorizontal: spacing.screenPadding,
-        paddingTop: spacing.md, 
+        paddingTop: spacing.md,
     },
     lessonItem: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingVertical: spacing.sm, 
+        paddingVertical: spacing.sm,
         borderBottomWidth: 1,
-        borderBottomColor: colors.lightBorder, 
+        borderBottomColor: colors.lightBorder,
     },
     lessonDetails: {
         marginLeft: spacing.md,
@@ -233,7 +266,7 @@ const styles = StyleSheet.create({
     },
     descriptionText: {
         ...typography.body,
-        lineHeight: 22, 
+        lineHeight: 22,
         color: colors.textSecondary,
     },
     footer: {
@@ -244,12 +277,12 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingHorizontal: spacing.screenPadding,
-        paddingVertical: spacing.sm, 
+        paddingVertical: spacing.sm,
         backgroundColor: colors.background,
         borderTopWidth: 1,
         borderTopColor: colors.lightBorder,
-        elevation: 10, 
-        shadowColor: '#000', 
+        elevation: 10,
+        shadowColor: '#000',
         shadowOffset: { width: 0, height: -2 },
         shadowOpacity: 0.1,
         shadowRadius: 3,
@@ -267,7 +300,7 @@ const styles = StyleSheet.create({
     },
     registerButton: {
         backgroundColor: colors.primaryBlue,
-        paddingVertical: spacing.sm + 2, 
+        paddingVertical: spacing.sm + 2,
         paddingHorizontal: spacing.xl,
         borderRadius: borderRadius.button,
     },

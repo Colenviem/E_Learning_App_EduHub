@@ -5,9 +5,11 @@ import React from 'react';
 export default function RootLayout() {
   return (
     <>
-      <StatusBar style="dark" /> 
+      <StatusBar style="dark" />
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="CoursePayment" options={{ headerShown: false }} />
+        <Stack.Screen name="SuccessPayment" options={{ headerShown: false }} />
       </Stack>
     </>
   );
