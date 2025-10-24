@@ -20,7 +20,7 @@ const mockSearchResults: SearchResult[] = [
   { id: 's1', title: 'Java basic', level: 'Intermediate', lessons: 28, duration: '4h 20 phút', rating: 4.9, imageUri: 'https://picsum.photos/seed/java/60/60' },
   { id: 's2', title: 'Java website', level: 'Beginner', lessons: 24, duration: '4h', rating: 4.7, imageUri: 'https://picsum.photos/seed/javaweb/60/60' },
   { id: 's3', title: 'Java Best Practices', level: 'Intermediate', lessons: 42, duration: '6h 23 phút', rating: 4.8, imageUri: 'https://picsum.photos/seed/javabest/60/60', isBestPractice: true },
-  { id: 's4', title: 'Java master', level: 'Intermediate', lessons: 39, duration: '5h 12 phút', rating: 4.9, imageUri: 'https://picsum.photos/seed/javamaster/60/60' },
+  { id: 's4', title: 'Java master', level: 'Intermediate', lessons: 39, duration: '5h 12 phút', rating: 4.8, imageUri: 'https://picsum.photos/seed/javamaster/60/60' },
   { id: 's5', title: 'Java master', level: 'Beginner', lessons: 24, duration: '4h', rating: 4.7, imageUri: 'https://picsum.photos/seed/javamaster2/60/60' },
   { id: 's6', title: 'Java master', level: 'Beginner', lessons: 24, duration: '4h', rating: 4.7, imageUri: 'https://picsum.photos/seed/javamaster3/60/60' },
   { id: 's7', title: 'Java master', level: 'Beginner', lessons: 24, duration: '4h', rating: 4.7, imageUri: 'https://picsum.photos/seed/javamaster4/60/60' },
