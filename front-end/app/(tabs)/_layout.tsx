@@ -35,7 +35,14 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <Feather name="bookmark" size={24} color={color} />,
         }}
       />
-      
+       <Tabs.Screen
+        name="payDetail"
+        options={{
+          title: 'Course',
+          tabBarIcon: ({ color }) => <Feather name="bookmark" size={24} color={color} />,
+        }}
+      />
+
       <Tabs.Screen
         name="profile"
         options={{
