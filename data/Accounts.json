@@ -1,0 +1,14 @@
+{
+    "_id": "ACC001",
+    "email": "a@gmail.com",
+    "password": "<hashed_password>",
+    "role": "student", 
+    "status": true,
+    "refreshTokens": [
+        { 
+            "token": "xxx.yyy.zzz", 
+            "expiresAt": { "$date": "2024-12-31T23:59:59Z" }
+        }
+    ],
+    "createdAt": { "$date": "2024-12-31T23:59:59Z" }
+}
