@@ -1,0 +1,12 @@
+{
+    "_id": "QUIZ001",
+    "type": "single_choice",
+    "question": "What is the correct syntax to output 'Hello World' in Python?",
+    "options": [
+        { "option": "print('Hello World')", "correct": false },
+        { "option": "print('Hello World')", "correct": true },
+        { "option": "print('Hello World')", "correct": false },
+        { "option": "print('Hello World')", "correct": false }
+    ],
+    "createdAt": { "$date": "2024-12-31T23:59:59Z" }
+}

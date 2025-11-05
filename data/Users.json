@@ -1,0 +1,7 @@
+{
+    "_id": "USER001",
+    "accountId": "ACC001",
+    "name": "Nguyen Van A",
+    "avatarUrl": "https://...",
+    "createdAt": { "$date": "2024-12-31T23:59:59Z" }
+}
