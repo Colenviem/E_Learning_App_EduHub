@@ -1,27 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { FiEdit, FiSearch } from 'react-icons/fi';
+import axios from 'axios';
+import Spinner from '../spinner/Spinner';
 
-const ordersInitial = [
-  {
-    _id: "order801",
-    userId: "user123",
-    courseId: "course1",
-    amount: 500000,
-    paymentMethod: "momo",
-    status: "completed",
-    createdAt: "2024-12-31T23:59:59Z"
-  },
-  {
-    _id: "order802",
-    userId: "user124",
-    courseId: "course2",
-    amount: 300000,
-    paymentMethod: "credit_card",
-    status: "pending",
-    createdAt: "2024-12-25T10:00:00Z"
-  }
-];
+const API = "http://localhost:5000/orders";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -47,19 +30,48 @@ const formatDate = (dateString) =>
 
 const OrdersTable = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [orders, setOrders] = useState(ordersInitial);
+  const [orders, setOrders] = useState([]);
   const [editingOrder, setEditingOrder] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  const fetchOrders = useCallback(async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get(API);
+      setOrders(res.data);
+    } catch (err) {
+      console.error("Error fetching orders:", err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchOrders();
+  }, [fetchOrders]);
 
   const filteredOrders = orders.filter(order =>
     order._id.toLowerCase().includes(searchQuery.toLowerCase()) ||
     order.userId.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handleSave = () => {
-    setOrders(orders.map(o => o._id === editingOrder._id ? editingOrder : o));
-    setIsModalOpen(false);
+  const handleSave = async () => {
+    try {
+      setLoading(true);
+      await axios.put(`${API}/${editingOrder._id}`, editingOrder);
+      fetchOrders();
+      setIsModalOpen(false);
+    } catch (err) {
+      console.error("Error updating order:", err);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  if (loading) {
+    return <Spinner size={12}/>;
+  }
 
   return (
     <div className="p-6 pt-24 bg-gray-50 min-h-screen">

@@ -1,11 +1,13 @@
-{
-    "_id": "COURSE001",
-    "title": "Learn JavaScript",
-    "description": "Learn Python from scratch",
-    "thumbnailUrl": "https://...",
-    "categoryId": "CAT001", 
-    "lessons": ["LESSON101"],
-    "status": true,
-    "createdAt": { "$date": "2024-12-31T23:59:59Z" },
-    "updatedAt": { "$date": "2024-12-31T23:59:59Z" }
-}
+[
+    {
+        "_id": "COURSE001",
+        "title": "Learn JavaScript",
+        "description": "Learn Python from scratch",
+        "thumbnailUrl": "https://...",
+        "categoryId": "CAT001", 
+        "lessons": ["LESSON101"],
+        "status": true,
+        "createdAt": { "$date": "2024-12-31T23:59:59Z" },
+        "updatedAt": { "$date": "2024-12-31T23:59:59Z" }
+    }
+]

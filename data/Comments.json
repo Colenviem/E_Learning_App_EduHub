@@ -1,7 +1,9 @@
-{
-    "_id": "comment401",
-    "lessonId": "lesson101",
-    "userId": "user123",
-    "content": "I don’t understand this code snippet.",
-    "createdAt": { "$date": "2024-12-31T23:59:59Z" }
-}
+[
+    {
+        "_id": "comment401",
+        "lessonId": "lesson101",
+        "userId": "user123",
+        "content": "I don’t understand this code snippet.",
+        "createdAt": { "$date": "2024-12-31T23:59:59Z" }
+    }
+]

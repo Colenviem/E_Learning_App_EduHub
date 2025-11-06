@@ -1,20 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { FiEdit, FiSearch } from 'react-icons/fi';
+import axios from 'axios';
+import Spinner from '../spinner/Spinner';
 
-const coursesDataInitial = [
-    {
-        _id: "COURSE001",
-        title: "Learn JavaScript",
-        description: "Learn Python from scratch",
-        thumbnailUrl: "https://i.ibb.co/album.png",
-        categoryId: "CAT001",
-        lessons: ["LESSON101"],
-        status: true,
-        createdAt: "2024-12-31T23:59:59Z",
-        updatedAt: "2024-12-31T23:59:59Z"
-    }
-];
+const API = "http://localhost:5000/courses";
+const IMAGE_DEFAULT = "https://i.pinimg.com/736x/57/89/d9/5789d95d55ce358b93a99bbab84e3df7.jpg";
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -32,19 +23,44 @@ const formatDate = (dateString) => new Date(dateString).toLocaleDateString('vi-V
 
 const CoursesTable = () => {
     const [searchQuery, setSearchQuery] = useState("");
-    const [coursesData, setCoursesData] = useState(coursesDataInitial);
+    const [coursesData, setCoursesData] = useState([]);
     const [editingCourse, setEditingCourse] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+    const fetchAccounts = useCallback(async () => {
+        try {
+            setLoading(true);
+            const res = await axios.get(API);
+            setCoursesData(res.data);
+        } catch (err) {
+            console.error("Lỗi khi fetch users:", err);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchAccounts();
+    }, [fetchAccounts]);
 
     const filteredCourses = coursesData.filter(c =>
         c._id.toLowerCase().includes(searchQuery.toLowerCase()) ||
         c.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const handleSave = () => {
-        setCoursesData(coursesData.map(c => c._id === editingCourse._id ? editingCourse : c));
-        setIsModalOpen(false);
-    }
+    const handleSave = async () => {
+        try {
+            setLoading(true);
+            await axios.put(`${API}/${editingCourse._id}`, editingCourse);
+            fetchAccounts(); 
+            setIsModalOpen(false);
+        } catch (err) {
+            console.error("Lỗi khi update account:", err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleThumbnailChange = (e) => {
         const file = e.target.files[0];
@@ -53,6 +69,10 @@ const CoursesTable = () => {
         reader.onload = (ev) => setEditingCourse({...editingCourse, thumbnailUrl: ev.target.result});
         reader.readAsDataURL(file);
         }
+    }
+
+    if (loading) {
+        return <Spinner size={12}/>;
     }
 
     return (
@@ -92,9 +112,13 @@ const CoursesTable = () => {
                 <motion.tbody variants={containerVariants} initial="hidden" animate="visible">
                 {filteredCourses.map(course => (
                     <motion.tr key={course._id} variants={rowVariants} className="border-t border-gray-100 hover:bg-gray-50 transition-colors">
-                    <td className="py-3 px-4 text-gray-600 font-mono text-xs">{course._id}</td>
+                    <td className="py-3 px-4 text-gray-800">{course._id}</td>
                     <td className="py-3 px-4">
-                        <img src={course.thumbnailUrl} alt={course.title} className="w-12 h-12 object-cover rounded"/>
+                        <img
+  src={course.thumbnailUrl || IMAGE_DEFAULT}
+  alt={course.title}
+  className="w-12 h-12 object-cover rounded-full"
+/>
                     </td>
                     <td className="py-3 px-4 text-gray-800">{course.title}</td>
                     <td className="py-3 px-4">{course.categoryId}</td>
@@ -127,7 +151,11 @@ const CoursesTable = () => {
                 <h3 className="text-xl font-semibold mb-4 text-center">Chỉnh sửa khóa học</h3>
                 <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-4">
-                    <img src={editingCourse.thumbnailUrl} alt="Thumbnail" className="w-16 h-16 object-cover rounded border"/>
+                    <img
+  src={editingCourse.thumbnailUrl}
+  alt="Thumbnail"
+  className="w-16 h-16 object-cover rounded-full border border-gray-50"
+/>
                     <input type="file" accept="image/*" onChange={handleThumbnailChange} className="text-sm"/>
                 </div>
 

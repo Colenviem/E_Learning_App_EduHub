@@ -1,8 +1,10 @@
-{
-    "_id": "NOTIF001",
-    "userId": "USER001", 
-    "type": "lesson",
-    "message": "You completed lesson 101!",
-    "read": false,
-    "createdAt": { "$date": "2024-12-31T23:59:59Z" }
-}
+[
+    {
+        "_id": "NOTIF001",
+        "userId": "USER001", 
+        "type": "lesson",
+        "message": "You completed lesson 101!",
+        "read": false,
+        "createdAt": { "$date": "2024-12-31T23:59:59Z" }
+    }
+]
