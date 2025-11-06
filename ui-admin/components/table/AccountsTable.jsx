@@ -1,28 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { FiEdit, FiSearch } from 'react-icons/fi';
+import axios from 'axios';
+import Spinner from '../spinner/Spinner';
 
-// Dữ liệu mẫu
-const accountsDataInitial = [
-    {
-        _id: "ACC001",
-        email: "a@gmail.com",
-        role: "student",
-        status: true,
-        createdAt: "2024-12-31T23:59:59Z",
-        refreshTokens: [
-            { token: "xxx.yyy.zzz", expiresAt: "2024-12-31T23:59:59Z" }
-        ]
-    },
-    {
-        _id: "ACC002",
-        email: "b@gmail.com",
-        role: "teacher",
-        status: false,
-        createdAt: "2024-11-20T12:00:00Z",
-        refreshTokens: []
-    }
-];
+const API = "http://localhost:5000/accounts";
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -44,19 +26,48 @@ const formatDate = (dateString) => {
 
 const AccountsTable = () => {
     const [searchQuery, setSearchQuery] = useState("");
-    const [accountsData, setAccountsData] = useState(accountsDataInitial);
+    const [accountsData, setAccountsData] = useState([]);
     const [editingAccount, setEditingAccount] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+    const fetchAccounts = useCallback(async () => {
+        try {
+            setLoading(true);
+            const res = await axios.get(API);
+            setAccountsData(res.data);
+        } catch (err) {
+            console.error("Lỗi khi fetch users:", err);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchAccounts();
+    }, [fetchAccounts]);
 
     const filteredAccounts = accountsData.filter(acc =>
         acc._id.toLowerCase().includes(searchQuery.toLowerCase()) ||
         acc.email.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const handleSave = () => {
-        setAccountsData(accountsData.map(acc => acc._id === editingAccount._id ? editingAccount : acc));
-        setIsModalOpen(false);
+    const handleSave = async () => {
+        try {
+            setLoading(true);
+            await axios.put(`${API}/${editingAccount._id}`, editingAccount);
+            fetchAccounts(); 
+            setIsModalOpen(false);
+        } catch (err) {
+            console.error("Lỗi khi update account:", err);
+        } finally {
+            setLoading(false);
+        }
     };
+
+    if (loading) {
+        return <Spinner size={12}/>;
+    }
 
     return (
         <div className="p-6 pt-24 bg-gray-50 min-h-screen">
@@ -98,7 +109,7 @@ const AccountsTable = () => {
                                     variants={rowVariants}
                                     className="border-t border-gray-100 hover:bg-gray-50 transition-colors"
                                 >
-                                    <td className="py-3 px-4 text-gray-600 font-mono text-xs">{acc._id}</td>
+                                    <td className="py-3 px-4 text-gray-800">{acc._id}</td>
                                     <td className="py-3 px-4 text-gray-800">{acc.email}</td>
                                     <td className="py-3 px-4 text-center">{acc.role}</td>
                                     <td className="py-3 px-4 text-center">

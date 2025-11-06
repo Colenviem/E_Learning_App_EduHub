@@ -1,6 +1,8 @@
-{
-    "_id": "CAT001",
-    "name": "Programming",
-    "description": "All programming courses",
-    "createdAt": { "$date": "2024-12-31T23:59:59Z" }
-}
+[
+    {
+        "_id": "CAT001",
+        "name": "Programming",
+        "description": "All programming courses",
+        "createdAt": { "$date": "2024-12-31T23:59:59Z" }
+    }
+]

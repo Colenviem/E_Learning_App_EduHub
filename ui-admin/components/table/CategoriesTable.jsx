@@ -1,22 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { FiEdit, FiSearch } from 'react-icons/fi';
+import axios from 'axios';
+import Spinner from '../spinner/Spinner';
 
-// Dữ liệu mẫu
-const categoriesInitial = [
-  {
-    _id: "CAT001",
-    name: "Programming",
-    description: "All programming courses",
-    createdAt: "2024-12-31T23:59:59Z"
-  },
-  {
-    _id: "CAT002",
-    name: "Design",
-    description: "Design courses and tutorials",
-    createdAt: "2024-11-15T10:30:00Z"
-  }
-];
+const API = "http://localhost:5000/categories";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -33,19 +21,48 @@ const formatDate = (dateString) =>
 
 const CategoriesTable = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [categories, setCategories] = useState(categoriesInitial);
+  const [categories, setCategories] = useState([]);
   const [editingCategory, setEditingCategory] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  const fetchCategories = useCallback(async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get(API);
+      setCategories(res.data);
+    } catch (err) {
+      console.error("Error loading categories:", err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
 
   const filteredCategories = categories.filter(cat =>
     cat._id.toLowerCase().includes(searchQuery.toLowerCase()) ||
     cat.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handleSave = () => {
-    setCategories(categories.map(c => c._id === editingCategory._id ? editingCategory : c));
-    setIsModalOpen(false);
+  const handleSave = async () => {
+    try {
+      setLoading(true);
+      await axios.put(`${API}/${editingCategory._id}`, editingCategory);
+      await fetchCategories();
+      setIsModalOpen(false);
+    } catch (err) {
+      console.error("Error updating category:", err);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  if (loading) {
+    return <Spinner size={12}/>;
+  }
 
   return (
     <div className="p-6 pt-24 bg-gray-50 min-h-screen">

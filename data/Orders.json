@@ -1,9 +1,11 @@
-{
-    "_id": "order801",
-    "userId": "user123",
-    "courseId": "course1",
-    "amount": 500000,
-    "paymentMethod": "momo",
-    "status": "completed",
-    "createdAt": { "$date": "2024-12-31T23:59:59Z" }
-}
+[
+    {
+        "_id": "order801",
+        "userId": "user123",
+        "courseId": "course1",
+        "amount": 500000,
+        "paymentMethod": "momo",
+        "status": "completed",
+        "createdAt": { "$date": "2024-12-31T23:59:59Z" }
+    }
+]

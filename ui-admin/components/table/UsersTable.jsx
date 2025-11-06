@@ -1,13 +1,11 @@
-import React, { useState } from 'react'; 
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { FiSearch, FiEdit } from 'react-icons/fi';
+import axios from 'axios';
+import Spinner from '../spinner/Spinner';
 
-const usersDataInitial = [
-    { _id: "USER001", accountId: "ACC001", name: "Nguyen Van A", avatarUrl: "https://i.ibb.co/L5B7n2t/apple-watch.png", createdAt: "2024-12-31T23:59:59Z", status: "Active" },
-    { _id: "USER002", accountId: "ACC002", name: "Tran Thi B", avatarUrl: "https://i.ibb.co/3Wf4Q7W/airpods.png", createdAt: "2024-11-15T10:30:00Z", status: "Active" },
-    { _id: "USER003", accountId: "ACC003", name: "Le Van C", avatarUrl: "https://i.ibb.co/74S2K9g/macbook.png", createdAt: "2024-10-05T08:00:00Z", status: "Banned" },
-    { _id: "USER004", accountId: "ACC004", name: "Pham Duc D", avatarUrl: "https://i.ibb.co/b3gQ8k7/ipad.png", createdAt: "2024-09-20T14:22:00Z", status: "Inactive" },
-];
+const API = "http://localhost:5000/users";
+const IMAGE_DEFAULT = "https://i.pinimg.com/736x/57/89/d9/5789d95d55ce358b93a99bbab84e3df7.jpg";
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -19,15 +17,6 @@ const rowVariants = {
     visible: { opacity: 1, y: 0 },
 };
 
-const getStatusClasses = (status) => {
-    switch (status) {
-        case "Active": return "bg-green-100 text-green-700";
-        case "Inactive": return "bg-gray-100 text-gray-600";
-        case "Banned": return "bg-red-100 text-red-700";
-        default: return "bg-yellow-100 text-yellow-700";
-    }
-};
-
 const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
     return new Date(dateString).toLocaleDateString('vi-VN', options);
@@ -35,14 +24,30 @@ const formatDate = (dateString) => {
 
 const UsersTable = () => {
     const [searchQuery, setSearchQuery] = useState("");
-    const [usersData, setUsersData] = useState(usersDataInitial);
+    const [usersData, setUsersData] = useState([]);
     const [editingUser, setEditingUser] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+    const fetchUsers = useCallback(async () => {
+        try {
+            setLoading(true);
+            const res = await axios.get(API);
+            setUsersData(res.data);
+        } catch (err) {
+            console.error("Lỗi khi fetch users:", err);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchUsers();
+    }, [fetchUsers]);
 
     const filteredUsers = usersData.filter(user =>
         user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        user._id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        user.accountId.toLowerCase().includes(searchQuery.toLowerCase())
+        user._id.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     const handleImageChange = (e) => {
@@ -50,24 +55,35 @@ const UsersTable = () => {
         if (file) {
             const reader = new FileReader();
             reader.onload = (ev) => {
-                setEditingUser({...editingUser, avatarUrl: ev.target.result});
+                setEditingUser({ ...editingUser, avatarUrl: ev.target.result });
             }
             reader.readAsDataURL(file);
         }
-    }
+    };
 
-    const handleSave = () => {
-        setUsersData(usersData.map(u => u._id === editingUser._id ? editingUser : u));
-        setIsModalOpen(false);
+    const handleSave = async () => {
+        try {
+            setLoading(true);
+            await axios.put(`${API}/${editingUser._id}`, editingUser);
+            fetchUsers(); 
+            setIsModalOpen(false);
+        } catch (err) {
+            console.error("Lỗi khi update user:", err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    if (loading) {
+        return <Spinner size={12}/>;
     }
 
     return (
         <div className="p-6 pt-24 bg-gray-50 min-h-screen">
             <div className="bg-white p-6 border border-gray-100 rounded-2xl shadow-lg">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4 md:gap-0">
-                    <h2 className="text-2xl font-bold text-gray-800">
-                        Danh sách người dùng
-                    </h2>
+                    <h2 className="text-2xl font-bold text-gray-800">Danh sách người dùng</h2>
+
                     <div className="flex items-center gap-2 w-full md:w-auto">
                         <input
                             type="text"
@@ -76,6 +92,7 @@ const UsersTable = () => {
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
+
                         <button className="bg-indigo-600 w-24 text-center cursor-pointer text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-700 transition-colors flex items-center gap-2">
                             <FiSearch size={16} />
                             Tìm
@@ -90,7 +107,6 @@ const UsersTable = () => {
                                 <th className="py-3 px-4">Người dùng</th>
                                 <th className="py-3 px-4">Mã người dùng</th>
                                 <th className="py-3 px-4">Ngày tham gia</th>
-                                <th className="py-3 px-4 text-center">Trạng thái</th>
                                 <th className="py-3 px-4 text-center">Hành động</th>
                             </tr>
                         </thead>
@@ -104,21 +120,18 @@ const UsersTable = () => {
                                 >
                                     <td className="py-3 px-4 flex items-center gap-3 font-medium text-gray-800">
                                         <img
-                                            src={user.avatarUrl}
+                                            src={user.avatarUrl || IMAGE_DEFAULT}
                                             alt={user.name}
                                             className="w-9 h-9 object-cover rounded-full"
                                         />
                                         <span className="truncate max-w-xs">{user.name}</span>
                                     </td>
-                                    <td className="py-3 px-4 text-gray-600 font-mono text-xs">{user._id}</td>
-                                    <td className="py-3 px-4 text-gray-600 whitespace-nowrap">{formatDate(user.createdAt)}</td>
+
+                                    <td className="py-3 px-4 text-gray-800">{user._id}</td>
+                                    <td className="py-3 px-4 text-gray-800">{formatDate(user.createdAt)}</td>
+
                                     <td className="py-3 px-4 text-center">
-                                        <span className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap ${getStatusClasses(user.status)}`}>
-                                            {user.status}
-                                        </span>
-                                    </td>
-                                    <td className="py-3 px-4 text-center">
-                                        <button 
+                                        <button
                                             title="Sửa thông tin"
                                             className="p-2 text-indigo-600 hover:text-indigo-800 rounded-full hover:bg-indigo-100 transition-colors cursor-pointer"
                                             onClick={() => { setEditingUser(user); setIsModalOpen(true); }}
@@ -137,10 +150,10 @@ const UsersTable = () => {
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-6 relative">
                         <h3 className="text-xl font-semibold mb-4 text-center">Chỉnh sửa người dùng</h3>
-                        
+
                         <div className="flex flex-col gap-3">
                             <div className="flex items-center gap-4">
-                                <img src={editingUser.avatarUrl} alt="Avatar" className="w-16 h-16 object-cover rounded-full border" />
+                                <img src={editingUser.avatarUrl} alt="Avatar" className="w-16 h-16 object-cover rounded-full border border-gray-100" />
                                 <input type="file" accept="image/*" onChange={handleImageChange} className="text-sm" />
                             </div>
 
@@ -149,19 +162,8 @@ const UsersTable = () => {
                                 type="text"
                                 className="border border-gray-300 rounded-lg p-2 text-sm"
                                 value={editingUser.name}
-                                onChange={(e) => setEditingUser({...editingUser, name: e.target.value})}
+                                onChange={(e) => setEditingUser({ ...editingUser, name: e.target.value })}
                             />
-
-                            <label className="text-sm font-medium">Trạng thái</label>
-                            <select
-                                className="border border-gray-300 rounded-lg p-2 text-sm"
-                                value={editingUser.status}
-                                onChange={(e) => setEditingUser({...editingUser, status: e.target.value})}
-                            >
-                                <option>Active</option>
-                                <option>Inactive</option>
-                                <option>Banned</option>
-                            </select>
                         </div>
 
                         <div className="mt-6 flex justify-end gap-3">
@@ -183,6 +185,6 @@ const UsersTable = () => {
             )}
         </div>
     );
-}
+};
 
 export default UsersTable;
