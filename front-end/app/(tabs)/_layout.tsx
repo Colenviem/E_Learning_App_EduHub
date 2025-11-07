@@ -1,53 +1,68 @@
-import { Feather, Ionicons } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
-import React from 'react';
-import { colors } from '../../constants/theme';
 
-export default function TabLayout() {
+export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: colors.primaryBlue, 
-        tabBarInactiveTintColor: colors.grayText, 
-        headerShown: false, 
+        headerShown: false,
+        tabBarActiveTintColor: '#6C63FF',
+        tabBarInactiveTintColor: '#999',
         tabBarStyle: {
-            height: 70,
-            paddingBottom: 10,
-            paddingTop: 10,
-            borderTopLeftRadius: 30,
-            borderTopRightRadius: 30,
-            position: 'absolute', 
-        }
+          height: 60,
+          paddingBottom: 10,
+          paddingTop: 8,
+          position: 'absolute',
+          bottom: 25,
+          left: 10,
+          right: 10,
+          borderRadius: 15,
+          backgroundColor: '#fff',
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+          elevation: 5,
+        },
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="home"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <Ionicons name="home" size={24} color={color} />,
+          tabBarLabel: 'Trang chủ',
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="home" size={size} color={color} />
+          ),
         }}
       />
 
       <Tabs.Screen
-        name="course/[id]"
+        name="explore"
         options={{
-          title: 'Library',
-          tabBarIcon: ({ color }) => <Feather name="bookmark" size={24} color={color} />,
-        }}
-      />
-       <Tabs.Screen
-        name="payDetail"
-        options={{
-          title: 'Course',
-          tabBarIcon: ({ color }) => <Feather name="bookmark" size={24} color={color} />,
+          tabBarLabel: 'Khóa học',
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="book-open" size={size} color={color} />
+          ),
         }}
       />
 
+      <Tabs.Screen
+        name="saved"
+        options={{
+          tabBarLabel: 'Đã lưu',
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="bookmark" size={size} color={color} />
+          ),
+        }}
+      />
+      
       <Tabs.Screen
         name="profile"
         options={{
-          title: 'Profile',
-          tabBarIcon: ({ color }) => <Ionicons name="person-outline" size={24} color={color} />,
+          tabBarLabel: 'Profile',
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="user" size={size} color={color} />
+          ),
         }}
       />
     </Tabs>
