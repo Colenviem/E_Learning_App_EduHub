@@ -1,4 +1,5 @@
 import { MaterialIcons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { borderRadius, colors, SCREEN_CONSTANTS, spacing, typography } from '../../constants/theme';
@@ -17,6 +18,7 @@ interface Props {
 }
 
 export default function CoursesInProgress({ courses }: Props) {
+  const router = useRouter();
   return (
     <View style={styles.section}>
       <View style={styles.sectionHeader}>
@@ -40,7 +42,21 @@ export default function CoursesInProgress({ courses }: Props) {
         contentContainerStyle={{ paddingHorizontal: spacing.md }}
         ItemSeparatorComponent={() => <View style={{ width: spacing.md }} />}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.progressCard} activeOpacity={0.9}>
+          <TouchableOpacity
+            style={styles.progressCard}
+            activeOpacity={0.9}
+            onPress={() => {
+              router.push({
+                pathname: '../course-lessons',
+                params: {
+                  id: item.id,
+                  name: item.name,
+                  image: typeof item.image === 'number' ? undefined : item.image.uri,
+                  progress: item.progress.toString(),
+                },
+              });
+            }}
+          >
             <View style={styles.progressImageContainer}>
               <Image source={item.image} style={styles.progressImage} resizeMode="cover" />
               <View style={styles.progressOverlay}>
@@ -61,6 +77,7 @@ export default function CoursesInProgress({ courses }: Props) {
               </View>
             </View>
           </TouchableOpacity>
+
         )}
       />
     </View>

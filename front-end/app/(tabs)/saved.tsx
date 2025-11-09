@@ -1,6 +1,7 @@
 import { Feather, FontAwesome, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { Stack, useRouter } from 'expo-router';
 import React, { useCallback, useMemo, useState } from 'react';
+import { Image } from 'react-native';
 import { colors, spacing } from '../../src/constants/theme';
 
 import {
@@ -33,81 +34,94 @@ const SPACING = {
   xxl: 48,
 };
 
-const INITIAL_SAVED_COURSES = [
-  { id: '1', name: 'React Native Cơ Bản', image: 'https://via.placeholder.com/150/5E72E4/FFFFFF?text=RN', progress: 60 },
-  { id: '2', name: 'Spring Boot Nâng Cao', image: 'https://via.placeholder.com/150/FFA726/FFFFFF?text=SB', progress: 0 },
-  { id: '3', name: 'Thiết Kế UI/UX', image: 'https://via.placeholder.com/150/66BB6A/FFFFFF?text=UI', progress: 100 },
-  { id: '4', name: 'Python Cho Người Mới', image: 'https://via.placeholder.com/150/EF5350/FFFFFF?text=Py', progress: 25 },
-  { id: '5', name: 'Kubernetes Essentials', image: 'https://via.placeholder.com/150/42A5F5/FFFFFF?text=K8s', progress: 75 },
+const DUMMY_COURSES = [
+  { id: '1', name: 'React Native Cơ Bản', image: require('../../assets/images/tets.jpg'), rating: 5, reviews: 120, progress: 0.6 },
+  { id: '2', name: 'React Nâng Cao', image: require('../../assets/images/tets.jpg'), rating: 4, reviews: 80, progress: 0.3 },
+  { id: '3', name: 'JavaScript Hiện Đại', image: require('../../assets/images/tets.jpg'), rating: 4, reviews: 50, progress: 0 },
+  { id: '4', name: 'TypeScript Cần Thiết', image: require('../../assets/images/tets.jpg'), rating: 5, reviews: 60, progress: 0 },
+  { id: '5', name: 'Node.js cho Người Mới', image: require('../../assets/images/tets.jpg'), rating: 3, reviews: 30, progress: 0 },
+  { id: '6', name: 'CSS Flexbox & Grid', image: require('../../assets/images/tets.jpg'), rating: 4, reviews: 40, progress: 0 },
 ];
+
 
 interface Course {
   id: string;
   name: string;
   progress: number;
+  image: string;
 }
 
 interface CourseCardProps {
   item: Course;
   isGridMode: boolean;
   onLongPress: (course: Course) => void;
+  onPress?: (course: Course) => void;
 }
 
-const CourseCard: React.FC<CourseCardProps> = ({ item, isGridMode, onLongPress }) => {
+
+const CourseCard: React.FC<CourseCardProps> = ({ item, isGridMode, onLongPress, onPress }) => {
   return (
     <TouchableOpacity
       style={isGridMode ? styles.cardGrid : styles.cardList}
       activeOpacity={0.8}
       onLongPress={() => onLongPress(item)}
+      onPress={() => onPress && onPress(item)}
     >
       <View style={isGridMode ? styles.imageContainerGrid : styles.imageContainerList}>
+        <Image
+          source={item.image}
+          style={{ width: '100%', height: '100%', borderRadius: isGridMode ? 14 : 10 }}
+          resizeMode="cover"
+        />
         <Ionicons name="bookmark" size={24} color={COLORS.primary} style={styles.bookmarkIcon} />
       </View>
 
       <View style={styles.infoContainer}>
         <Text style={styles.courseTitle}>{item.name}</Text>
         <View style={styles.progressContainer}>
-          <Text style={styles.progressText}>{item.progress}% hoàn thành</Text>
+          <Text style={styles.progressText}>{item.progress * 100}% hoàn thành</Text>
           <View style={styles.progressBarBg}>
-            <View style={[styles.progressBarFill, { width: `${item.progress}%` }]} />
+            <View style={[styles.progressBarFill, { width: `${item.progress * 100}%` }]} />
           </View>
         </View>
       </View>
     </TouchableOpacity>
   );
 };
+
 export default function SavedScreen() {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
   const [isGridMode, setIsGridMode] = useState(true);
-  const [savedCourses, setSavedCourses] = useState(INITIAL_SAVED_COURSES);
+  const [savedCourses, setSavedCourses] = useState(DUMMY_COURSES);
   const [inputValue, setInputValue] = useState('');
   const filteredCourses = useMemo(
-    () => savedCourses.filter(course => course.name.toLowerCase().includes(searchTerm.toLowerCase())),
-    [searchTerm, savedCourses]
+    () => savedCourses.filter(course => course.name.toLowerCase().includes(inputValue.toLowerCase())),
+    [inputValue, savedCourses]
   );
+
 
   const toggleViewMode = () => setIsGridMode(prev => !prev);
 
   const handleRemoveCourse = useCallback((course: Course) => {
-  Alert.alert(
-    'Xác nhận Xóa',
-    `Bạn có muốn xóa khóa học "${course.name}" khỏi danh sách đã lưu?`,
-    [
-      { text: 'Hủy', style: 'cancel' },
-      {
-        text: 'Xóa',
-        style: 'destructive',
-        onPress: () => {
-          setSavedCourses(prevCourses =>
-            prevCourses.filter(item => item.id !== course.id)
-          );
-          Alert.alert('Thành công', `Đã xóa "${course.name}".`);
+    Alert.alert(
+      'Xác nhận Xóa',
+      `Bạn có muốn xóa khóa học "${course.name}" khỏi danh sách đã lưu?`,
+      [
+        { text: 'Hủy', style: 'cancel' },
+        {
+          text: 'Xóa',
+          style: 'destructive',
+          onPress: () => {
+            setSavedCourses(prevCourses =>
+              prevCourses.filter(item => item.id !== course.id)
+            );
+            Alert.alert('Thành công', `Đã xóa "${course.name}".`);
+          },
         },
-      },
-    ]
-  );
-}, []);
+      ]
+    );
+  }, []);
 
   const handleSortFilter = () => {
     Alert.alert('Chức năng Lọc/Sắp xếp', 'Sắp xếp theo Ngày lưu, Tên (A-Z) hoặc Danh mục.');
@@ -147,7 +161,7 @@ export default function SavedScreen() {
         </TouchableOpacity>
       </View>
 
-      {/* Course List */}
+
       {filteredCourses.length > 0 ? (
         <FlatList
           data={filteredCourses}
@@ -155,12 +169,23 @@ export default function SavedScreen() {
           key={isGridMode ? 'grid' : 'list'}
           numColumns={isGridMode ? 2 : 1}
           renderItem={({ item }) => (
-            <CourseCard item={item} isGridMode={isGridMode} onLongPress={handleRemoveCourse} />
+            <CourseCard
+              item={item}
+              isGridMode={isGridMode}
+              onLongPress={handleRemoveCourse}
+              onPress={(course) => {
+                router.push({
+                  pathname: '../course-lessons',
+                  params: { id: course.id },
+                });
+              }}
+            />
           )}
           contentContainerStyle={styles.listContent}
           columnWrapperStyle={isGridMode ? styles.columnWrapper : null}
           showsVerticalScrollIndicator={false}
         />
+
       ) : (
         <View style={styles.emptyContainer}>
           <Feather name="bookmark" size={60} color={COLORS.placeholder} />
