@@ -78,7 +78,7 @@ export default function ManHinhProfile() {
                         icon={<Feather name="code" size={20} color={MAU.accent} />}
                         tieuDe="Thống kê kỹ năng lập trình"
                         phuDe="Bạn chưa hoàn thành bài học nào. Hãy bắt đầu học để xem thống kê kỹ năng lập trình của bạn!"
-                        onPress={() => router.push('../home')}
+                        onPress={() => router.push('./profile/heatmapStats')}
                     />
                     <ThucNangItem
                         icon={<FontAwesome5 name="trophy" size={20} color="#FFD700" />}

@@ -21,13 +21,14 @@ export const TAB_BAR_STYLE = {
 };
 
 const NEWS_DATA = [
-  { id: '1', title: 'TSMC will build a second factory in Japan', date: '24 tháng 10, 2025', imageUrl: 'https://picsum.photos/id/101/400/250', category: 'Công nghệ' },
-  { id: '2', title: 'Louvre reopens after French crown jewel restoration', date: '22 tháng 10, 2025', imageUrl: 'https://picsum.photos/id/102/400/250', category: 'Văn hóa' },
-  { id: '3', title: 'Gen Z project around the world', date: '15 tháng 10, 2025', imageUrl: 'https://picsum.photos/id/103/400/250', category: 'Xã hội' },
-  { id: '4', title: 'AI Revolution in Education Technology', date: '20 tháng 10, 2025', imageUrl: 'https://picsum.photos/id/104/400/250', category: 'Giáo dục' },
-  { id: '5', title: 'Climate Change Summit 2025 Updates', date: '18 tháng 10, 2025', imageUrl: 'https://picsum.photos/id/105/400/250', category: 'Môi trường' },
-  { id: '6', title: 'New Space Exploration Missions Announced', date: '16 tháng 10, 2025', imageUrl: 'https://picsum.photos/id/106/400/250', category: 'Khoa học' },
+  { id: '1', title: 'JavaScript ES2025: Những tính năng mới', date: '5 tháng 11, 2025', imageUrl: 'https://picsum.photos/id/201/400/250', category: 'Công nghệ' },
+  { id: '2', title: 'React Native 0.76: Hooks và Navigation nâng cao', date: '3 tháng 11, 2025', imageUrl: 'https://picsum.photos/id/202/400/250', category: 'Công nghệ' },
+  { id: '3', title: 'Spring Boot 3.5.7: Tối ưu REST API', date: '1 tháng 11, 2025', imageUrl: 'https://picsum.photos/id/203/400/250', category: 'Công nghệ' },
+  { id: '4', title: 'AI & ML cho Dev: ChatGPT tích hợp vào workflow', date: '30 tháng 10, 2025', imageUrl: 'https://picsum.photos/id/204/400/250', category: 'Công nghệ' },
+  { id: '5', title: 'Docker & Kubernetes: Tips deploy hiệu quả', date: '28 tháng 10, 2025', imageUrl: 'https://picsum.photos/id/205/400/250', category: 'Công nghệ' },
+  { id: '6', title: 'VS Code Extensions Devs nên biết', date: '25 tháng 10, 2025', imageUrl: 'https://picsum.photos/id/206/400/250', category: 'Công nghệ' },
 ];
+
 
 const CATEGORY_COLORS: Record<string, string> = {
   'Công nghệ': '#E0E7FF',
@@ -73,20 +74,17 @@ export default function TinTuc() {
 
   useLayoutEffect(() => {
     const parent = navigation.getParent();
-    // Ẩn tab bar
     parent?.setOptions({ tabBarStyle: { ...TAB_BAR_STYLE, display: 'none' } });
 
-    // Cấu hình header riêng
     navigation.setOptions({
       headerTitle: 'Tin Tức',
       headerLeft: () => (
         <Pressable onPress={handleGoBack} style={{ marginLeft: 10 }}>
-          <Ionicons name="arrow-back" size={24} color="#111827" />
+          <Ionicons name="arrow-back" size={24} color="#ffff" />
         </Pressable>
       ),
     });
 
-    // Khi unmount → restore tab bar với style đầy đủ
     return () => {
       parent?.setOptions({ tabBarStyle: TAB_BAR_STYLE });
     };
@@ -97,7 +95,17 @@ export default function TinTuc() {
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: 20 }}>
         <View style={styles.newsGrid}>
           {NEWS_DATA.map(news => (
-            <NewsCard key={news.id} {...news} onPress={() => console.log('Chọn tin:', news.title)} />
+            <NewsCard
+              key={news.id}
+              {...news}
+              onPress={() =>
+                router.push({
+                  pathname: './tintuc-detail',
+                  params: { newsItem: JSON.stringify(news) },
+                })
+              }
+            />
+
           ))}
         </View>
       </ScrollView>
