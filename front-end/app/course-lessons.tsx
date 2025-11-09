@@ -11,7 +11,6 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
-
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 
@@ -91,14 +90,12 @@ export default function SourceLesson() {
     const handlePaymentContinue = (paymentMethod: string) => {
         console.log(`Người dùng chọn gói: ${selectedPackage} và thanh toán bằng: ${paymentMethod}`);
         setPaymentModalVisible(false);
-        // TODO: chuyển sang màn hình chi tiết thanh toán
     };
 
     return (
         <>
             <Stack.Screen options={{ headerShown: false }} />
             <View style={styles.container}>
-                {/* Header */}
                 <View style={[styles.lessonHeaderContainer, { backgroundColor: COLORS.primary }]}>
                     <View style={styles.lessonHeader}>
                         <TouchableOpacity onPress={handleGoBack} style={styles.headerButton}>
@@ -113,7 +110,6 @@ export default function SourceLesson() {
                     </View>
                 </View>
 
-                {/* Content */}
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <Animated.View style={[styles.courseImageWrapper, { opacity: fadeAnim }]}>
                         <Image source={{ uri: course.image }} style={styles.courseImage} resizeMode="cover" />
@@ -131,7 +127,6 @@ export default function SourceLesson() {
                         </View>
                     </View>
 
-                    {/* Tabs */}
                     <View style={styles.tabBar}>
                         <TouchableOpacity onPress={() => setActiveTab('lessons')} style={styles.tabItem}>
                             <Text style={activeTab === 'lessons' ? styles.tabTextActive : styles.tabTextInactive}>Bài học</Text>
@@ -151,9 +146,13 @@ export default function SourceLesson() {
                         <FlatList
                             data={lessons}
                             keyExtractor={(item) => item.id}
-                            renderItem={({ item, index }) => <LessonItem lesson={item} index={index} />}
-                            scrollEnabled={false}
-                            contentContainerStyle={styles.listContent}
+                            renderItem={({ item, index }) => (
+                                <LessonItem
+                                    lesson={item}
+                                    index={index}
+                                    onPress={() => router.push(`/lesson-details?lessonId=${item.id}`)}
+                                />
+                            )}
                         />
                     ) : (
                         <View style={styles.descriptionContentWrapper}>
@@ -163,8 +162,6 @@ export default function SourceLesson() {
                         </View>
                     )}
                 </ScrollView>
-
-                {/* Footer */}
                 <View style={styles.footer}>
                     <View style={styles.priceContainer}>
                         <Text style={[styles.priceTextOriginal, { color: COLORS.textSecondary, textDecorationLine: 'line-through' }]}>499.000 VNĐ</Text>
@@ -176,7 +173,6 @@ export default function SourceLesson() {
                 </View>
             </View>
 
-            {/* Modals */}
             <EnrollmentModal
                 visible={isEnrollmentModalVisible}
                 selected={selectedPackage}

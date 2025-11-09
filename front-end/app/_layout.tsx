@@ -39,7 +39,7 @@ const RootLayout = () => {
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
-      await new Promise((resolve) => setTimeout(resolve, 500)); 
+      await new Promise((resolve) => setTimeout(resolve, 500));
       await SplashScreen.hideAsync();
       startSplashAnimation();
     }
@@ -55,8 +55,8 @@ const RootLayout = () => {
     <>
       <StatusBar style="light" backgroundColor="#000000" />
       <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="onboarding" />
         <Stack.Screen name="index" />
+        <Stack.Screen name="onboarding" />
         <Stack.Screen
           name="lesson-details"
           options={{

@@ -3,6 +3,23 @@ import { useNavigation, useRouter } from 'expo-router';
 import React, { useLayoutEffect } from 'react';
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+export const TAB_BAR_STYLE = {
+  height: 60,
+  paddingBottom: 10,
+  paddingTop: 8,
+  position: 'absolute',
+  bottom: 25,
+  left: 10,
+  right: 10,
+  borderRadius: 15,
+  backgroundColor: '#fff',
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.1,
+  shadowRadius: 4,
+  elevation: 5,
+};
+
 const NEWS_DATA = [
   { id: '1', title: 'TSMC will build a second factory in Japan', date: '24 tháng 10, 2025', imageUrl: 'https://picsum.photos/id/101/400/250', category: 'Công nghệ' },
   { id: '2', title: 'Louvre reopens after French crown jewel restoration', date: '22 tháng 10, 2025', imageUrl: 'https://picsum.photos/id/102/400/250', category: 'Văn hóa' },
@@ -39,7 +56,7 @@ const NewsCard: React.FC<NewsCardProps> = ({ title, date, imageUrl, category, on
   >
     <Image source={{ uri: imageUrl }} style={styles.image} />
     <View style={styles.cardContent}>
-      <View style={[styles.categoryBadge, { backgroundColor: CATEGORY_COLORS[category] || '#E0E7FF' }]}>
+      <View style={[styles.categoryBadge, { backgroundColor: CATEGORY_COLORS[category] || '#E0E7FF' }]} >
         <Text style={styles.categoryText}>{category}</Text>
       </View>
       <Text style={styles.title} numberOfLines={2}>{title}</Text>
@@ -52,19 +69,14 @@ export default function TinTuc() {
   const navigation = useNavigation();
   const router = useRouter();
 
-  const handleGoBack = () => {
-    router.back(); // quay lại màn hình trước
-  };
-
-  const handleNewsPress = (newsItem: any) => {
-    console.log('Đã chọn tin:', newsItem.title);
-    // Có thể router.push(`/news/${newsItem.id}`) nếu có màn hình chi tiết
-  };
+  const handleGoBack = () => router.back();
 
   useLayoutEffect(() => {
-    const parent = navigation.getParent(); // bottom tab navigator
-    parent?.setOptions({ tabBarStyle: { display: 'none' } });
+    const parent = navigation.getParent();
+    // Ẩn tab bar
+    parent?.setOptions({ tabBarStyle: { ...TAB_BAR_STYLE, display: 'none' } });
 
+    // Cấu hình header riêng
     navigation.setOptions({
       headerTitle: 'Tin Tức',
       headerLeft: () => (
@@ -74,35 +86,18 @@ export default function TinTuc() {
       ),
     });
 
+    // Khi unmount → restore tab bar với style đầy đủ
     return () => {
-      parent?.setOptions({
-        tabBarStyle: {
-          display: 'flex',
-          height: 60,
-          paddingBottom: 10,
-          paddingTop: 8,
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          borderRadius: 0,
-          backgroundColor: '#fff',
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.1,
-          shadowRadius: 4,
-          elevation: 5,
-        },
-      });
+      parent?.setOptions({ tabBarStyle: TAB_BAR_STYLE });
     };
-  }, [navigation, router]);
+  }, [navigation]);
 
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: 20 }}>
         <View style={styles.newsGrid}>
           {NEWS_DATA.map(news => (
-            <NewsCard key={news.id} {...news} onPress={() => handleNewsPress(news)} />
+            <NewsCard key={news.id} {...news} onPress={() => console.log('Chọn tin:', news.title)} />
           ))}
         </View>
       </ScrollView>

@@ -1,83 +1,133 @@
-import { Stack, useNavigation } from 'expo-router';
-import React, { useLayoutEffect, useState } from 'react';
-import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import * as ImagePicker from "expo-image-picker";
+import { Stack, router } from "expo-router";
+import React, { useState } from "react";
+import {
+  Alert,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity
+} from "react-native";
 
 export default function CreateYourOwn() {
-  const navigation = useNavigation();
-  const [topic, setTopic] = useState('');
+  const [topic, setTopic] = useState("");
+  const [content, setContent] = useState("");
+  const [image, setImage] = useState<string | null>(null);
 
-  useLayoutEffect(() => {
-    navigation.getParent()?.setOptions({
-      tabBarStyle: { display: 'none' }
+  const pickImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 0.7,
     });
 
-    return () => {
-      navigation.getParent()?.setOptions({
-        tabBarStyle: {
-          display: 'flex',
-          height: 60,
-          paddingBottom: 10,
-          paddingTop: 8,
-          position: 'absolute',
-          bottom: 25,
-          left: 10,
-          right: 10,
-          borderRadius: 15,
-          backgroundColor: '#fff',
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.1,
-          shadowRadius: 4,
-          elevation: 5,
-        }
-      });
-    };
-  }, [navigation]);
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
 
   const handleCreate = () => {
-    if (!topic.trim()) {
-      Alert.alert('Lỗi', 'Vui lòng nhập chủ đề bạn muốn tạo!');
+    if (!topic.trim() || !content.trim()) {
+      Alert.alert("Thiếu thông tin", "Vui lòng nhập chủ đề và nội dung bài viết.");
       return;
     }
-    Alert.alert('Tạo thành công', `Đã tạo tình huống học tập cho chủ đề: "${topic}"`);
-    setTopic('');
+
+    const newPost = {
+      id: Date.now().toString(),
+      topic,
+      content,
+      image,
+      likes: 0,
+      comments: [],
+    };
+
+    router.push({
+      pathname: "/explore/discussion",
+      params: { post: JSON.stringify(newPost) },
+    });
+
   };
 
   return (
-    <View style={styles.container}>
-      <Stack.Screen options={{ title: 'Tạo của riêng bạn' }} />
-      <Text style={styles.title}>Tạo tình huống học tập cá nhân</Text>
-      <Text style={styles.subtitle}>Nhập chủ đề bạn muốn luyện tập hoặc khám phá:</Text>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Stack.Screen options={{ title: "Tạo bài viết" }} />
+
+      <Text style={styles.label}>Chủ đề</Text>
       <TextInput
         style={styles.input}
-        placeholder="Ví dụ: Phỏng vấn xin việc, du lịch, thương lượng..."
+        placeholder="VD: Kinh nghiệm học lập trình..."
         value={topic}
         onChangeText={setTopic}
       />
-      <TouchableOpacity style={styles.button} onPress={handleCreate}>
-        <Text style={styles.buttonText}>Tạo ngay</Text>
+
+      <Text style={styles.label}>Nội dung</Text>
+      <TextInput
+        style={[styles.input, { height: 120 }]}
+        multiline
+        placeholder="Chia sẻ điều bạn muốn..."
+        value={content}
+        onChangeText={setContent}
+      />
+
+      {image && <Image source={{ uri: image }} style={styles.preview} />}
+
+      <TouchableOpacity style={styles.imageButton} onPress={pickImage}>
+        <Text style={styles.imageButtonText}>Chọn ảnh</Text>
       </TouchableOpacity>
-    </View>
+
+      <TouchableOpacity style={styles.createButton} onPress={handleCreate}>
+        <Text style={styles.createText}>Đăng bài</Text>
+      </TouchableOpacity>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff', padding: 20, justifyContent: 'center' },
-  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 10 },
-  subtitle: { fontSize: 16, color: '#555', marginBottom: 20 },
+  container: {
+    padding: 20,
+    backgroundColor: "#fff",
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: "600",
+    marginBottom: 6,
+  },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ddd",
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 14,
+    fontSize: 15,
+  },
+  preview: {
+    width: "100%",
+    height: 200,
     borderRadius: 12,
+    marginBottom: 12,
+  },
+  imageButton: {
+    backgroundColor: "#EDE9FE",
     padding: 12,
-    fontSize: 16,
+    borderRadius: 10,
     marginBottom: 20,
   },
-  button: {
-    backgroundColor: '#A78BFA',
+  imageButtonText: {
+    color: "#5B21B6",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  createButton: {
+    backgroundColor: "#8B5CF6",
     padding: 14,
     borderRadius: 12,
-    alignItems: 'center',
+    alignItems: "center",
   },
-  buttonText: { color: '#fff', fontWeight: 'bold', fontSize: 16 },
+  createText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 16,
+  },
 });

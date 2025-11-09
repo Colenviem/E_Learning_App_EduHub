@@ -15,15 +15,8 @@ export default function ExploreStack() {
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="chat-with-ai" options={{ title: 'Trò chuyện với AI' }} />
       <Stack.Screen name="tutor-ai" options={{ title: 'Gia sư AI' }} />
-      <Stack.Screen name="create-your-own" options={{ title: 'Tạo của riêng bạn' }} />
-      <Stack.Screen
-        name="tintuc"
-        options={{
-          title: 'Tin tức',
-          headerStyle: { backgroundColor: '#fff' },
-          headerTintColor: '#111827',
-        }}
-      />
+      <Stack.Screen name="discussion" options={{ title: 'Thảo luận' }} />
+      <Stack.Screen name="tintuc" options={{ title: 'Tin tức' }} />
     </Stack>
   );
 }
