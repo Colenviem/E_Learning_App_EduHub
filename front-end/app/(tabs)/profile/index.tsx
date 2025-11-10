@@ -94,7 +94,7 @@ export default function ManHinhProfile() {
                     <ThucNangItem
                         icon={<Feather name="bookmark" size={20} color="#805AD5" />}
                         tieuDe="Đã lưu"
-                        onPress={() => router.push('./profile/saved')}
+                        onPress={() => router.push('./saved')}
                     />
                     <ThucNangItem
                         icon={<Feather name="check-square" size={20} color="#48BB78" />}

@@ -87,6 +87,8 @@ const achievementStyles = StyleSheet.create({
         backgroundColor: '#F8F8F8',
     },
     header: {
+        paddingTop: 30,
+        paddingBottom: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
