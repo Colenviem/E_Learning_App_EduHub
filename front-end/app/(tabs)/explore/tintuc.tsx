@@ -3,14 +3,32 @@ import { useNavigation, useRouter } from 'expo-router';
 import React, { useLayoutEffect } from 'react';
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+export const TAB_BAR_STYLE = {
+  height: 60,
+  paddingBottom: 10,
+  paddingTop: 8,
+  position: 'absolute',
+  bottom: 25,
+  left: 10,
+  right: 10,
+  borderRadius: 15,
+  backgroundColor: '#fff',
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.1,
+  shadowRadius: 4,
+  elevation: 5,
+};
+
 const NEWS_DATA = [
-  { id: '1', title: 'TSMC will build a second factory in Japan', date: '24 tháng 10, 2025', imageUrl: 'https://picsum.photos/id/101/400/250', category: 'Công nghệ' },
-  { id: '2', title: 'Louvre reopens after French crown jewel restoration', date: '22 tháng 10, 2025', imageUrl: 'https://picsum.photos/id/102/400/250', category: 'Văn hóa' },
-  { id: '3', title: 'Gen Z project around the world', date: '15 tháng 10, 2025', imageUrl: 'https://picsum.photos/id/103/400/250', category: 'Xã hội' },
-  { id: '4', title: 'AI Revolution in Education Technology', date: '20 tháng 10, 2025', imageUrl: 'https://picsum.photos/id/104/400/250', category: 'Giáo dục' },
-  { id: '5', title: 'Climate Change Summit 2025 Updates', date: '18 tháng 10, 2025', imageUrl: 'https://picsum.photos/id/105/400/250', category: 'Môi trường' },
-  { id: '6', title: 'New Space Exploration Missions Announced', date: '16 tháng 10, 2025', imageUrl: 'https://picsum.photos/id/106/400/250', category: 'Khoa học' },
+  { id: '1', title: 'JavaScript ES2025: Những tính năng mới', date: '5 tháng 11, 2025', imageUrl: 'https://picsum.photos/id/201/400/250', category: 'Công nghệ' },
+  { id: '2', title: 'React Native 0.76: Hooks và Navigation nâng cao', date: '3 tháng 11, 2025', imageUrl: 'https://picsum.photos/id/202/400/250', category: 'Công nghệ' },
+  { id: '3', title: 'Spring Boot 3.5.7: Tối ưu REST API', date: '1 tháng 11, 2025', imageUrl: 'https://picsum.photos/id/203/400/250', category: 'Công nghệ' },
+  { id: '4', title: 'AI & ML cho Dev: ChatGPT tích hợp vào workflow', date: '30 tháng 10, 2025', imageUrl: 'https://picsum.photos/id/204/400/250', category: 'Công nghệ' },
+  { id: '5', title: 'Docker & Kubernetes: Tips deploy hiệu quả', date: '28 tháng 10, 2025', imageUrl: 'https://picsum.photos/id/205/400/250', category: 'Công nghệ' },
+  { id: '6', title: 'VS Code Extensions Devs nên biết', date: '25 tháng 10, 2025', imageUrl: 'https://picsum.photos/id/206/400/250', category: 'Công nghệ' },
 ];
+
 
 const CATEGORY_COLORS: Record<string, string> = {
   'Công nghệ': '#E0E7FF',
@@ -39,7 +57,7 @@ const NewsCard: React.FC<NewsCardProps> = ({ title, date, imageUrl, category, on
   >
     <Image source={{ uri: imageUrl }} style={styles.image} />
     <View style={styles.cardContent}>
-      <View style={[styles.categoryBadge, { backgroundColor: CATEGORY_COLORS[category] || '#E0E7FF' }]}>
+      <View style={[styles.categoryBadge, { backgroundColor: CATEGORY_COLORS[category] || '#E0E7FF' }]} >
         <Text style={styles.categoryText}>{category}</Text>
       </View>
       <Text style={styles.title} numberOfLines={2}>{title}</Text>
@@ -52,57 +70,42 @@ export default function TinTuc() {
   const navigation = useNavigation();
   const router = useRouter();
 
-  const handleGoBack = () => {
-    router.back(); // quay lại màn hình trước
-  };
-
-  const handleNewsPress = (newsItem: any) => {
-    console.log('Đã chọn tin:', newsItem.title);
-    // Có thể router.push(`/news/${newsItem.id}`) nếu có màn hình chi tiết
-  };
+  const handleGoBack = () => router.back();
 
   useLayoutEffect(() => {
-    const parent = navigation.getParent(); // bottom tab navigator
-    parent?.setOptions({ tabBarStyle: { display: 'none' } });
+    const parent = navigation.getParent();
+    parent?.setOptions({ tabBarStyle: { ...TAB_BAR_STYLE, display: 'none' } });
 
     navigation.setOptions({
       headerTitle: 'Tin Tức',
       headerLeft: () => (
         <Pressable onPress={handleGoBack} style={{ marginLeft: 10 }}>
-          <Ionicons name="arrow-back" size={24} color="#111827" />
+          <Ionicons name="arrow-back" size={24} color="#ffff" />
         </Pressable>
       ),
     });
 
     return () => {
-      parent?.setOptions({
-        tabBarStyle: {
-          display: 'flex',
-          height: 60,
-          paddingBottom: 10,
-          paddingTop: 8,
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          borderRadius: 0,
-          backgroundColor: '#fff',
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.1,
-          shadowRadius: 4,
-          elevation: 5,
-        },
-      });
+      parent?.setOptions({ tabBarStyle: TAB_BAR_STYLE });
     };
-  }, [navigation, router]);
+  }, [navigation]);
 
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: 20 }}>
         <View style={styles.newsGrid}>
           {NEWS_DATA.map(news => (
-            <NewsCard key={news.id} {...news} onPress={() => handleNewsPress(news)} />
+            <NewsCard
+              key={news.id}
+              {...news}
+              onPress={() =>
+                router.push({
+                  pathname: './tintuc-detail',
+                  params: { newsItem: JSON.stringify(news) },
+                })
+              }
+            />
+
           ))}
         </View>
       </ScrollView>

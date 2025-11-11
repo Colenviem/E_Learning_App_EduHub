@@ -4,23 +4,30 @@ import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'rea
 const SUGGESTION_DATA = [
   { 
     id: '1', 
-    title: 'Kế hoạch học tập', 
-    subtitle: 'Tùy chỉnh lịch học',
-    icon: '{"uri": "https://cdn-icons-png.flaticon.com/512/3050/3050965.png"}', // Icon placeholder 
+    title: 'Học TypeScript nâng cao', 
+    subtitle: 'Cải thiện code an toàn hơn', 
+    icon: '{"uri": "https://cdn-icons-png.flaticon.com/512/919/919828.png"}', 
   },
   { 
     id: '2', 
-    title: 'Gia sư cho người mới bắt đầu', 
-    subtitle: 'Nơi làm việc sơ cấp', 
-    icon: '{"uri": "https://cdn-icons-png.flaticon.com/512/3050/3050965.png"}', // Icon placeholder
+    title: 'React Hooks chuyên sâu', 
+    subtitle: 'Tối ưu state và effect', 
+    icon: '{"uri": "https://cdn-icons-png.flaticon.com/512/919/919851.png"}',
   },
   { 
     id: '3', 
-    title: 'Luyện kỹ năng phỏng vấn', 
-    subtitle: 'Nâng cao khả năng giao tiếp', 
-    icon: '{"uri": "https://cdn-icons-png.flaticon.com/512/3050/3050965.png"}', // Icon placeholder
+    title: 'Node.js API & Express', 
+    subtitle: 'Xây dựng backend hiệu quả', 
+    icon: '{"uri": "https://cdn-icons-png.flaticon.com/512/919/919825.png"}',
+  },
+  { 
+    id: '4', 
+    title: 'Test với Jest & RTL', 
+    subtitle: 'Viết test cho dự án React', 
+    icon: '{"uri": "https://cdn-icons-png.flaticon.com/512/919/919836.png"}',
   },
 ];
+
 
 interface SuggestionCardProps {
   title: string;

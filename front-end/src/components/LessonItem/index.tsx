@@ -33,7 +33,14 @@ export const LessonItem: React.FC<LessonItemProps> = ({ lesson, index, onPress }
 );
 
 const styles = StyleSheet.create({
-  lessonItem: { flexDirection: 'row', alignItems: 'center', paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: COLORS.border },
+  lessonItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.border,
+  },
   lessonIndex: { fontSize: 16, fontWeight: '700', color: COLORS.textPrimary, marginRight: 10 },
   lessonTextWrapper: { flex: 1, marginRight: 10 },
   lessonName: { fontSize: 16, fontWeight: '600', color: COLORS.textPrimary },

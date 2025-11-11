@@ -16,8 +16,8 @@ export default function ProfileLayout() {
       <Stack.Screen name="achievements" />
       <Stack.Screen name="history" />
       <Stack.Screen name="assessment" />
-      {/* <Stack.Screen name="saved" />
-      <Stack.Screen name="stats" /> */}
+      <Stack.Screen name="heatmapStats" />
+
       <Stack.Screen name="completed" />
     </Stack>
   );

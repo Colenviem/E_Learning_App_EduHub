@@ -78,7 +78,7 @@ export default function ManHinhProfile() {
                         icon={<Feather name="code" size={20} color={MAU.accent} />}
                         tieuDe="Thống kê kỹ năng lập trình"
                         phuDe="Bạn chưa hoàn thành bài học nào. Hãy bắt đầu học để xem thống kê kỹ năng lập trình của bạn!"
-                        onPress={() => router.push('../home')}
+                        onPress={() => router.push('./profile/heatmapStats')}
                     />
                     <ThucNangItem
                         icon={<FontAwesome5 name="trophy" size={20} color="#FFD700" />}
@@ -94,7 +94,7 @@ export default function ManHinhProfile() {
                     <ThucNangItem
                         icon={<Feather name="bookmark" size={20} color="#805AD5" />}
                         tieuDe="Đã lưu"
-                        onPress={() => router.push('./profile/saved')}
+                        onPress={() => router.push('./saved')}
                     />
                     <ThucNangItem
                         icon={<Feather name="check-square" size={20} color="#48BB78" />}
