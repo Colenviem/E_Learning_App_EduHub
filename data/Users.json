@@ -3,7 +3,11 @@
         "_id": "USER001",
         "accountId": "ACC001",
         "name": "Nguyen Van A",
-        "avatarUrl": "https://...",
-        "createdAt": { "$date": "2024-12-31T23:59:59Z" }
+        "avatarUrl": "https://res.cloudinary.com/dixzxzdrd/image/upload/v1762588723/Avatar-Nu-Dep-14_rcw9na.jpg",
+        "coursesInProgress": [
+        { "courseId": "COURSE001", "progress": 0.6 },
+        { "courseId": "COURSE003", "progress": 0.2 }
+        ],
+        "createdAt": "2024-12-31T23:59:59.000Z"
     }
 ]

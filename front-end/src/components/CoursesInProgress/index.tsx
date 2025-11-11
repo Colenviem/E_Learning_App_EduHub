@@ -35,7 +35,7 @@ export default function CoursesInProgress({ courses }: Props) {
       <FlatList
         horizontal
         data={courses}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item._id}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ paddingHorizontal: spacing.md }}
         ItemSeparatorComponent={() => <View style={{ width: spacing.md }} />}
