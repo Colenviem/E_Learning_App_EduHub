@@ -1,20 +1,20 @@
 import { router } from 'expo-router';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
 
 interface CourseProps {
-  id: string;
-  name: string;
-  imageUrl: any;
+  _id: string;
+  title: string;
+  image: string;
   rating: number;
-  reviews: number;
 }
 
-const Course: React.FC<CourseProps> = ({ id, name, imageUrl }) => {
+const Course: React.FC<CourseProps> = ({ _id, title, image, rating }) => {
   const handlePress = () => {
     router.push({
       pathname: '/course-lessons',
-      params: { id }
+      params: { id: _id },
     });
   };
 
@@ -22,21 +22,27 @@ const Course: React.FC<CourseProps> = ({ id, name, imageUrl }) => {
     <TouchableOpacity style={styles.container} onPress={handlePress}>
       <View style={styles.imageContainer}>
         <Image 
-          source={{ uri: imageUrl }} 
+          source={{ uri: image }}
           style={styles.image}
           defaultSource={require('../../../assets/images/tets.jpg')}
         />
       </View>
-      <Text style={styles.name} numberOfLines={2}>
-        {name}
+      <Text style={styles.title} numberOfLines={2}>
+        {title}
       </Text>
+
+      {/* Rating */}
+      <View style={styles.ratingContainer}>
+        <MaterialIcons name="star" size={16} color="#FFD700" />
+        <Text style={styles.ratingText}>{rating.toFixed(1)}</Text>
+      </View>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    marginRight: 16,
+    marginRight: 12,
     marginBottom: 20,
     backgroundColor: '#fff',
     borderRadius: 12,
@@ -46,6 +52,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
     overflow: 'hidden',
+    width: '100%', 
   },
   imageContainer: {
     width: '100%',
@@ -57,12 +64,24 @@ const styles = StyleSheet.create({
     height: '100%',
     resizeMode: 'cover',
   },
-  name: {
+  title: {
     fontSize: 14,
     fontWeight: '600',
     color: '#333',
-    padding: 12,
-
+    paddingHorizontal: 8,
+    paddingTop: 8,
+  },
+  ratingContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 8,
+    paddingVertical: 6,
+    gap: 4,
+  },
+  ratingText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#333',
   },
 });
 

@@ -14,6 +14,7 @@ import { colors, spacing } from '../../src/constants/theme';
 const API_COURSES = "http://localhost:5000/courses";
 const API_CATEGORIES = "http://localhost:5000/categories";
 const API_USERS = "http://localhost:5000/users";
+const USERID = "USER001";
 const BANNERS = [
   "https://res.cloudinary.com/dixzxzdrd/image/upload/v1762585754/banner2_tlhzfa.jpg",
   "https://res.cloudinary.com/dixzxzdrd/image/upload/v1762585754/banner1_fh9q26.png"
@@ -37,7 +38,6 @@ function Home() {
     }
   }, []);
 
-  // Fetch categories từ API
   const fetchCategories = useCallback(async () => {
     try {
       const response = await axios.get(API_CATEGORIES);
@@ -52,7 +52,7 @@ function Home() {
       const response = await axios.get(API_USERS);
       setUsers(response.data); 
     } catch (error) {
-      console.error('Error fetching categories:', error);
+      console.error('Error fetching users:', error);
     }
   }, []);
 
@@ -60,17 +60,13 @@ function Home() {
     fetchCourses();
     fetchCategories();
     fetchUsers();
-  }, [fetchCourses, fetchCategories]);
+  }, [fetchCourses, fetchCategories, fetchUsers]);
 
   useEffect(() => {
     if (categories.length > 0 && selectedCategory === 'CAT001') {
       setSelectedCategory(categories[0]._id);
     }
   }, [categories]);
-
-  const coursesInProgress = useMemo(() => {
-    return courses.filter(course => course.progress && course.progress > 0);
-  }, [courses]);
 
   const filteredCourses = useMemo(() => {
     return courses.filter(course => {
@@ -80,6 +76,8 @@ function Home() {
       return matchCategory && matchSearch;
     });
   }, [courses, inputValue, selectedCategory]);
+
+  const currentUser = users.find(u => u._id === USERID);
 
   return (
     <>
@@ -155,8 +153,8 @@ function Home() {
       >
         <BannerCarousel banners={BANNERS} carouselRef={carouselRef} />
 
-        {coursesInProgress.length > 0 && (
-          <CoursesInProgress courses={coursesInProgress} />
+        {currentUser?.coursesInProgress?.length > 0 && (
+          <CoursesInProgress courses={currentUser.coursesInProgress} />
         )}
 
         <Categories

@@ -14,23 +14,61 @@ import {
   TextInput,
   TouchableOpacity, View
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+
+const API = "http://localhost:5000/accounts";
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
-    if (!email || !password) {
-      Alert.alert('Lỗi', 'Vui lòng nhập email và mật khẩu');
-      return;
-    }
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [loginError, setLoginError] = useState('');
 
-    setLoading(true); 
-    setTimeout(() => {
-      setLoading(false); 
-      router.replace('/(tabs)/home'); 
-    }, 1500); 
+  // Lưu token và userId
+  const saveAuthData = async (token: string, userId: string) => {
+    await AsyncStorage.setItem('token', token);
+    await AsyncStorage.setItem('userId', userId);
+  };
+
+  const handleLogin = async () => {
+    // Reset lỗi
+    setEmailError('');
+    setPasswordError('');
+    setLoginError('');
+
+    // Kiểm tra input
+    let valid = true;
+
+    if (!email) {
+      setEmailError('Vui lòng nhập email');
+      valid = false;
+    }
+    if (!password) {
+      setPasswordError('Vui lòng nhập mật khẩu');
+      valid = false;
+    }
+    if (!valid) return;
+
+    setLoading(true);
+    try {
+      // Gọi API login backend
+      const res = await axios.post(`${API}/login`, { email, password });
+      const { token, user } = res.data; // user chứa _id, email, username...
+
+      // Lưu token và userId
+      await saveAuthData(token, user._id);
+
+      // Chuyển trang kèm userId (có thể dùng router.push với params)
+      router.replace(`/(tabs)/home?userId=${user._id}`);
+    } catch (err: any) {
+      Alert.alert('Đăng nhập thất bại', err.response?.data?.message || 'Lỗi server');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleRegister = () => {
@@ -39,14 +77,8 @@ export default function Login() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      >
-        <ScrollView
-          contentContainerStyle={styles.scrollContainer}
-          keyboardShouldPersistTaps="handled"
-        >
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+        <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps="handled">
           <Image source={require('../assets/images/logo.jpg')} style={styles.logo} />
 
           <Text style={styles.title}>Chào mừng đến EduHub</Text>
@@ -64,6 +96,8 @@ export default function Login() {
               value={email}
               onChangeText={setEmail}
             />
+            {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
+
             <TextInput
               style={styles.input}
               placeholder="Mật khẩu"
@@ -72,6 +106,9 @@ export default function Login() {
               value={password}
               onChangeText={setPassword}
             />
+            {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
+
+            {loginError ? <Text style={styles.errorText}>{loginError}</Text> : null}
 
             <TouchableOpacity
               style={[styles.loginButton, loading && { opacity: 0.7 }]}
@@ -160,4 +197,5 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 5,
   },
+  errorText: { color: '#FF4D4F', marginBottom: 8, marginLeft: 12 },
 });

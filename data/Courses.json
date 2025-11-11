@@ -3,9 +3,13 @@
         "_id": "COURSE001",
         "title": "Learn JavaScript",
         "description": "Learn Python from scratch",
-        "image": "https://via.placeholder.com/150",
+        "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/tets_xdl4te.jpg",
         "categoryId": "CAT001",
-        "lessons": ["LESSON101"],
+        "lessons": [
+        {
+            "_id": "LESSON001"
+        }
+        ],
         "status": true,
         "rating": 5,
         "reviews": 120,
@@ -17,9 +21,11 @@
         "_id": "COURSE002",
         "title": "Learn React Native",
         "description": "Build mobile apps with React Native",
-        "image": "https://via.placeholder.com/150",
+        "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/tets_xdl4te.jpg",
         "categoryId": "CAT002",
-        "lessons": ["LESSON102"],
+        "lessons": [
+            { "_id": "LESSON102" }
+        ],
         "status": true,
         "rating": 4,
         "reviews": 90,
@@ -31,9 +37,11 @@
         "_id": "COURSE003",
         "title": "Learn TypeScript",
         "description": "Type-safe JavaScript",
-        "image": "https://via.placeholder.com/150",
+        "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/tets_xdl4te.jpg",
         "categoryId": "CAT003",
-        "lessons": ["LESSON103"],
+        "lessons": [
+            { "_id": "LESSON103" }
+        ],
         "status": true,
         "rating": 5,
         "reviews": 75,
@@ -45,9 +53,11 @@
         "_id": "COURSE004",
         "title": "Learn Node.js",
         "description": "Server-side JavaScript",
-        "image": "https://via.placeholder.com/150",
+        "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/tets_xdl4te.jpg",
         "categoryId": "CAT004",
-        "lessons": ["LESSON104"],
+        "lessons": [
+            { "_id": "LESSON104" }
+        ],
         "status": true,
         "rating": 4,
         "reviews": 60,
@@ -59,9 +69,11 @@
         "_id": "COURSE005",
         "title": "CSS Flexbox & Grid",
         "description": "Modern CSS layout techniques",
-        "image": "https://via.placeholder.com/150",
+        "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/tets_xdl4te.jpg",
         "categoryId": "CAT005",
-        "lessons": ["LESSON105"],
+        "lessons": [
+            { "_id": "LESSON105" }
+        ],
         "status": true,
         "rating": 4,
         "reviews": 40,
@@ -73,9 +85,11 @@
         "_id": "COURSE006",
         "title": "HTML & CSS Basics",
         "description": "Introduction to HTML and CSS",
-        "image": "https://via.placeholder.com/150",
+        "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/tets_xdl4te.jpg",
         "categoryId": "CAT005",
-        "lessons": ["LESSON106"],
+        "lessons": [
+            { "_id": "LESSON106" }
+        ],
         "status": true,
         "rating": 5,
         "reviews": 55,
@@ -87,9 +101,11 @@
         "_id": "COURSE007",
         "title": "Advanced React",
         "description": "React hooks and context API",
-        "image": "https://via.placeholder.com/150",
+        "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/tets_xdl4te.jpg",
         "categoryId": "CAT002",
-        "lessons": ["LESSON107"],
+        "lessons": [
+            { "_id": "LESSON109" }
+        ],
         "status": true,
         "rating": 4,
         "reviews": 85,
@@ -101,9 +117,11 @@
         "_id": "COURSE008",
         "title": "Python for Beginners",
         "description": "Learn Python from zero",
-        "image": "https://via.placeholder.com/150",
+        "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/tets_xdl4te.jpg",
         "categoryId": "CAT006",
-        "lessons": ["LESSON108"],
+        "lessons": [
+            { "_id": "LESSON109" }
+        ],
         "status": true,
         "rating": 5,
         "reviews": 100,
@@ -115,9 +133,11 @@
         "_id": "COURSE009",
         "title": "Advanced JavaScript",
         "description": "ES6+ and modern JS techniques",
-        "image": "https://via.placeholder.com/150",
+        "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/tets_xdl4te.jpg",
         "categoryId": "CAT001",
-        "lessons": ["LESSON109"],
+        "lessons": [
+            { "_id": "LESSON109" }
+        ],
         "status": true,
         "rating": 4,
         "reviews": 65,
@@ -129,9 +149,11 @@
         "_id": "COURSE010",
         "title": "Node.js & Express",
         "description": "Backend with Node.js",
-        "image": "https://via.placeholder.com/150",
+        "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/tets_xdl4te.jpg",
         "categoryId": "CAT004",
-        "lessons": ["LESSON110"],
+        "lessons": [
+            { "_id": "LESSON110" }
+        ],
         "status": true,
         "rating": 3,
         "reviews": 50,

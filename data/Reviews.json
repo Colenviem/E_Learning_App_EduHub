@@ -1,8 +1,8 @@
 [
     {
         "_id": "review701",
-        "userId": "user123",
-        "courseId": "course1",
+        "userId": "USER001",
+        "courseId": "COURSE001",
         "rating": 5, 
         "comment": "Khóa học này rất hay!",
         "createdAt": { "$date": "2024-12-31T23:59:59Z" }

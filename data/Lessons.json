@@ -5,7 +5,14 @@
         "title": "Variables & Data Types",
         "content": "Text + Code snippet...",
         "videoUrl": "https://video.com/lesson101.mp4",
-        "quizIds": ["quiz201", "quiz202"],
+        "quizIds": [
+            {
+                "_id": "QUIZ001"
+            },
+            {
+                "_id": "QUIZ002"
+            }
+        ],
         "createdAt": { "$date": "2024-12-31T23:59:59Z" }
     }
 ]
