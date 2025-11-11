@@ -22,7 +22,7 @@ export default function BannerCarousel({ banners, carouselRef }: Props) {
         autoPlayInterval={4000}
         renderItem={({ item }) => (
           <View style={styles.bannerWrapper}>
-            <Image source={item} style={styles.bannerImage} resizeMode="cover" />
+            <Image source={{ uri: item }} style={styles.bannerImage} resizeMode="cover" />
             <View style={styles.bannerOverlay}>
               <View style={styles.bannerBadge}>
                 <MaterialIcons name="whatshot" size={14} color={colors.secondaryAccent} />

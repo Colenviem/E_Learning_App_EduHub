@@ -1,7 +1,8 @@
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Stack, useRouter } from 'expo-router';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import axios from 'axios';
 
 import BannerCarousel from '../../src/components/BannerCarousel';
 import Categories from '../../src/components/Categories';
@@ -10,89 +11,162 @@ import CoursesInProgress from '../../src/components/CoursesInProgress';
 
 import { colors, spacing } from '../../src/constants/theme';
 
-
-
-const DUMMY_COURSES = [
-  { id: '1', name: 'React Native Cơ Bản', image: require('../../assets/images/tets.jpg'), rating: 5, reviews: 120, progress: 0.6 },
-  { id: '2', name: 'React Nâng Cao', image: require('../../assets/images/tets.jpg'), rating: 4, reviews: 80, progress: 0.3 },
-  { id: '3', name: 'JavaScript Hiện Đại', image: require('../../assets/images/tets.jpg'), rating: 4, reviews: 50, progress: 0 },
-  { id: '4', name: 'TypeScript Cần Thiết', image: require('../../assets/images/tets.jpg'), rating: 5, reviews: 60, progress: 0 },
-  { id: '5', name: 'Node.js cho Người Mới', image: require('../../assets/images/tets.jpg'), rating: 3, reviews: 30, progress: 0 },
-  { id: '6', name: 'CSS Flexbox & Grid', image: require('../../assets/images/tets.jpg'), rating: 4, reviews: 40, progress: 0 },
-];
-
-const CATEGORIES = [
-  { id: 'all', name: 'Tất cả', icon: 'apps' },
-  { id: 'react', name: 'React', icon: 'code' },
-  { id: 'js', name: 'JavaScript', icon: 'loyalty' },
-  { id: 'node', name: 'Node', icon: 'cloud' },
-  { id: 'css', name: 'CSS', icon: 'palette' },
-  { id: 'ts', name: 'TypeScript', icon: 'build' },
-];
-
+const API_COURSES = "http://localhost:5000/courses";
+const API_CATEGORIES = "http://localhost:5000/categories";
+const API_USERS = "http://localhost:5000/users";
+const USERID = "USER001";
 const BANNERS = [
-  require('../../assets/images/banner1.png'),
-  require('../../assets/images/banner2.jpg')
+  "https://res.cloudinary.com/dixzxzdrd/image/upload/v1762585754/banner2_tlhzfa.jpg",
+  "https://res.cloudinary.com/dixzxzdrd/image/upload/v1762585754/banner1_fh9q26.png"
 ];
 
-export default function Home() {
+function Home() {
+  const [courses, setCourses] = useState<any[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [users, setUsers] = useState<any[]>([]);
   const [inputValue, setInputValue] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState("CAT001");
   const carouselRef = useRef<any>(null);
   const router = useRouter();
-  const coursesInProgress = useMemo(() => {
-    return DUMMY_COURSES.filter(course => course.progress && course.progress > 0);
+
+  const fetchCourses = useCallback(async () => {
+    try {
+      const response = await axios.get(API_COURSES);
+      setCourses(response.data); 
+    } catch (error) {
+      console.error('Error fetching courses:', error);
+    }
   }, []);
 
+  const fetchCategories = useCallback(async () => {
+    try {
+      const response = await axios.get(API_CATEGORIES);
+      setCategories(response.data); 
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  }, []);
+
+  const fetchUsers = useCallback(async () => {
+    try {
+      const response = await axios.get(API_USERS);
+      setUsers(response.data); 
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchCourses();
+    fetchCategories();
+    fetchUsers();
+  }, [fetchCourses, fetchCategories, fetchUsers]);
+
+  useEffect(() => {
+    if (categories.length > 0 && selectedCategory === 'CAT001') {
+      setSelectedCategory(categories[0]._id);
+    }
+  }, [categories]);
+
   const filteredCourses = useMemo(() => {
-    return DUMMY_COURSES.filter(course => {
-      const categoryName = CATEGORIES.find(c => c.id === selectedCategory)?.name || '';
-      const matchCategory = selectedCategory === 'all' || course.name.toLowerCase().includes(categoryName.toLowerCase());
-      const matchSearch = course.name.toLowerCase().includes(inputValue.toLowerCase());
+    return courses.filter(course => {
+      const matchCategory =
+        selectedCategory === 'CAT001' || course.categoryId === selectedCategory;
+      const matchSearch = course.title.toLowerCase().includes(inputValue.toLowerCase());
       return matchCategory && matchSearch;
     });
-  }, [inputValue, selectedCategory]);
+  }, [courses, inputValue, selectedCategory]);
+
+  const currentUser = users.find(u => u._id === USERID);
 
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
 
-      <View style={{ backgroundColor: '#000000', paddingTop: spacing.xxl, paddingHorizontal: spacing.md, paddingBottom: spacing.md, }}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing.md,  marginTop: 20, }}>
-          <Text style={{ color: colors.textLight, fontSize: 24, fontWeight: '900',}}>EduHub</Text>
+      {/* HEADER */}
+      <View
+        style={{
+          backgroundColor: '#FFFFFF',
+          paddingTop: spacing.xxl,
+          paddingHorizontal: spacing.md,
+          paddingBottom: spacing.md,
+        }}
+      >
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: spacing.md,
+            marginTop: 20,
+          }}
+        >
+          <Text style={{ color: '#7C3AED', fontSize: 26, fontWeight: '900' }}>
+            EduHub
+          </Text>
+
           <TouchableOpacity onPress={() => router.push('../notifications')}>
-            <FontAwesome name="bell-o" size={20} color={colors.textLight} />
+            <FontAwesome name="bell-o" size={20} color="#7C3AED" />
           </TouchableOpacity>
         </View>
 
-        <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: colors.background, borderRadius: 14, paddingHorizontal: spacing.md, height: 46 }}>
+        {/* SEARCH BAR */}
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            backgroundColor: '#F4F4F5',
+            borderRadius: 14,
+            paddingHorizontal: spacing.md,
+            height: 46,
+          }}
+        >
           <FontAwesome name="search" size={16} color="#666" style={{ marginRight: 10 }} />
+
           <TextInput
             placeholder="Tìm kiếm khóa học..."
             placeholderTextColor="#999"
             value={inputValue}
             onChangeText={setInputValue}
-            style={{ flex: 1, fontSize: 14 }}
+            style={{ flex: 1, fontSize: 14, color: '#1A1A1A' }}
           />
-          <TouchableOpacity style={{ width: 32, height: 32, borderRadius: 8, backgroundColor: '#A78BFA', justifyContent: 'center', alignItems: 'center', marginLeft: 8 }}>
-            <MaterialIcons name="tune" size={20} color="#1A1A1A" />
+
+          <TouchableOpacity
+            style={{
+              width: 32,
+              height: 32,
+              borderRadius: 8,
+              backgroundColor: '#DDD6FE',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginLeft: 8,
+            }}
+          >
+            <MaterialIcons name="tune" size={20} color="#7C3AED" />
           </TouchableOpacity>
         </View>
       </View>
 
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 100 }}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 100, backgroundColor: '#F3F4F6' }}
+      >
         <BannerCarousel banners={BANNERS} carouselRef={carouselRef} />
 
+        {currentUser?.coursesInProgress?.length > 0 && (
+          <CoursesInProgress courses={currentUser.coursesInProgress} />
+        )}
+
         <Categories
-          categories={CATEGORIES}
+          categories={categories}
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
         />
-
-        {coursesInProgress.length > 0 && <CoursesInProgress courses={coursesInProgress} />}
 
         <CoursesGrid courses={filteredCourses} />
       </ScrollView>
     </>
   );
 }
+
+export default Home;

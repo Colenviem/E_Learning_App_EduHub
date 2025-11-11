@@ -2,6 +2,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
+  ActivityIndicator,
   Alert,
   Image,
   KeyboardAvoidingView,
@@ -14,24 +15,60 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import axios from 'axios';
+
+const API_ACCOUNT = "http://localhost:5000/accounts";
 
 export default function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleRegister = () => {
-    if (!name || !email || !password || !confirmPassword) {
-      Alert.alert('Lỗi', 'Vui lòng điền đầy đủ thông tin');
-      return;
+  const [nameError, setNameError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [serverError, setServerError] = useState('');
+
+  const handleRegister = async () => {
+    // Reset lỗi
+    setNameError('');
+    setEmailError('');
+    setPasswordError('');
+    setConfirmPasswordError('');
+    setServerError('');
+
+    let valid = true;
+    if (!name) {
+      setNameError('Vui lòng nhập họ và tên');
+      valid = false;
+    }
+    if (!email) {
+      setEmailError('Vui lòng nhập email');
+      valid = false;
+    }
+    if (!password) {
+      setPasswordError('Vui lòng nhập mật khẩu');
+      valid = false;
     }
     if (password !== confirmPassword) {
-      Alert.alert('Lỗi', 'Mật khẩu không khớp');
-      return;
+      setConfirmPasswordError('Mật khẩu không khớp');
+      valid = false;
     }
-    Alert.alert('Thành công', 'Đăng ký thành công!');
-    router.replace('/login');
+    if (!valid) return;
+
+    setLoading(true);
+    try {
+      const res = await axios.post(`${API_ACCOUNT}/register`, { name, email, password });
+      // Nếu thành công
+      router.replace('/login');
+    } catch (err: any) {
+      setServerError(err.response?.data?.message || 'Lỗi server');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -53,6 +90,8 @@ export default function Register() {
               value={name}
               onChangeText={setName}
             />
+            {nameError ? <Text style={styles.errorText}>{nameError}</Text> : null}
+
             <TextInput
               style={styles.input}
               placeholder="Email"
@@ -62,6 +101,8 @@ export default function Register() {
               value={email}
               onChangeText={setEmail}
             />
+            {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
+
             <TextInput
               style={styles.input}
               placeholder="Mật khẩu"
@@ -70,6 +111,8 @@ export default function Register() {
               value={password}
               onChangeText={setPassword}
             />
+            {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
+
             <TextInput
               style={styles.input}
               placeholder="Xác nhận mật khẩu"
@@ -78,9 +121,20 @@ export default function Register() {
               value={confirmPassword}
               onChangeText={setConfirmPassword}
             />
+            {confirmPasswordError ? <Text style={styles.errorText}>{confirmPasswordError}</Text> : null}
 
-            <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
-              <Text style={styles.registerButtonText}>Đăng ký</Text>
+            {serverError ? <Text style={styles.errorText}>{serverError}</Text> : null}
+
+            <TouchableOpacity
+              style={[styles.registerButton, loading && { opacity: 0.7 }]}
+              onPress={handleRegister}
+              disabled={loading}
+            >
+              {loading ? (
+                <ActivityIndicator color="#fff" />
+              ) : (
+                <Text style={styles.registerButtonText}>Đăng ký</Text>
+              )}
             </TouchableOpacity>
 
             <Text style={styles.orText}>HOẶC đăng ký bằng</Text>
@@ -152,4 +206,5 @@ const styles = StyleSheet.create({
   },
   loginLink: { marginTop: 12, alignItems: 'center' },
   loginLinkText: { color: '#6C63FF', fontWeight: '600' },
+  errorText: { color: 'red', marginBottom: 8, marginLeft: 10, alignSelf: 'flex-start' }
 });

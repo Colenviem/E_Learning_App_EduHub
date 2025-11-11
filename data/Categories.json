@@ -3,6 +3,28 @@
         "_id": "CAT001",
         "name": "Programming",
         "description": "All programming courses",
+        "icon": "code",
         "createdAt": { "$date": "2024-12-31T23:59:59Z" }
+    },
+    {
+        "_id": "CAT002",
+        "name": "Web Development",
+        "description": "Web dev courses",
+        "icon": "cloud",
+        "createdAt": { "$date": "2025-01-01T00:00:00Z" }
+    },
+    {
+        "_id": "CAT003",
+        "name": "Design",
+        "description": "Design courses",
+        "icon": "palette",
+        "createdAt": { "$date": "2025-01-02T00:00:00Z" }
+    },
+    {
+        "_id": "CAT004",
+        "name": "TypeScript",
+        "description": "TypeScript courses",
+        "icon": "build",
+        "createdAt": { "$date": "2025-01-03T00:00:00Z" }
     }
 ]

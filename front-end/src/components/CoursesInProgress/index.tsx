@@ -1,24 +1,23 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View, Dimensions } from 'react-native';
 import { borderRadius, colors, SCREEN_CONSTANTS, spacing, typography } from '../../constants/theme';
 
-interface Course {
-  id: string;
-  name: string;
-  image: any;
-  rating: number;
-  reviews: number;
+interface CourseInProgress {
+  courseId: string;
+  image: string;
   progress: number;
 }
 
 interface Props {
-  courses: Course[];
+  courses: CourseInProgress[];
 }
 
 export default function CoursesInProgress({ courses }: Props) {
   const router = useRouter();
+  const SCREEN_WIDTH = Dimensions.get('window').width;
+
   return (
     <View style={styles.section}>
       <View style={styles.sectionHeader}>
@@ -37,47 +36,32 @@ export default function CoursesInProgress({ courses }: Props) {
       <FlatList
         horizontal
         data={courses}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.courseId}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ paddingHorizontal: spacing.md }}
         ItemSeparatorComponent={() => <View style={{ width: spacing.md }} />}
         renderItem={({ item }) => (
           <TouchableOpacity
-            style={styles.progressCard}
-            activeOpacity={0.9}
-            onPress={() => {
-              router.push({
-                pathname: '../course-lessons',
-                params: {
-                  id: item.id,
-                  name: item.name,
-                  image: typeof item.image === 'number' ? undefined : item.image.uri,
-                  progress: item.progress.toString(),
-                },
-              });
-            }}
+            style={[styles.card, { width: SCREEN_WIDTH * 0.65 }]}
+            onPress={() => router.push({
+              pathname: '/course-lessons',
+              params: { id: item.courseId }
+            })}
           >
-            <View style={styles.progressImageContainer}>
-              <Image source={item.image} style={styles.progressImage} resizeMode="cover" />
-              <View style={styles.progressOverlay}>
-                <View style={styles.playButton}>
-                  <MaterialIcons name="play-arrow" size={24} color={colors.textPrimary} />
+            <Image
+              source={{ uri: item.image }}
+              style={styles.image}
+              resizeMode="cover"
+            />
+            <View style={styles.info}>
+              <View style={styles.progressContainer}>
+                <View style={styles.progressBackground}>
+                  <View style={[styles.progressFill, { width: `${item.progress * 100}%` }]} />
                 </View>
-              </View>
-            </View>
-            <View style={styles.progressInfo}>
-              <Text style={styles.progressCourseName} numberOfLines={2}>
-                {item.name}
-              </Text>
-              <View style={styles.progressBarContainer}>
-                <View style={styles.progressBarBackground}>
-                  <View style={[styles.progressBarFill, { width: `${item.progress * 100}%` }]} />
-                </View>
-                <Text style={styles.progressPercentage}>{Math.round(item.progress * 100)}%</Text>
+                <Text style={styles.progressText}>{Math.round(item.progress * 100)}%</Text>
               </View>
             </View>
           </TouchableOpacity>
-
         )}
       />
     </View>
@@ -123,71 +107,42 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 13,
   },
-  progressCard: {
-    width: SCREEN_CONSTANTS.SCREEN_WIDTH * 0.65,
-    backgroundColor: colors.background,
+  card: {
+    backgroundColor: '#fff',
     borderRadius: borderRadius.card,
     overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
-  progressImageContainer: {
+  image: {
     width: '100%',
     height: 120,
-    position: 'relative',
   },
-  progressImage: {
-    width: '100%',
-    height: '100%',
-  },
-  progressOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0,0,0,0.3)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  playButton: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: colors.secondaryAccent,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  progressInfo: {
+  info: {
     padding: spacing.md,
   },
-  progressCourseName: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: colors.textPrimary,
-    marginBottom: spacing.sm,
-    lineHeight: 20,
-  },
-  progressBarContainer: {
+  progressContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.sm,
   },
-  progressBarBackground: {
+  progressBackground: {
     flex: 1,
     height: 6,
-    backgroundColor: '#F0F0F0',
+    backgroundColor: '#eee',
     borderRadius: 3,
     overflow: 'hidden',
   },
-  progressBarFill: {
+  progressFill: {
     height: '100%',
-    backgroundColor: colors.secondaryAccent,
+    backgroundColor: '#7C3AED',
     borderRadius: 3,
   },
-  progressPercentage: {
+  progressText: {
+    marginLeft: 8,
+    fontWeight: '600',
     fontSize: 13,
-    fontWeight: '800',
-    color: colors.secondaryAccent,
-    minWidth: 36,
-    textAlign: 'right',
   },
 });
