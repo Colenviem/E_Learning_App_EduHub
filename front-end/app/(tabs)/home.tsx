@@ -1,16 +1,16 @@
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
+import axios from 'axios';
 import { Stack, useRouter } from 'expo-router';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ScrollView, Text, TextInput, TouchableOpacity, View, StyleSheet } from 'react-native';
-import axios from 'axios';
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import BannerCarousel from '../../src/components/BannerCarousel';
 import Categories from '../../src/components/Categories';
 import CoursesGrid from '../../src/components/CoursesGrid';
 import CoursesInProgress from '../../src/components/CoursesInProgress';
 
-import { colors, spacing } from '../../src/constants/theme';
 import { useSearchParams } from 'expo-router/build/hooks';
+import { colors, spacing } from '../../src/constants/theme';
 
 const API_COURSES = "http://192.168.2.6:5000/courses";
 const API_CATEGORIES = "http://192.168.2.6:5000/categories";

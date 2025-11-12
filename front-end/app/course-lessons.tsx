@@ -1,27 +1,37 @@
-import { router, Stack, useLocalSearchParams } from 'expo-router';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { router, Stack } from 'expo-router';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
-  Animated,
-  Dimensions,
-  FlatList,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
+    ActivityIndicator,
+    Animated,
+    Dimensions,
+    FlatList,
+    Image,
+    LayoutAnimation,
+    Platform,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    UIManager,
+    View,
 } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import IonIcon from 'react-native-vector-icons/Ionicons';
-import axios from 'axios';
 
 import EnrollmentModal from '../src/components/EnrollmentModal';
-import { LessonItem } from '../src/components/LessonItem';
 import PaymentModal from '../src/components/PaymentModal';
 
-const API_COURSES = 'http://192.168.2.6:5000/courses';
-const API_LESSONS = 'http://192.168.2.6:5000/lessons';
+// Bật LayoutAnimation trên Android
+if (Platform.OS === 'android') {
+    UIManager.setLayoutAnimationEnabledExperimental?.(true);
+}
 
+// --- API CONFIG ---
+const API_BASE_URL = 'http://192.168.0.102:5000';
+const API_COURSES = `${API_BASE_URL}/courses`;
+const API_LESSONS = `${API_BASE_URL}/lessons`;
+
+// Gói khóa học mặc định
+const MOCK_COURSE_ID = 'COURSE001';
 const { width } = Dimensions.get('window');
 
 const COLORS = {
@@ -34,86 +44,112 @@ const COLORS = {
     border: '#E0E0E0',
     star: '#FFC107',
     heartActive: '#FF6B9D',
+    lightPurple: '#EDE9FE',
+    dotColor: '#F59E0B',
 };
 
 export default function SourceLesson() {
-    const { courseId } = useLocalSearchParams();
+    const courseId = MOCK_COURSE_ID;
     const [courses, setCourses] = useState<any[]>([]);
     const [lessons, setLessons] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState<'lessons' | 'description'>('lessons');
     const [isEnrollmentModalVisible, setEnrollmentModalVisible] = useState(false);
     const [isPaymentModalVisible, setPaymentModalVisible] = useState(false);
     const [selectedPackage, setSelectedPackage] = useState('premium');
 
+    // Collapse sections
+    const [expandedLessons, setExpandedLessons] = useState<Set<string>>(new Set(['SEC001']));
+
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const tabAnim = useRef(new Animated.Value(0)).current;
 
-    // Fetch data
-    const fetchCourses = useCallback(async () => {
-        try {
-        const res = await axios.get(API_COURSES);
-        setCourses(res.data);
-        } catch (err) {
-        console.error('Lỗi lấy courses:', err);
-        }
-    }, []);
-
-    const fetchLessons = useCallback(async () => {
-        try {
-        const res = await axios.get(API_LESSONS);
-        setLessons(res.data);
-        } catch (err) {
-        console.error('Lỗi lấy lessons:', err);
-        }
-    }, []);
-
+    // --- FETCH DATA ---
     useEffect(() => {
-        fetchCourses();
-        fetchLessons();
-    }, [fetchCourses, fetchLessons]);
+        const fetchData = async () => {
+            try {
+                const [coursesRes, lessonsRes] = await Promise.all([
+                    fetch(API_COURSES),
+                    fetch(API_LESSONS),
+                ]);
 
+                if (!coursesRes.ok || !lessonsRes.ok) {
+                    throw new Error('Lỗi khi lấy dữ liệu từ server');
+                }
+
+                const coursesData = await coursesRes.json();
+                const lessonsData = await lessonsRes.json();
+
+                setCourses(coursesData);
+                setLessons(lessonsData);
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    // Animation
     useEffect(() => {
         Animated.timing(fadeAnim, { toValue: 1, duration: 600, useNativeDriver: true }).start();
     }, []);
 
     useEffect(() => {
         Animated.spring(tabAnim, {
-        toValue: activeTab === 'lessons' ? 0 : 1,
-        useNativeDriver: true,
+            toValue: activeTab === 'lessons' ? 0 : 1,
+            friction: 8,
+            useNativeDriver: true,
         }).start();
     }, [activeTab]);
 
+    const toggleLesson = (sectionId: string) => {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+        setExpandedLessons((prev) => {
+            const next = new Set(prev);
+            if (next.has(sectionId)) next.delete(sectionId);
+            else next.add(sectionId);
+            return next;
+        });
+    };
+
     const handleGoBack = () => router.push('/home');
-
     const handleRegisterPress = () => setEnrollmentModalVisible(true);
-
     const handleConfirmEnrollment = () => {
         setEnrollmentModalVisible(false);
         setPaymentModalVisible(true);
     };
-
     const handlePaymentContinue = (paymentMethod: string) => {
-        console.log(`Người dùng chọn gói: ${selectedPackage} và thanh toán bằng: ${paymentMethod}`);
+        console.log(`Gói: ${selectedPackage}, Thanh toán: ${paymentMethod}`);
         setPaymentModalVisible(false);
     };
 
-    // Format thời gian: 520 -> "8h 40p"
     const formatTime = (totalMinutes: number) => {
         const hours = Math.floor(totalMinutes / 60);
         const minutes = totalMinutes % 60;
-        if (hours > 0) return `${hours} giờ ${minutes > 0 ? `${minutes} phút` : ''}`;
+        if (hours > 0) return `${hours}h ${minutes > 0 ? `${minutes}p` : ''}`;
         return `${minutes} phút`;
     };
 
-    // Lấy đúng course đang chọn
-    const currentCourse = courses.find((c) => c._id === courseId);
-    const courseLessons = lessons.filter((l) => l.courseId === courseId);
+    const currentCourse = useMemo(() => courses.find((c) => c._id === courseId), [courses, courseId]);
+    const courseSections = useMemo(() => lessons.filter((l) => l.courseId === courseId), [lessons, courseId]);
+
+    if (loading) {
+        return (
+            <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color={COLORS.primary} />
+                <Text style={styles.loadingText}>Đang tải dữ liệu khóa học...</Text>
+            </View>
+        );
+    }
 
     if (!currentCourse) {
         return (
-        <View style={styles.loadingContainer}>
-            <Text style={{ color: COLORS.textSecondary }}>Đang tải khóa học...</Text>
-        </View>
+            <View style={styles.loadingContainer}>
+                <Text style={styles.loadingText}>Không tìm thấy khóa học</Text>
+            </View>
         );
     }
 
@@ -123,200 +159,201 @@ export default function SourceLesson() {
         ? currentCourse.price * (1 - (currentCourse.discount || 0) / 100)
         : 0;
 
-    return (
-    <>
-        <Stack.Screen options={{ headerShown: false }} />
-        <View style={styles.container}>
-            {/* Header */}
-            <View style={[styles.lessonHeaderContainer, { backgroundColor: COLORS.primary }]}>
-            <View style={styles.lessonHeader}>
-                <TouchableOpacity onPress={handleGoBack} style={styles.headerButton}>
-                <FeatherIcon size={24} color={COLORS.background} name="arrow-left" />
-                </TouchableOpacity>
-                <Text style={styles.lessonCourseTitle} numberOfLines={1}>
-                {currentCourse.title}
-                </Text>
-            </View>
-            </View>
+    const indicatorTranslateX = tabAnim.interpolate({
+        inputRange: [0, 1],
+        outputRange: [20, width / 2 - 80],
+    });
 
-            <FlatList
-                data={activeTab === 'lessons' ? courseLessons : []}
-                keyExtractor={(item) => item._id}
-                renderItem={({ item, index }) => (
-                    <LessonItem
-                    lesson={item}
-                    index={index}
-                    onPress={() => router.push(`/lesson-details?lessonId=${item._id}`)}
-                    />
-                )}
-                ListHeaderComponent={
-                    <>
-                    {/* Image */}
-                    <Animated.View style={[styles.courseImageWrapper, { opacity: fadeAnim }]}>
-                        <Image
-                        source={{ uri: currentCourse.image }}
-                        style={styles.courseImage}
-                        resizeMode="cover"
-                        />
-                    </Animated.View>
+    // --- RENDER ITEM ---
+    const renderSectionItem = ({ item }: { item: any }) => {
+        const section = item;
+        const isExpanded = expandedLessons.has(section._id);
+        const hasDetails = section.lesson_details && section.lesson_details.length > 0;
 
-                    {/* Details */}
-                    <View style={styles.detailsSection}>
-                        <Text style={[styles.courseNameLarge, { color: COLORS.textPrimary }]}>
-                        {currentCourse.title}
-                        </Text>
-                        <View style={styles.metaRow}>
-                        <Text style={[styles.metaText, { color: COLORS.textSecondary }]}>{displayTime}</Text>
-                        <Text style={[styles.metaText, { color: COLORS.textSecondary }]}>
-                            {currentCourse.numberOfLessons} bài học
-                        </Text>
-                        <View style={styles.ratingWrapper}>
-                            <IonIcon name="star" size={14} color={COLORS.star} />
-                            <Text style={[styles.metaText, { color: COLORS.textSecondary, marginLeft: 2 }]}>
-                            {currentCourse.rating?.toFixed(1)}
-                            </Text>
-                        </View>
-                        </View>
-                    </View>
-
-                    {/* Tabs */}
-                    <View style={styles.tabBar}>
-                        <TouchableOpacity onPress={() => setActiveTab('lessons')} style={styles.tabItem}>
-                        <Text style={activeTab === 'lessons' ? styles.tabTextActive : styles.tabTextInactive}>
-                            Bài học
-                        </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => setActiveTab('description')} style={styles.tabItem}>
-                        <Text style={activeTab === 'description' ? styles.tabTextActive : styles.tabTextInactive}>
-                            Mô tả
-                        </Text>
-                        </TouchableOpacity>
-                        <Animated.View
-                        style={[
-                            styles.tabIndicator,
-                            {
-                            transform: [
-                                {
-                                translateX: tabAnim.interpolate({
-                                    inputRange: [0, 1],
-                                    outputRange: [20, width / 2 + 10],
-                                }),
-                                },
-                            ],
-                            },
-                        ]}
-                        />
-                    </View>
-                    <View style={styles.tabDivider} />
-
-                    {/* Nếu tab description */}
-                    {activeTab === 'description' && (
-                        <View style={styles.descriptionContentWrapper}>
-                        <Text style={styles.descriptionText}>
-                            {currentCourse.description || 'Không có mô tả cho khóa học này.'}
-                        </Text>
-                        </View>
-                    )}
-                    </>
-                }
-            />
-
-            {/* Footer */}
-            <View style={styles.footer}>
-            <View style={styles.priceContainer}>
-                {currentCourse.discount ? (
-                <Text
-                    style={[
-                    styles.priceTextOriginal,
-                    {
-                        color: COLORS.textSecondary,
-                        textDecorationLine: 'line-through',
-                    },
-                    ]}
+        return (
+            <View style={styles.sectionWrapper}>
+                <TouchableOpacity 
+                    activeOpacity={0.8}
+                    onPress={() => hasDetails && toggleLesson(section._id)} 
+                    style={styles.sectionHeaderTouchable}
                 >
-                    {currentCourse.price?.toLocaleString()}₫
-                </Text>
-                ) : null}
-                <Text style={[styles.priceTextCurrent, { color: COLORS.primary }]}>
-                {finalPrice ? `${finalPrice.toLocaleString()}₫` : 'Miễn phí'}
-                </Text>
-            </View>
-            <TouchableOpacity
-                style={[styles.registerButton, { backgroundColor: COLORS.primary }]}
-                onPress={handleRegisterPress}
-            >
-                <Text style={styles.registerButtonText}>Đăng ký ngay</Text>
-            </TouchableOpacity>
-            </View>
-        </View>
+                    <View style={styles.sectionHeaderContent}>
+                        <Text style={styles.sectionTitle}>{section.title}</Text>
+                        <Text style={styles.sectionCount}>{section.lesson_details?.length || 0} bài học</Text>
+                    </View>
+                    {hasDetails && (
+                        <Animated.View style={{ transform: [{ rotate: isExpanded ? '180deg' : '0deg' }], padding: 4 }}>
+                            <FeatherIcon name="chevron-down" size={20} color={COLORS.primary} />
+                        </Animated.View>
+                    )}
+                </TouchableOpacity>
 
-        {/* Modals */}
-        <EnrollmentModal
-            visible={isEnrollmentModalVisible}
-            selected={selectedPackage}
-            onSelect={setSelectedPackage}
-            onConfirm={handleConfirmEnrollment}
-            onClose={() => setEnrollmentModalVisible(false)}
-        />
-        <PaymentModal
-            visible={isPaymentModalVisible}
-            onClose={() => setPaymentModalVisible(false)}
-            onContinue={handlePaymentContinue}
-        />
+                {isExpanded && hasDetails && (
+                    <View style={styles.detailsContainer}>
+                        {section.lesson_details.map((detail: any) => {
+                            const IconComponent = detail.is_file
+                                ? <FeatherIcon name="file-text" size={14} color={COLORS.textSecondary} />
+                                : <View style={styles.subLessonDot} />;
+                            return (
+                                <TouchableOpacity 
+                                    key={detail._id}
+                                    style={styles.subLessonItem}
+                                    onPress={() => router.push(`/lesson-details?lessonId=${detail._id}`)}
+                                >
+                                    <View style={styles.subLessonContent}>
+                                        {IconComponent}
+                                        <Text style={styles.subLessonTitle} numberOfLines={1}>{detail.name}</Text>
+                                    </View>
+                                    <Text style={styles.subLessonDuration}>{detail.time}</Text>
+                                </TouchableOpacity>
+                            );
+                        })}
+                    </View>
+                )}
+            </View>
+        );
+    };
+
+    return (
+        <>
+            <Stack.Screen options={{ headerShown: false }} />
+            <View style={styles.container}>
+                {/* Header */}
+                <View style={styles.header}>
+                    <TouchableOpacity onPress={handleGoBack} style={styles.backButton}>
+                        <FeatherIcon name="arrow-left" size={26} color={COLORS.background} />
+                    </TouchableOpacity>
+                    <Text style={styles.headerTitle} numberOfLines={1}>{currentCourse.title}</Text>
+                    <View style={{ width: 40 }} />
+                </View>
+
+                <FlatList
+                    data={activeTab === 'lessons' ? courseSections : []}
+                    keyExtractor={(item) => item._id}
+                    showsVerticalScrollIndicator={false}
+                    ListHeaderComponent={
+                        <>
+                            <Animated.View style={[styles.imageWrapper, { opacity: fadeAnim }]}>
+                                <Image source={{ uri: currentCourse.image }} style={styles.courseImage} resizeMode="cover" />
+                                <View style={styles.imageOverlay} />
+                            </Animated.View>
+
+                            <View style={styles.infoSection}>
+                                <Text style={styles.courseTitle}>{currentCourse.title}</Text>
+                                <View style={styles.metaRow}>
+                                    <View style={styles.metaItem}>
+                                        <FeatherIcon name="clock" size={14} color={COLORS.textSecondary} />
+                                        <Text style={styles.metaText}>{displayTime}</Text>
+                                    </View>
+                                    <View style={styles.metaItem}>
+                                        <FeatherIcon name="book-open" size={14} color={COLORS.textSecondary} />
+                                        <Text style={styles.metaText}>{currentCourse.numberOfLessons} bài</Text>
+                                    </View>
+                                    <View style={styles.metaItem}>
+                                        <IonIcon name="star" size={14} color={COLORS.star} />
+                                        <Text style={styles.metaText}>{currentCourse.rating?.toFixed(1)}</Text>
+                                    </View>
+                                </View>
+                            </View>
+                            <View style={styles.tabBar}>
+                                <TouchableOpacity onPress={() => setActiveTab('lessons')} style={styles.tab}>
+                                    <Text style={activeTab === 'lessons' ? styles.tabActive : styles.tabInactive}>Bài học</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => setActiveTab('description')} style={styles.tab}>
+                                    <Text style={activeTab === 'description' ? styles.tabActive : styles.tabInactive}>Mô tả</Text>
+                                </TouchableOpacity>
+                                <Animated.View style={[styles.tabIndicator, { transform: [{ translateX: indicatorTranslateX }] }]} />
+                            </View>
+                            <View style={styles.tabDivider} />
+
+                            {activeTab === 'description' && (
+                                <View style={styles.descriptionWrapper}>
+                                    <Text style={styles.descriptionText}>{currentCourse.description || 'Chưa có mô tả cho khóa học này.'}</Text>
+                                </View>
+                            )}
+                        </>
+                    }
+                    renderItem={renderSectionItem}
+                />
+
+    
+                <View style={styles.footer}>
+                    <View style={styles.priceSection}>
+                        {currentCourse.discount > 0 && (
+                            <Text style={styles.originalPrice}>{currentCourse.price?.toLocaleString()}₫</Text>
+                        )}
+                        <Text style={styles.finalPrice}>{finalPrice > 0 ? `${finalPrice.toLocaleString()}₫` : 'Miễn phí'}</Text>
+                    </View>
+                    <TouchableOpacity style={styles.registerBtn} onPress={handleRegisterPress}>
+                        <Text style={styles.registerBtnText}>Đăng ký ngay</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+
+            {/* Modals */}
+            <EnrollmentModal
+                visible={isEnrollmentModalVisible}
+                selected={selectedPackage}
+                onSelect={setSelectedPackage}
+                onConfirm={handleConfirmEnrollment}
+                onClose={() => setEnrollmentModalVisible(false)}
+            />
+            <PaymentModal
+                visible={isPaymentModalVisible}
+                onClose={() => setPaymentModalVisible(false)}
+                onContinue={handlePaymentContinue}
+            />
         </>
     );
 }
 
+// === STYLES ===
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: COLORS.background },
     loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-    lessonHeaderContainer: { paddingTop: 50, paddingBottom: 15, elevation: 4 },
-    lessonHeader: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingHorizontal: 20,
-    },
-    lessonCourseTitle: {
-        fontSize: 18,
-        fontWeight: '700',
-        color: COLORS.background,
-        flex: 1,
-        textAlign: 'center',
-    },
-    headerButton: { padding: 4 },
-    courseImageWrapper: { paddingHorizontal: 20, paddingVertical: 15 },
-    courseImage: {
-        width: '100%',
-        height: 180,
-        borderRadius: 12,
-        backgroundColor: COLORS.cardBg,
-    },
-    detailsSection: { paddingHorizontal: 20, paddingVertical: 10 },
-    courseNameLarge: { fontSize: 22, fontWeight: '800', marginBottom: 8 },
-    metaRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-    metaText: { fontSize: 14, fontWeight: '600' },
-    ratingWrapper: { flexDirection: 'row', alignItems: 'center', marginLeft: 10 },
-    tabBar: { flexDirection: 'row', paddingHorizontal: 20, position: 'relative', height: 40 },
-    tabItem: { paddingVertical: 8, paddingHorizontal: 15, marginRight: 20 },
-    tabTextActive: { fontSize: 16, fontWeight: '700', color: COLORS.primary },
-    tabTextInactive: { fontSize: 16, fontWeight: '600', color: COLORS.textSecondary },
-    tabDivider: { height: 1, backgroundColor: COLORS.border, marginHorizontal: 20 },
-    tabIndicator: { position: 'absolute', bottom: 0, width: 60, height: 3, borderRadius: 2, backgroundColor: COLORS.primary },
-    descriptionContentWrapper: { paddingHorizontal: 20, paddingVertical: 15 },
-    descriptionText: { fontSize: 16, lineHeight: 24, color: COLORS.textPrimary },
-    footer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingHorizontal: 20,
-        paddingVertical: 15,
-        borderTopWidth: 1,
-        borderTopColor: COLORS.border,
-    },
-    priceContainer: { alignItems: 'flex-start' },
-    priceTextOriginal: { fontSize: 14, fontWeight: '500' },
-    priceTextCurrent: { fontSize: 22, fontWeight: '900' },
-    registerButton: { paddingVertical: 14, paddingHorizontal: 30, borderRadius: 12 },
-    registerButtonText: { color: COLORS.background, fontSize: 16, fontWeight: '700' },
+    loadingText: { color: COLORS.textSecondary, fontSize: 16 },
+
+    header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingTop: 50, paddingBottom: 12, backgroundColor: COLORS.primary, elevation: 6, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.1, shadowRadius: 4 },
+    backButton: { padding: 8 },
+    headerTitle: { fontSize: 18, fontWeight: '700', color: COLORS.background, flex: 1, textAlign: 'center', marginRight: 40 },
+
+    imageWrapper: { paddingHorizontal: 16, paddingTop: 16 },
+    courseImage: { width: '100%', height: 200, borderRadius: 16, backgroundColor: COLORS.cardBg },
+    imageOverlay: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,0.05)', borderRadius: 16 },
+
+    infoSection: { paddingHorizontal: 16, paddingVertical: 12 },
+    courseTitle: { fontSize: 24, fontWeight: '800', color: COLORS.textPrimary, marginBottom: 8 },
+    metaRow: { flexDirection: 'row', alignItems: 'center', gap: 16 },
+    metaItem: { flexDirection: 'row', alignItems: 'center', gap: 4 },
+    metaText: { fontSize: 14, color: COLORS.textSecondary, fontWeight: '600' },
+
+    tabBar: { flexDirection: 'row', paddingHorizontal: 16, position: 'relative', marginTop: 16 },
+    tab: { paddingVertical: 10, paddingHorizontal: 20 },
+    tabActive: { fontSize: 16, fontWeight: '700', color: COLORS.primary },
+    tabInactive: { fontSize: 16, fontWeight: '600', color: COLORS.textSecondary },
+    tabIndicator: { position: 'absolute', bottom: 0, left: 0, width: 80, height: 3, backgroundColor: COLORS.primary, borderRadius: 2 },
+    tabDivider: { height: 1, backgroundColor: COLORS.border, marginHorizontal: 16, marginTop: 8 },
+
+    descriptionWrapper: { paddingHorizontal: 16, paddingVertical: 16 },
+    descriptionText: { fontSize: 15.5, lineHeight: 23, color: COLORS.textPrimary },
+
+    sectionWrapper: { marginTop: 10 },
+    sectionHeaderTouchable: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 12, backgroundColor: COLORS.cardBg, marginHorizontal: 16, borderRadius: 8 },
+    sectionHeaderContent: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', flex: 1 },
+    sectionTitle: { fontSize: 16, fontWeight: '700', color: COLORS.textPrimary },
+    sectionCount: { fontSize: 14, color: COLORS.textSecondary, fontWeight: '500' },
+    detailsContainer: { marginTop: 4 },
+
+    subLessonItem: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 14, borderBottomWidth: 1, borderBottomColor: COLORS.border, backgroundColor: COLORS.background, marginHorizontal: 16 },
+    subLessonContent: { flexDirection: 'row', alignItems: 'center', flex: 1, marginRight: 10 },
+    subLessonDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: COLORS.dotColor, marginRight: 12, marginLeft: 4 },
+    subLessonTitle: { fontSize: 15, color: COLORS.textPrimary, fontWeight: '500', flexShrink: 1 },
+    subLessonDuration: { fontSize: 14, color: COLORS.textSecondary, fontWeight: '500' },
+
+    footer: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 16, borderTopWidth: 1, borderTopColor: COLORS.border, backgroundColor: '#fff' },
+    priceSection: { gap: 4 },
+    originalPrice: { fontSize: 14, color: COLORS.textSecondary, textDecorationLine: 'line-through' },
+    finalPrice: { fontSize: 22, fontWeight: '900', color: COLORS.primary },
+    registerBtn: { backgroundColor: COLORS.primary, paddingVertical: 14, paddingHorizontal: 28, borderRadius: 12, elevation: 2 },
+    registerBtnText: { color: '#fff', fontSize: 16, fontWeight: '700' },
 });

@@ -12,6 +12,18 @@ router.get("/", async (req, res) => {
     }
 });
 
+// GET lessons by courseId
+router.get("/course-lessons", async (req, res) => {
+    const { id } = req.query; // id = courseId
+    try {
+        const lessons = await Lesson.find({ courseId: id });
+        res.json(lessons);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+
 // ✅ CREATE lesson
 router.post("/", async (req, res) => {
     try {
