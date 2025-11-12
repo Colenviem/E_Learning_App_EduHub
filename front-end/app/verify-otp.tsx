@@ -6,31 +6,67 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    View,
+    Alert,
+    View
 } from 'react-native';
+import { router, useLocalSearchParams } from 'expo-router';
+import axios from 'axios';
+
+const API_ACCOUNT = "http://192.168.2.6:5000/accounts";
 
 export default function VerifyOtpScreen() {
+    const params = useLocalSearchParams();
+    const name = params.name;
+    const email = params.email;
+    const password = params.password;
+
     const [otp, setOtp] = useState('');
     const [loading, setLoading] = useState(false);
     const [resendLoading, setResendLoading] = useState(false);
     const [countdown, setCountdown] = useState(0);
+    const [otpError, setOtpError] = useState('');
 
-    const handleResendOtp = () => {
+    const handleVerifyOtp = async () => {
+        if (otp.length !== 6) {
+            setOtpError('Mã OTP phải đủ 6 chữ số');
+            return;
+        }
+        setLoading(true);
+        setOtpError('');
+        try {
+            // Gọi API verify OTP
+            const res = await axios.post(`${API_ACCOUNT}/verify-otp`, { email, otp });
+            if (res.data.verified) {
+                // OTP hợp lệ -> tạo tài khoản
+                await axios.post(`${API_ACCOUNT}/register`, { name, email, password });
+                Alert.alert('Thành công', 'Tài khoản đã được tạo!');
+                router.replace('/login');
+            } else {
+                setOtpError(res.data.message || 'OTP không hợp lệ');
+            }
+        } catch (err: any) {
+            setOtpError(err.response?.data?.message || 'Lỗi xác thực OTP');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleResendOtp = async () => {
         if (countdown > 0) return;
-
         setResendLoading(true);
-        setCountdown(30);
-
-        setTimeout(() => {
+        try {
+            await axios.post(`${API_ACCOUNT}/send-otp`, { email, type: 'register' });
+            setCountdown(30); // countdown 30s
+        } catch (err: any) {
+            Alert.alert('Lỗi', err.response?.data?.message || 'Không thể gửi OTP');
+        } finally {
             setResendLoading(false);
-        }, 1500);
+        }
     };
 
     useEffect(() => {
         if (countdown > 0) {
-            const timer = setTimeout(() => {
-                setCountdown(countdown - 1);
-            }, 1000);
+            const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
             return () => clearTimeout(timer);
         }
     }, [countdown]);
@@ -59,6 +95,7 @@ export default function VerifyOtpScreen() {
                 <TouchableOpacity
                     style={[styles.button, styles.primaryButton]}
                     onPress={() => {
+                        handleVerifyOtp();
                         setLoading(true);
                         setTimeout(() => setLoading(false), 2000);
                     }}

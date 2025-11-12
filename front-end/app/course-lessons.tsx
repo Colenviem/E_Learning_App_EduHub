@@ -19,8 +19,8 @@ import EnrollmentModal from '../src/components/EnrollmentModal';
 import { LessonItem } from '../src/components/LessonItem';
 import PaymentModal from '../src/components/PaymentModal';
 
-const API_COURSES = 'http://localhost:5000/courses';
-const API_LESSONS = 'http://localhost:5000/lessons';
+const API_COURSES = 'http://192.168.2.6:5000/courses';
+const API_LESSONS = 'http://192.168.2.6:5000/lessons';
 
 const { width } = Dimensions.get('window');
 
@@ -139,107 +139,87 @@ export default function SourceLesson() {
             </View>
             </View>
 
-            {/* Body */}
-            <ScrollView showsVerticalScrollIndicator={false}>
-            {/* Image */}
-            <Animated.View style={[styles.courseImageWrapper, { opacity: fadeAnim }]}>
-                <Image
-                source={{ uri: currentCourse.image }}
-                style={styles.courseImage}
-                resizeMode="cover"
-                />
-            </Animated.View>
-
-            {/* Details */}
-            <View style={styles.detailsSection}>
-                <Text style={[styles.courseNameLarge, { color: COLORS.textPrimary }]}>
-                {currentCourse.title}
-                </Text>
-                <View style={styles.metaRow}>
-                <Text style={[styles.metaText, { color: COLORS.textSecondary }]}>{displayTime}</Text>
-                <Text style={[styles.metaText, { color: COLORS.textSecondary }]}>
-                    {currentCourse.numberOfLessons} bài học
-                </Text>
-                <View style={styles.ratingWrapper}>
-                    <IonIcon name="star" size={14} color={COLORS.star} />
-                    <Text
-                    style={[
-                        styles.metaText,
-                        { color: COLORS.textSecondary, marginLeft: 2 },
-                    ]}
-                    >
-                    {currentCourse.rating?.toFixed(1)}
-                    </Text>
-                </View>
-                </View>
-            </View>
-
-            {/* Tabs */}
-            <View style={styles.tabBar}>
-                <TouchableOpacity onPress={() => setActiveTab('lessons')} style={styles.tabItem}>
-                <Text
-                    style={
-                    activeTab === 'lessons'
-                        ? styles.tabTextActive
-                        : styles.tabTextInactive
-                    }
-                >
-                    Bài học
-                </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => setActiveTab('description')} style={styles.tabItem}>
-                <Text
-                    style={
-                    activeTab === 'description'
-                        ? styles.tabTextActive
-                        : styles.tabTextInactive
-                    }
-                >
-                    Mô tả
-                </Text>
-                </TouchableOpacity>
-                <Animated.View
-                style={[
-                    styles.tabIndicator,
-                    {
-                    transform: [
-                        {
-                        translateX: tabAnim.interpolate({
-                            inputRange: [0, 1],
-                            outputRange: [20, width / 2 + 10],
-                        }),
-                        },
-                    ],
-                    },
-                ]}
-                />
-            </View>
-            <View style={styles.tabDivider} />
-
-            {/* Tab content */}
-            {activeTab === 'lessons' ? (
-                <FlatList
-                data={courseLessons}
+            <FlatList
+                data={activeTab === 'lessons' ? courseLessons : []}
                 keyExtractor={(item) => item._id}
                 renderItem={({ item, index }) => (
                     <LessonItem
-                        lesson={item}
-                        index={index}
-                        onPress={() =>
-                            router.push(`/lesson-details?lessonId=${item._id}`)
-                        }
+                    lesson={item}
+                    index={index}
+                    onPress={() => router.push(`/lesson-details?lessonId=${item._id}`)}
                     />
                 )}
-                />
-            ) : (
-                <View style={styles.descriptionContentWrapper}>
-                <Text style={styles.descriptionText}>
-                    {currentCourse.description ||
-                    'Không có mô tả cho khóa học này.'}
-                </Text>
-                </View>
-            )}
-            </ScrollView>
+                ListHeaderComponent={
+                    <>
+                    {/* Image */}
+                    <Animated.View style={[styles.courseImageWrapper, { opacity: fadeAnim }]}>
+                        <Image
+                        source={{ uri: currentCourse.image }}
+                        style={styles.courseImage}
+                        resizeMode="cover"
+                        />
+                    </Animated.View>
+
+                    {/* Details */}
+                    <View style={styles.detailsSection}>
+                        <Text style={[styles.courseNameLarge, { color: COLORS.textPrimary }]}>
+                        {currentCourse.title}
+                        </Text>
+                        <View style={styles.metaRow}>
+                        <Text style={[styles.metaText, { color: COLORS.textSecondary }]}>{displayTime}</Text>
+                        <Text style={[styles.metaText, { color: COLORS.textSecondary }]}>
+                            {currentCourse.numberOfLessons} bài học
+                        </Text>
+                        <View style={styles.ratingWrapper}>
+                            <IonIcon name="star" size={14} color={COLORS.star} />
+                            <Text style={[styles.metaText, { color: COLORS.textSecondary, marginLeft: 2 }]}>
+                            {currentCourse.rating?.toFixed(1)}
+                            </Text>
+                        </View>
+                        </View>
+                    </View>
+
+                    {/* Tabs */}
+                    <View style={styles.tabBar}>
+                        <TouchableOpacity onPress={() => setActiveTab('lessons')} style={styles.tabItem}>
+                        <Text style={activeTab === 'lessons' ? styles.tabTextActive : styles.tabTextInactive}>
+                            Bài học
+                        </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => setActiveTab('description')} style={styles.tabItem}>
+                        <Text style={activeTab === 'description' ? styles.tabTextActive : styles.tabTextInactive}>
+                            Mô tả
+                        </Text>
+                        </TouchableOpacity>
+                        <Animated.View
+                        style={[
+                            styles.tabIndicator,
+                            {
+                            transform: [
+                                {
+                                translateX: tabAnim.interpolate({
+                                    inputRange: [0, 1],
+                                    outputRange: [20, width / 2 + 10],
+                                }),
+                                },
+                            ],
+                            },
+                        ]}
+                        />
+                    </View>
+                    <View style={styles.tabDivider} />
+
+                    {/* Nếu tab description */}
+                    {activeTab === 'description' && (
+                        <View style={styles.descriptionContentWrapper}>
+                        <Text style={styles.descriptionText}>
+                            {currentCourse.description || 'Không có mô tả cho khóa học này.'}
+                        </Text>
+                        </View>
+                    )}
+                    </>
+                }
+            />
 
             {/* Footer */}
             <View style={styles.footer}>

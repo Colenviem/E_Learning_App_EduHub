@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 import axios from 'axios';
 
-const API_ACCOUNT = "http://localhost:5000/accounts";
+const API_ACCOUNT = "http://192.168.2.6:5000/accounts";
 
 export default function Register() {
   const [name, setName] = useState('');
@@ -32,42 +32,40 @@ export default function Register() {
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
   const [serverError, setServerError] = useState('');
 
-  const handleRegister = async () => {
-    // Reset lỗi
-    setNameError('');
-    setEmailError('');
-    setPasswordError('');
-    setConfirmPasswordError('');
-    setServerError('');
+  const [sending, setSending] = useState(false);
 
-    let valid = true;
-    if (!name) {
-      setNameError('Vui lòng nhập họ và tên');
-      valid = false;
-    }
-    if (!email) {
-      setEmailError('Vui lòng nhập email');
-      valid = false;
-    }
-    if (!password) {
-      setPasswordError('Vui lòng nhập mật khẩu');
-      valid = false;
+  const sendOtp = async () => {
+    // Reset lỗi
+    setEmailError('');
+    if (!email) { setEmailError('Nhập email'); return; }
+
+    // Validate password match
+    if (!name || !password || !confirmPassword) {
+      Alert.alert('Vui lòng nhập đầy đủ thông tin trước khi gửi OTP');
+      return;
     }
     if (password !== confirmPassword) {
       setConfirmPasswordError('Mật khẩu không khớp');
-      valid = false;
+      return;
     }
-    if (!valid) return;
 
-    setLoading(true);
+    setSending(true);
     try {
-      const res = await axios.post(`${API_ACCOUNT}/register`, { name, email, password });
-      // Nếu thành công
-      router.replace('/login');
+      const res = await axios.post(`${API_ACCOUNT}/send-otp`, { email, type: 'register' });
+      if (res.data.success) {
+        Alert.alert('Đã gửi OTP', 'Kiểm tra email để nhận mã OTP');
+        // 👉 Chuyển sang trang verify-otp, truyền name/email/password
+        router.push({
+          pathname: '/verify-otp',
+          params: { name, email, password }
+        });
+      } else {
+        setEmailError(res.data.message || 'Không thể gửi mã');
+      }
     } catch (err: any) {
-      setServerError(err.response?.data?.message || 'Lỗi server');
+      setEmailError(err.response?.data?.message || 'Lỗi gửi mã');
     } finally {
-      setLoading(false);
+      setSending(false);
     }
   };
 
@@ -126,37 +124,11 @@ export default function Register() {
             {serverError ? <Text style={styles.errorText}>{serverError}</Text> : null}
 
             <TouchableOpacity
-              style={[styles.registerButton, loading && { opacity: 0.7 }]}
-              onPress={handleRegister}
-              disabled={loading}
+              style={[styles.registerButton, sending && { opacity: 0.7 }]}
+              onPress={sendOtp}
+              disabled={sending}
             >
-              {loading ? (
-                <ActivityIndicator color="#fff" />
-              ) : (
-                <Text style={styles.registerButtonText}>Đăng ký</Text>
-              )}
-            </TouchableOpacity>
-
-            <Text style={styles.orText}>HOẶC đăng ký bằng</Text>
-
-            <View style={styles.socialGroup}>
-              <TouchableOpacity
-                style={[styles.socialButton, { backgroundColor: '#1877F2' }]}
-                onPress={() => alert('Register with Facebook')}
-              >
-                <FontAwesome name="facebook" size={24} color="#fff" />
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={[styles.socialButton, { backgroundColor: '#DB4437' }]}
-                onPress={() => alert('Register with Google')}
-              >
-                <FontAwesome name="google" size={24} color="#fff" />
-              </TouchableOpacity>
-            </View>
-
-            <TouchableOpacity onPress={() => router.replace('/login')} style={styles.loginLink}>
-              <Text style={styles.loginLinkText}>Đã có tài khoản? Đăng nhập</Text>
+              {sending ? <ActivityIndicator color="#fff" /> : <Text style={styles.registerButtonText}>Gửi OTP</Text>}
             </TouchableOpacity>
           </View>
         </ScrollView>

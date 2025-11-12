@@ -12,9 +12,9 @@ import CoursesInProgress from '../../src/components/CoursesInProgress';
 import { colors, spacing } from '../../src/constants/theme';
 import { useSearchParams } from 'expo-router/build/hooks';
 
-const API_COURSES = "http://localhost:5000/courses";
-const API_CATEGORIES = "http://localhost:5000/categories";
-const API_USERS = "http://localhost:5000/users";
+const API_COURSES = "http://192.168.2.6:5000/courses";
+const API_CATEGORIES = "http://192.168.2.6:5000/categories";
+const API_USERS = "http://192.168.2.6:5000/users";
 
 const BANNERS = [
   "https://res.cloudinary.com/dixzxzdrd/image/upload/v1762585754/banner2_tlhzfa.jpg",
