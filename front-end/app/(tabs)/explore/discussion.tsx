@@ -1,15 +1,16 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useRouter } from "expo-router";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import {
+    ActivityIndicator,
     Image,
     ScrollView,
     StyleSheet,
     Text,
     TextInput,
     TouchableOpacity,
-    View,
+    View
 } from "react-native";
 
 export const TAB_BAR_STYLE = {
@@ -29,16 +30,31 @@ export const TAB_BAR_STYLE = {
     elevation: 5,
 };
 
+const SERVER_URL = "http://192.168.0.102:5000";
 
-const PhotoIcon = () => (
-    <View style={styles.photoIcon}>
-        <Text style={styles.photoText}>Ảnh</Text>
-    </View>
-);
+interface CommentType {
+    text: string;
+    createdAt: string;
+}
+
+interface PostType {
+    _id: string;
+    topic: string;
+    content: string;
+    image?: string;
+    likes: number;
+    comments: CommentType[];
+    category?: string;
+}
 
 export default function Discussion() {
     const router = useRouter();
     const navigation = useNavigation();
+
+    const [posts, setPosts] = useState<PostType[]>([]);
+    const [textInputs, setTextInputs] = useState<{ [key: string]: string }>({});
+    const [loading, setLoading] = useState(false);
+
 
     useLayoutEffect(() => {
         const parent = navigation.getParent();
@@ -49,66 +65,64 @@ export default function Discussion() {
         };
     }, [navigation]);
 
+    const fetchPosts = async () => {
+        try {
+            setLoading(true);
+            const res = await fetch(`${SERVER_URL}/posts`);
+            const data = await res.json();
+            setPosts(data);
 
-    const postsData = [
-        {
-            id: "3",
-            topic: "Mẹo debug code hiệu quả cho coder",
-            content: "Sử dụng console.log, breakpoints và đọc kỹ stack trace...",
-            image: "https://picsum.photos/id/1015/400/200",
-            likes: 45,
-            comments: ["Cực kỳ hữu ích!", "Mình hay quên debug tip này."],
-            category: "Coder",
-        },
-        {
-            id: "4",
-            topic: "Các lỗi thường gặp khi lập trình React Native",
-            content: "Không import đúng module, thiếu key trong FlatList...",
-            image: "https://picsum.photos/id/1016/400/200",
-            likes: 30,
-            comments: ["Mình gặp lỗi này hôm trước!", "Cần lưu ý thật kỹ."],
-            category: "Coder",
-        },
-        {
-            id: "5",
-            topic: "Tips tối ưu hiệu năng ứng dụng web",
-            content: "Sử dụng memo, lazy loading, và tránh re-render không cần thiết...",
-            image: "https://picsum.photos/id/1018/400/200",
-            likes: 28,
-            comments: ["Rất thực tế!", "Cảm ơn chia sẻ."],
-            category: "Coder",
-        },
-        {
-            id: "6",
-            topic: "Học tiếng Anh mỗi ngày",
-            content: "Nghe podcast và đọc sách giúp cải thiện kỹ năng nghe - đọc...",
-            image: "https://picsum.photos/id/1019/400/200",
-            likes: 40,
-            comments: ["Cảm ơn gợi ý!", "Mình đang làm theo cách này."],
-            category: "Học tập",
-        },
-    ];
+            const inputMap: { [key: string]: string } = {};
+            data.forEach((post: PostType) => { inputMap[post._id] = ""; });
+            setTextInputs(inputMap);
+        } catch (err) {
+            console.error("Fetch posts error:", err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-    const [posts, setPosts] = useState(postsData);
-    const [textInputs, setTextInputs] = useState(posts.map(() => ""));
-    const [likes, setLikes] = useState(posts.map(p => p.likes));
+    useEffect(() => {
+        fetchPosts();
+    }, []);
 
-    const handleComment = (index: number) => {
-        const text = textInputs[index].trim();
+    const handleLike = async (postId: string) => {
+        try {
+            await fetch(`${SERVER_URL}/posts/${postId}/like`, { method: "PUT" });
+            fetchPosts();
+        } catch (err) {
+            console.error("Like error:", err);
+        }
+    };
+
+    const handleComment = async (postId: string) => {
+        const text = textInputs[postId]?.trim();
         if (!text) return;
-        const updatedPosts = [...posts];
-        updatedPosts[index].comments.push(text);
-        setPosts(updatedPosts);
-        const updatedInputs = [...textInputs];
-        updatedInputs[index] = "";
-        setTextInputs(updatedInputs);
+
+        try {
+            await fetch(`${SERVER_URL}/posts/${postId}/comment`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ text }),
+            });
+            setTextInputs((prev) => ({ ...prev, [postId]: "" }));
+            fetchPosts();
+        } catch (err) {
+            console.error("Comment error:", err);
+        }
     };
 
-    const handleLike = (index: number) => {
-        const updatedLikes = [...likes];
-        updatedLikes[index] += 1;
-        setLikes(updatedLikes);
-    };
+    const PhotoIcon = () => (
+        <View style={styles.buttonRow}>
+            <TouchableOpacity style={styles.imageButton}>
+                <Ionicons name="image-outline" size={20} color="#5B21B6"/>
+            </TouchableOpacity>
+        </View>
+    );
+
+    if (loading && posts.length === 0) {
+        return <ActivityIndicator size="large" color="#1877F2" style={{ flex: 1, justifyContent: 'center' }} />;
+    }
 
     return (
         <ScrollView style={styles.container}>
@@ -131,17 +145,17 @@ export default function Discussion() {
                 <PhotoIcon />
             </View>
 
-            {posts.map((post, index) => (
-                <View key={post.id} style={styles.postContainer}>
-                    <Text style={styles.category}>{post.category}</Text>
+            {posts.map((post) => (
+                <View key={post._id} style={styles.postContainer}>
+                    {post.category && <Text style={styles.category}>{post.category}</Text>}
                     <Text style={styles.topic}>{post.topic}</Text>
                     <Text style={styles.content}>{post.content}</Text>
                     {post.image && <Image source={{ uri: post.image }} style={styles.image} />}
 
                     <View style={styles.actionRow}>
-                        <TouchableOpacity style={styles.actionButton} onPress={() => handleLike(index)}>
+                        <TouchableOpacity style={styles.actionButton} onPress={() => handleLike(post._id)}>
                             <Ionicons name="heart-outline" size={20} color="#f33" />
-                            <Text style={styles.actionText}>{likes[index]}</Text>
+                            <Text style={styles.actionText}>{post.likes}</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.actionButton}>
@@ -155,9 +169,9 @@ export default function Discussion() {
                         </TouchableOpacity>
                     </View>
 
-                    {post.comments.map((comment, cIdx) => (
-                        <View key={cIdx} style={styles.commentBox}>
-                            <Text>{comment}</Text>
+                    {post.comments.map((comment, idx) => (
+                        <View key={idx} style={styles.commentBox}>
+                            <Text>{comment.text}</Text>
                         </View>
                     ))}
 
@@ -165,15 +179,13 @@ export default function Discussion() {
                         <TextInput
                             style={styles.commentInput}
                             placeholder="Viết bình luận..."
-                            value={textInputs[index]}
-                            onChangeText={(text) => {
-                                const updated = [...textInputs];
-                                updated[index] = text;
-                                setTextInputs(updated);
-                            }}
+                            value={textInputs[post._id] || ""}
+                            onChangeText={(text) =>
+                                setTextInputs((prev) => ({ ...prev, [post._id]: text }))
+                            }
                         />
                         <TouchableOpacity
-                            onPress={() => handleComment(index)}
+                            onPress={() => handleComment(post._id)}
                             style={styles.sendButton}
                         >
                             <Text style={{ color: "#fff", fontWeight: "bold" }}>Gửi</Text>
@@ -186,6 +198,18 @@ export default function Discussion() {
 }
 
 const styles = StyleSheet.create({
+    imageButton: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#EDE9FE",
+        padding: 8,
+        borderRadius: 10,
+        marginHorizontal: 5,
+    },
+    imageButtonText: { color: "#5B21B6", fontWeight: "bold" },
+    buttonRow: { flexDirection: "row", marginLeft: 5 },
+
     container: { flex: 1, padding: 16, backgroundColor: "#fff" },
     postStatusContainer: {
         flexDirection: "row",

@@ -1,17 +1,35 @@
 import { Entypo, Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
-import React, { useLayoutEffect, useState } from 'react';
-import { Image, Pressable, ScrollView, Share, StyleSheet, Text, TextInput, View } from 'react-native';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
+import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { TAB_BAR_STYLE } from './tintuc';
+
+interface Comment {
+  _id: string;
+  text: string;
+  createdAt: string;
+}
+
+interface NewsItem {
+  _id: string;
+  title: string;
+  date: string;
+  imageUrl: string;
+  category: string;
+  comments: Comment[];
+  likes: number;
+  content?: string;
+}
 
 export default function TintucDetail() {
   const navigation = useNavigation();
   const router = useRouter();
-  const params = useLocalSearchParams(); 
-  const newsItem = params.newsItem ? JSON.parse(params.newsItem as string) : null;
+  const params = useLocalSearchParams();
+  const newsId = params.id as string;
 
+  const [newsItem, setNewsItem] = useState<NewsItem | null>(null);
+  const [loading, setLoading] = useState(true);
   const [liked, setLiked] = useState(false);
-  const [comments, setComments] = useState<string[]>([]);
   const [commentText, setCommentText] = useState('');
 
   useLayoutEffect(() => {
@@ -19,9 +37,9 @@ export default function TintucDetail() {
     parent?.setOptions({ tabBarStyle: { ...TAB_BAR_STYLE, display: 'none' } });
 
     navigation.setOptions({
-      headerTitle: newsItem?.title || 'Chi tiết tin tức',
+      headerTitle: newsItem?.category || 'Chi tiết tin tức',
       headerLeft: () => (
-        <Pressable onPress={() => router.back()} style={{ marginLeft: 10 }}>
+        <Pressable onPress={() => router.push('/explore')} style={{ marginLeft: 10 }}>
           <Ionicons name="arrow-back" size={24} color="#fff" />
         </Pressable>
       ),
@@ -32,59 +50,100 @@ export default function TintucDetail() {
     };
   }, [navigation, newsItem]);
 
-  if (!newsItem) {
+  useEffect(() => {
+    const fetchNewsById = async () => {
+      try {
+        const res = await fetch(`http://192.168.0.102:5000/news/${newsId}`);
+        if (!res.ok) throw new Error('Không tìm thấy tin tức');
+        const data: NewsItem = await res.json();
+        setNewsItem(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (newsId) fetchNewsById();
+  }, [newsId]);
+
+  if (loading) {
     return (
-      <View style={styles.container}>
-        <Text style={{ color: '#111', fontSize: 16 }}>Không tìm thấy tin tức.</Text>
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#4F46E5" />
       </View>
     );
   }
 
-  const handleLike = () => setLiked(prev => !prev);
+  if (!newsItem) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text>Không tìm thấy tin tức.</Text>
+      </View>
+    );
+  }
+const handleLike = async () => {
+  try {
+    setLiked(prev => !prev);
+    const res = await fetch(`http://192.168.0.102:5000/news/${newsId}/like`, {
+      method: 'PUT',
+    });
+    if (!res.ok) throw new Error('Lỗi khi like');
+    const updatedNews = await res.json();
+    setNewsItem(updatedNews);
+  } catch (err) {
+    console.error(err);
+  }
+};
 
-  const handleShare = async () => {
-    try {
-      await Share.share({
-        message: `${newsItem.title}\n\nXem chi tiết tại app của bạn.`,
-      });
-    } catch (error) {
-      console.log('Lỗi share:', error);
-    }
-  };
+const handleAddComment = async () => {
+  if (!commentText.trim()) return;
 
-  const handleAddComment = () => {
-    if (commentText.trim()) {
-      setComments(prev => [...prev, commentText.trim()]);
-      setCommentText('');
-    }
-  };
+  try {
+    const newComment = {
+      _id: Date.now().toString(),
+      text: commentText.trim(),
+    };
+
+    const res = await fetch(`http://192.168.0.102:5000/news/${newsId}/comment`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newComment),
+    });
+
+    if (!res.ok) throw new Error('Lỗi khi thêm comment');
+
+    const updatedNews: NewsItem = await res.json();
+    setNewsItem(updatedNews);
+    setCommentText('');
+  } catch (err) {
+    console.error(err);
+  }
+};
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ padding: 20 }}>
       <Text style={styles.category}>{newsItem.category}</Text>
       <Text style={styles.title}>{newsItem.title}</Text>
       <Text style={styles.date}>{newsItem.date}</Text>
+
       {newsItem.imageUrl && (
         <Image source={{ uri: newsItem.imageUrl }} style={styles.image} />
       )}
+
       <Text style={styles.content}>
-        Đây là nội dung chi tiết cho bài viết "{newsItem.title}".
+        {newsItem.content || `Đây là nội dung chi tiết cho bài viết "${newsItem.title}".`}
       </Text>
 
       <View style={styles.actionRow}>
         <Pressable style={styles.actionButton} onPress={handleLike}>
           <Ionicons name={liked ? 'heart' : 'heart-outline'} size={24} color={liked ? '#EF4444' : '#111'} />
-          <Text style={styles.actionText}>{liked ? 'Liked' : 'Like'}</Text>
+          <Text style={styles.actionText}>{liked ? newsItem.likes + 1 : newsItem.likes} Likes</Text>
         </Pressable>
 
-        <Pressable style={styles.actionButton} onPress={handleShare}>
+        <Pressable style={styles.actionButton} >
           <Entypo name="share" size={24} color="#111" />
           <Text style={styles.actionText}>Share</Text>
-        </Pressable>
-
-        <Pressable style={styles.actionButton}>
-          <Ionicons name="chatbubble-outline" size={24} color="#111" />
-          <Text style={styles.actionText}>{comments.length} Comment</Text>
         </Pressable>
       </View>
 
@@ -100,9 +159,10 @@ export default function TintucDetail() {
         </Pressable>
       </View>
 
-      {comments.map((cmt, index) => (
-        <View key={index} style={styles.commentItem}>
-          <Text style={styles.commentText}>{cmt}</Text>
+      {newsItem.comments.map((cmt) => (
+        <View key={cmt._id} style={styles.commentItem}>
+          <Text style={styles.commentText}>{cmt.text}</Text>
+          <Text style={styles.commentDate}>{new Date(cmt.createdAt).toLocaleString()}</Text>
         </View>
       ))}
     </ScrollView>
@@ -111,6 +171,7 @@ export default function TintucDetail() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F9FAFB' },
+  loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   category: { fontSize: 12, fontWeight: '700', color: '#4F46E5', marginBottom: 6 },
   title: { fontSize: 20, fontWeight: '700', color: '#111827', marginBottom: 8 },
   date: { fontSize: 12, color: '#9CA3AF', fontWeight: '500', marginBottom: 12 },
@@ -124,4 +185,5 @@ const styles = StyleSheet.create({
   commentSend: { marginLeft: 8, backgroundColor: '#4F46E5', padding: 10, borderRadius: 12 },
   commentItem: { backgroundColor: '#fff', padding: 10, borderRadius: 12, marginBottom: 8 },
   commentText: { fontSize: 14, color: '#111' },
+  commentDate: { fontSize: 10, color: '#888', marginTop: 2 },
 });

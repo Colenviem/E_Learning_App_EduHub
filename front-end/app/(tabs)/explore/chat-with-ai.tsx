@@ -1,4 +1,3 @@
-// ChatWithAI.tsx
 import { Feather } from '@expo/vector-icons';
 import { Stack, useNavigation } from 'expo-router';
 import React, { useLayoutEffect, useState } from 'react';

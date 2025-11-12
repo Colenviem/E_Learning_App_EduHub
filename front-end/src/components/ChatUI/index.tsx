@@ -1,5 +1,6 @@
 import React, { RefObject, useEffect, useRef } from 'react';
 import { Animated, FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { v4 as uuidv4 } from 'uuid';
 import type { ChatMessage } from '../../../hooks/dataBot';
 import { AnimatedOption } from '../AnimatedOption';
@@ -9,7 +10,7 @@ interface ChatUIProps {
   messages: ChatMessage[];
   handleAnswer: (answer: string, optionId: string) => void;
   handlePickTime: () => void;
-  flatListRef: RefObject<FlatList<any> | null>; 
+  flatListRef: RefObject<FlatList<any> | null>;
 }
 const TypingDots: React.FC = () => {
   const dot1 = useRef(new Animated.Value(0)).current;
@@ -87,21 +88,24 @@ const ChatUI: React.FC<ChatUIProps> = ({ messages, handleAnswer, handlePickTime 
   };
 
   return (
-    <FlatList
-      ref={flatListRef}
-      data={messages}
-      keyExtractor={item => item.id}
-      renderItem={renderMessage}
-      contentContainerStyle={styles.chatContainer}
-      onContentSizeChange={scrollToBottom}
-    />
+    <SafeAreaView style={{ flex: 1 }}>
+      <FlatList
+        ref={flatListRef}
+        data={messages}
+        keyExtractor={item => item.id}
+        renderItem={renderMessage}
+        contentContainerStyle={{ paddingBottom: 16 }}
+        onContentSizeChange={scrollToBottom}
+        keyboardShouldPersistTaps="handled"
+      />
+    </SafeAreaView>
   );
 };
 
 export default ChatUI;
 
 const styles = StyleSheet.create({
-  chatContainer: { paddingBottom: 24 , marginTop: 30},
+  chatContainer: { marginBottom: 50, marginTop: 30 },
   messageContainer: { flexDirection: 'row', alignItems: 'flex-start', marginVertical: 8 },
   botMessageWrapper: { justifyContent: 'flex-start', marginLeft: 4 },
   userMessageWrapper: { justifyContent: 'flex-end', marginRight: 4 },

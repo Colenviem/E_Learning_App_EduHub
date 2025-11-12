@@ -23,6 +23,17 @@ router.post("/", async (req, res) => {
     }
 });
 
+router.get("/top-rated", async (req, res) => {
+    try {
+        const topCourses = await Course.find({ status: true }) 
+            .sort({ rating: -1 }) 
+            .limit(5);
+        res.json(topCourses);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 // ✅ Get course by ID
 router.get("/:id", async (req, res) => {
     try {
@@ -56,5 +67,7 @@ router.delete("/:id", async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
+
+
 
 module.exports = router;
