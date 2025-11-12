@@ -2,163 +2,71 @@
     {
         "_id": "COURSE001",
         "title": "Learn JavaScript",
-        "description": "Learn Python from scratch",
         "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/tets_xdl4te.jpg",
         "categoryId": "CAT001",
-        "lessons": [
-        {
-            "_id": "LESSON001"
-        }
-        ],
         "status": true,
-        "rating": 5,
-        "reviews": 120,
-        "progress": 0.6,
-        "createdAt": { "$date": "2024-12-31T23:59:59Z" },
-        "updatedAt": { "$date": "2024-12-31T23:59:59Z" }
+        "time": "520 phút",
+        "numberOfParticipants": 21400,
+        "numberOfLessons": 10,
+        "rating": 4.9,
+        "price": 499000,
+        "discount": 10,
+        "createdAt": { "$date": "2024-12-31T23:59:59Z" }
     },
     {
         "_id": "COURSE002",
         "title": "Learn React Native",
-        "description": "Build mobile apps with React Native",
         "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/tets_xdl4te.jpg",
         "categoryId": "CAT002",
-        "lessons": [
-            { "_id": "LESSON102" }
-        ],
         "status": true,
-        "rating": 4,
-        "reviews": 90,
-        "progress": 0.4,
-        "createdAt": { "$date": "2024-12-30T23:59:59Z" },
-        "updatedAt": { "$date": "2024-12-30T23:59:59Z" }
+        "time": "40 phút",
+        "numberOfParticipants": 9000,
+        "numberOfLessons": 2,
+        "rating": 4.9,
+        "price": 499000,
+        "discount": 10,
+        "createdAt": { "$date": "2024-12-30T23:59:59Z" }
     },
     {
         "_id": "COURSE003",
         "title": "Learn TypeScript",
-        "description": "Type-safe JavaScript",
         "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/tets_xdl4te.jpg",
         "categoryId": "CAT003",
-        "lessons": [
-            { "_id": "LESSON103" }
-        ],
         "status": true,
-        "rating": 5,
-        "reviews": 75,
-        "progress": 0,
-        "createdAt": { "$date": "2024-12-29T23:59:59Z" },
-        "updatedAt": { "$date": "2024-12-29T23:59:59Z" }
+        "time": "50 phút",
+        "numberOfParticipants": 7500,
+        "numberOfLessons": 1,
+        "rating": 4.9,
+        "price": 499000,
+        "discount": 10,
+        "createdAt": { "$date": "2024-12-29T23:59:59Z" }
     },
     {
         "_id": "COURSE004",
         "title": "Learn Node.js",
-        "description": "Server-side JavaScript",
         "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/tets_xdl4te.jpg",
         "categoryId": "CAT004",
-        "lessons": [
-            { "_id": "LESSON104" }
-        ],
         "status": true,
-        "rating": 4,
-        "reviews": 60,
-        "progress": 0.2,
-        "createdAt": { "$date": "2024-12-28T23:59:59Z" },
-        "updatedAt": { "$date": "2024-12-28T23:59:59Z" }
+        "time": "55 phút",
+        "numberOfParticipants": 6000,
+        "numberOfLessons": 1,
+        "rating": 4.9,
+        "price": 499000,
+        "discount": 10,
+        "createdAt": { "$date": "2024-12-28T23:59:59Z" }
     },
     {
         "_id": "COURSE005",
         "title": "CSS Flexbox & Grid",
-        "description": "Modern CSS layout techniques",
         "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/tets_xdl4te.jpg",
         "categoryId": "CAT005",
-        "lessons": [
-            { "_id": "LESSON105" }
-        ],
         "status": true,
-        "rating": 4,
-        "reviews": 40,
-        "progress": 0,
-        "createdAt": { "$date": "2024-12-27T23:59:59Z" },
-        "updatedAt": { "$date": "2024-12-27T23:59:59Z" }
-    },
-    {
-        "_id": "COURSE006",
-        "title": "HTML & CSS Basics",
-        "description": "Introduction to HTML and CSS",
-        "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/tets_xdl4te.jpg",
-        "categoryId": "CAT005",
-        "lessons": [
-            { "_id": "LESSON106" }
-        ],
-        "status": true,
-        "rating": 5,
-        "reviews": 55,
-        "progress": 0.3,
-        "createdAt": { "$date": "2024-12-26T23:59:59Z" },
-        "updatedAt": { "$date": "2024-12-26T23:59:59Z" }
-    },
-    {
-        "_id": "COURSE007",
-        "title": "Advanced React",
-        "description": "React hooks and context API",
-        "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/tets_xdl4te.jpg",
-        "categoryId": "CAT002",
-        "lessons": [
-            { "_id": "LESSON109" }
-        ],
-        "status": true,
-        "rating": 4,
-        "reviews": 85,
-        "progress": 0.5,
-        "createdAt": { "$date": "2024-12-25T23:59:59Z" },
-        "updatedAt": { "$date": "2024-12-25T23:59:59Z" }
-    },
-    {
-        "_id": "COURSE008",
-        "title": "Python for Beginners",
-        "description": "Learn Python from zero",
-        "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/tets_xdl4te.jpg",
-        "categoryId": "CAT006",
-        "lessons": [
-            { "_id": "LESSON109" }
-        ],
-        "status": true,
-        "rating": 5,
-        "reviews": 100,
-        "progress": 0.7,
-        "createdAt": { "$date": "2024-12-24T23:59:59Z" },
-        "updatedAt": { "$date": "2024-12-24T23:59:59Z" }
-    },
-    {
-        "_id": "COURSE009",
-        "title": "Advanced JavaScript",
-        "description": "ES6+ and modern JS techniques",
-        "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/tets_xdl4te.jpg",
-        "categoryId": "CAT001",
-        "lessons": [
-            { "_id": "LESSON109" }
-        ],
-        "status": true,
-        "rating": 4,
-        "reviews": 65,
-        "progress": 0,
-        "createdAt": { "$date": "2024-12-23T23:59:59Z" },
-        "updatedAt": { "$date": "2024-12-23T23:59:59Z" }
-    },
-    {
-        "_id": "COURSE010",
-        "title": "Node.js & Express",
-        "description": "Backend with Node.js",
-        "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/tets_xdl4te.jpg",
-        "categoryId": "CAT004",
-        "lessons": [
-            { "_id": "LESSON110" }
-        ],
-        "status": true,
-        "rating": 3,
-        "reviews": 50,
-        "progress": 0.1,
-        "createdAt": { "$date": "2024-12-22T23:59:59Z" },
-        "updatedAt": { "$date": "2024-12-22T23:59:59Z" }
+        "time": "50 phút",
+        "numberOfParticipants": 4000,
+        "numberOfLessons": 1,
+        "rating": 4.9,
+        "price": 499000,
+        "discount": 10,
+        "createdAt": { "$date": "2024-12-27T23:59:59Z" }
     }
 ]
