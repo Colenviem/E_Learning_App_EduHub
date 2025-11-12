@@ -1,16 +1,16 @@
+import axios from 'axios';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import {
     ActivityIndicator,
+    Alert,
     SafeAreaView,
     StyleSheet,
     Text,
     TextInput,
     TouchableOpacity,
-    Alert,
     View
 } from 'react-native';
-import { router, useLocalSearchParams } from 'expo-router';
-import axios from 'axios';
 
 const API_ACCOUNT = "http://192.168.2.6:5000/accounts";
 

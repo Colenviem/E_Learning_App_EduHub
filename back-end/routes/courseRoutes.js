@@ -45,6 +45,7 @@ router.get("/:id", async (req, res) => {
     }
 });
 
+
 // ✅ Update course
 router.put("/:id", async (req, res) => {
     try {
