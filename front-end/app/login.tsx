@@ -1,5 +1,4 @@
 import { FontAwesome } from '@expo/vector-icons';
-import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
   ActivityIndicator,
@@ -16,6 +15,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { useRouter } from 'expo-router';
 
 const API = "http://localhost:5000/accounts";
 
@@ -27,6 +27,8 @@ export default function Login() {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [loginError, setLoginError] = useState('');
+
+  const router = useRouter();
 
   // Lưu token và userId
   const saveAuthData = async (token: string, userId: string) => {
@@ -63,7 +65,10 @@ export default function Login() {
       await saveAuthData(token, user._id);
 
       // Chuyển trang kèm userId (có thể dùng router.push với params)
-      router.replace(`/(tabs)/home?userId=${user._id}`);
+      router.push({
+        pathname: '/(tabs)/home',
+        params: { userId: user._id }
+      });
     } catch (err: any) {
       Alert.alert('Đăng nhập thất bại', err.response?.data?.message || 'Lỗi server');
     } finally {

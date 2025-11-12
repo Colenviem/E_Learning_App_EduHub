@@ -9,7 +9,11 @@ interface CourseItem {
   title: string;
   image: string;
   rating: number;
-  reviews: number;
+  numberOfParticipants: number;
+  numberOfLessons: number;
+  time: string;
+  price?: number;
+  discount?: number;
 }
 
 interface Props {
@@ -38,10 +42,7 @@ export default function CoursesGrid({ courses }: Props) {
         {courses.map((item) => (
           <Animated.View key={item._id} style={[styles.courseCardWrapper, { width: CARD_WIDTH }]}>
             <Course
-              _id={item._id}
-              title={item.title}
-              image={item.image}
-              rating={item.rating}
+              item={item}
             />
           </Animated.View>
         ))}

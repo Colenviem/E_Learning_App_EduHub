@@ -4,13 +4,16 @@ const courseSchema = new mongoose.Schema(
     {
         _id: { type: String },
         title: { type: String, required: true },
-        description: { type: String },
-        thumbnailUrl: { type: String },
+        image: { type: String },
         categoryId: { type: String, required: true },
-        lessons: [{ type: String }],
+        time: { type: String }, 
+        numberOfParticipants: { type: Number },
+        numberOfLessons: { type: Number },
         status: { type: Boolean, default: true },
-        createdAt: { type: Date, default: Date.now },
-        updatedAt: { type: Date, default: Date.now },
+        rating: { type: Number, min: 0, max: 5 },
+        price: { type: Number },
+        discount: { type: Number, default: 0 },
+        createdAt: { type: Date, default: Date.now }
     },
     { versionKey: false }
 );
