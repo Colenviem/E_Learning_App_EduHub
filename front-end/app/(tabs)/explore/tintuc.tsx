@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRouter } from 'expo-router';
-import React, { useLayoutEffect } from 'react';
-import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
+import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export const TAB_BAR_STYLE = {
   height: 60,
@@ -20,16 +20,6 @@ export const TAB_BAR_STYLE = {
   elevation: 5,
 };
 
-const NEWS_DATA = [
-  { id: '1', title: 'JavaScript ES2025: Những tính năng mới', date: '5 tháng 11, 2025', imageUrl: 'https://picsum.photos/id/201/400/250', category: 'Công nghệ' },
-  { id: '2', title: 'React Native 0.76: Hooks và Navigation nâng cao', date: '3 tháng 11, 2025', imageUrl: 'https://picsum.photos/id/202/400/250', category: 'Công nghệ' },
-  { id: '3', title: 'Spring Boot 3.5.7: Tối ưu REST API', date: '1 tháng 11, 2025', imageUrl: 'https://picsum.photos/id/203/400/250', category: 'Công nghệ' },
-  { id: '4', title: 'AI & ML cho Dev: ChatGPT tích hợp vào workflow', date: '30 tháng 10, 2025', imageUrl: 'https://picsum.photos/id/204/400/250', category: 'Công nghệ' },
-  { id: '5', title: 'Docker & Kubernetes: Tips deploy hiệu quả', date: '28 tháng 10, 2025', imageUrl: 'https://picsum.photos/id/205/400/250', category: 'Công nghệ' },
-  { id: '6', title: 'VS Code Extensions Devs nên biết', date: '25 tháng 10, 2025', imageUrl: 'https://picsum.photos/id/206/400/250', category: 'Công nghệ' },
-];
-
-
 const CATEGORY_COLORS: Record<string, string> = {
   'Công nghệ': '#E0E7FF',
   'Văn hóa': '#FFE0E0',
@@ -39,27 +29,44 @@ const CATEGORY_COLORS: Record<string, string> = {
   'Khoa học': '#F0E0FF',
 };
 
+interface NewsItem {
+  _id: string;
+  title: string;
+  date: string;
+  imageUrl: string;
+  category: string;
+}
+
 interface NewsCardProps {
   title: string;
   date: string;
   imageUrl: string;
   category: string;
   onPress?: () => void;
+  style?: any;
 }
-
-const NewsCard: React.FC<NewsCardProps> = ({ title, date, imageUrl, category, onPress }) => (
+const NewsCard: React.FC<NewsCardProps> = ({ title, date, imageUrl, category, onPress, style }) => (
   <Pressable
     onPress={onPress}
     style={({ pressed }) => [
       styles.card,
+      style,
       pressed && { opacity: 0.8, transform: [{ scale: 0.97 }] },
     ]}
   >
-    <Image source={{ uri: imageUrl }} style={styles.image} />
-    <View style={styles.cardContent}>
-      <View style={[styles.categoryBadge, { backgroundColor: CATEGORY_COLORS[category] || '#E0E7FF' }]} >
+    <View style={{ position: 'relative' }}>
+      <Image source={{ uri: imageUrl }} style={styles.image} />
+      <View style={[styles.categoryBadge, {
+        backgroundColor: CATEGORY_COLORS[category] || '#E0E7FF',
+        position: 'absolute',
+        top: 8,
+        left: 8,
+      }]}>
         <Text style={styles.categoryText}>{category}</Text>
       </View>
+    </View>
+
+    <View style={styles.cardContent}>
       <Text style={styles.title} numberOfLines={2}>{title}</Text>
       <Text style={styles.date}>{date}</Text>
     </View>
@@ -69,6 +76,10 @@ const NewsCard: React.FC<NewsCardProps> = ({ title, date, imageUrl, category, on
 export default function TinTuc() {
   const navigation = useNavigation();
   const router = useRouter();
+  const [newsData, setNewsData] = useState<NewsItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState('Tất cả');
 
   const handleGoBack = () => router.back();
 
@@ -90,28 +101,100 @@ export default function TinTuc() {
     };
   }, [navigation]);
 
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const res = await fetch('http://192.168.0.102:5000/news');
+        const data: NewsItem[] = await res.json();
+        setNewsData(data);
+
+        const uniqueCategories = Array.from(new Set(data.map(item => item.category)));
+        setCategories(['Tất cả', ...uniqueCategories]);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNews();
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+        <ActivityIndicator size="large" color="#4F46E5" />
+      </View>
+    );
+  }
+
+  const filteredNews = selectedCategory === 'Tất cả'
+    ? newsData
+    : newsData.filter(n => n.category === selectedCategory);
+
   return (
     <View style={styles.container}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ flexDirection: 'row', paddingHorizontal: 20 }}
+      >
+
+        {categories.map(cat => (
+          <Pressable
+            key={cat}
+            onPress={() => setSelectedCategory(cat)}
+            style={{
+              minWidth: 80,
+              paddingHorizontal: 12,
+              paddingVertical: 8,
+              borderRadius: 12,
+              marginRight: 12,
+              flexShrink: 0,
+              backgroundColor: selectedCategory === cat ? '#4F46E5' : '#E5E7EB',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginVertical: 5,
+              height: 36,
+            }}
+          >
+            <Text
+              style={{
+                color: selectedCategory === cat ? '#fff' : '#111827',
+                fontWeight: '600',
+                textAlign: 'center',
+              }}
+            >
+              {cat}
+            </Text>
+          </Pressable>
+        ))}
+      </ScrollView>
+
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: 20 }}>
         <View style={styles.newsGrid}>
-          {NEWS_DATA.map(news => (
+          {filteredNews.map((news, index) => (
             <NewsCard
-              key={news.id}
+              key={news._id}
               {...news}
+              style={{
+
+              }}
               onPress={() =>
                 router.push({
                   pathname: './tintuc-detail',
-                  params: { newsItem: JSON.stringify(news) },
+                  params: { id: news._id },
                 })
               }
             />
-
           ))}
         </View>
       </ScrollView>
+
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F9FAFB' },
@@ -134,8 +217,27 @@ const styles = StyleSheet.create({
   },
   image: { width: '100%', height: 150, backgroundColor: '#E5E7EB' },
   cardContent: { padding: 12 },
-  categoryBadge: { paddingHorizontal: 12, paddingVertical: 4, borderRadius: 12, alignSelf: 'flex-start', marginBottom: 8 },
+  categoryBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
+
   categoryText: { fontSize: 12, fontWeight: '700', color: '#4F46E5' },
+  categoryButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 20,
+    marginRight: 10,
+    flexShrink: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 5,
+  },
+  categoryButtonText: {
+    fontWeight: '600',
+    textAlign: 'center',
+  },
   title: { fontSize: 16, fontWeight: '700', color: '#111827', marginBottom: 4, lineHeight: 22 },
   date: { fontSize: 12, color: '#9CA3AF', fontWeight: '500' },
 });

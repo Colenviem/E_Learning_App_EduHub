@@ -56,7 +56,7 @@ export const useChat = () => {
           });
           setTimeout(() => {
             addMessage({ id: uuidv4(), text: 'Cảm ơn bạn! Hãy bắt đầu đến khóa học ngay thôi nào!', sender: 'bot' });
-            setTimeout(() => router.replace('/login'), 2000);
+            setTimeout(() => router.replace('/login'), 4000);
           }, 800);
         }
         return;
@@ -106,7 +106,7 @@ export const useChat = () => {
                 [
                   {
                     text: 'Xác nhận',
-                    onPress: time => {
+                    onPress: (time : any) => {
                       setMessages(prev =>
                         prev.map(m => (m.showTimePicker ? { ...m, showTimePicker: false } : m))
                       );

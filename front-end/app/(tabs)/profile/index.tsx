@@ -1,7 +1,7 @@
 import { Feather, FontAwesome5 } from '@expo/vector-icons';
 import { router, Stack } from 'expo-router';
-import React, { ReactNode } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { ReactNode, useEffect, useState } from 'react';
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const MAU = {
     nen: '#F7F7F7',
@@ -12,29 +12,36 @@ const MAU = {
     accent: '#5E72E4',
 };
 
-type TheThongKeProps = {
-    giaTri: string;
-    nhan: string;
-};
+const USER_ID = 'USER001';
 
-type ThucNangItemProps = {
-    icon: ReactNode;
-    tieuDe: string;
-    phuDe?: string;
-    onPress: () => void;
-};
+type TheThongKeProps = { giaTri: string; nhan: string };
+type ThucNangItemProps = { icon: ReactNode; tieuDe: string; phuDe?: string; onPress: () => void };
+
 const TheThongKe = ({ giaTri, nhan }: TheThongKeProps) => (
     <View style={profileStyles.theThongKe}>
         <Text style={profileStyles.giaTri}>{giaTri}</Text>
         <Text style={profileStyles.nhan}>{nhan}</Text>
     </View>
 );
+const formatMinutes = (totalMinutes: number) => {
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    if (hours > 0) return `${hours} giờ ${minutes} phút`;
+    return `${minutes} phút`;
+};
+const formatDays = (totalDays: number) => {
+    const months = Math.floor(totalDays / 30);
+    const days = totalDays % 30;
+    let result = '';
+    if (months > 0) result += `${months} tháng `;
+    if (days > 0 || months === 0) result += `${days} ngày`;
+    return result;
+};
+
 
 const ThucNangItem = ({ icon, tieuDe, phuDe, onPress }: ThucNangItemProps) => (
     <TouchableOpacity style={profileStyles.itemThucNang} onPress={onPress}>
-        <View style={profileStyles.iconThucNang}>
-            {icon}
-        </View>
+        <View style={profileStyles.iconThucNang}>{icon}</View>
         <View style={profileStyles.textThucNang}>
             <Text style={profileStyles.tieuDe}>{tieuDe}</Text>
             {phuDe && <Text style={profileStyles.phuDe}>{phuDe}</Text>}
@@ -44,34 +51,61 @@ const ThucNangItem = ({ icon, tieuDe, phuDe, onPress }: ThucNangItemProps) => (
 );
 
 export default function ManHinhProfile() {
+    const [user, setUser] = useState<any>(null);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const res = await fetch(`http://192.168.0.102:5000/users/${USER_ID}`);
+                const data = await res.json();
+                setUser(data);
+            } catch (err) {
+                console.error('Lỗi fetch user:', err);
+            }
+        };
+        fetchUser();
+    }, []);
+
     return (
         <SafeAreaView style={styles.safeArea}>
             <Stack.Screen options={{ headerShown: false }} />
-            <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+            <ScrollView contentContainerStyle={styles.scrollContent}>
 
-                <View style={profileStyles.headerNen}>
+                <View style={[profileStyles.headerNen, { backgroundColor: user?.backgroundColor || MAU.headerBg }]}>
                     <View style={profileStyles.headerIcons}>
-                        <TouchableOpacity onPress={() => { router.push('/profile/settings') }}>
+                        <TouchableOpacity onPress={() => router.push('/profile/settings')}>
                             <Feather name="settings" size={24} color={MAU.chuChinh} />
                         </TouchableOpacity>
                         <View style={profileStyles.headerPhai}>
-                            <TouchableOpacity onPress={() => { router.push('/(tabs)/profile/edit') }}>
+                            <TouchableOpacity onPress={() => router.push('/(tabs)/profile/edit')}>
                                 <Feather name="edit" size={20} color={MAU.chuChinh} style={{ marginRight: 15 }} />
                             </TouchableOpacity>
-                            <Text style={profileStyles.lua}>🔥 0</Text>
+                            <Text style={profileStyles.lua}>🔥 {user?.streak || 0}</Text>
                         </View>
                     </View>
 
                     <View style={profileStyles.userInfo}>
-                        <Text style={profileStyles.tenNguoiDung}>Le Hoang Anh</Text>
-                        <Text style={profileStyles.avatar}></Text>
+                        <Text style={profileStyles.tenNguoiDung}>{user?.name || 'Người dùng'}</Text>
+                        {user?.avatarUrl ? (
+                            <Image source={{ uri: user.avatarUrl }} style={profileStyles.avatarImage} />
+                        ) : (
+                            <View style={profileStyles.avatar} />
+                        )}
                     </View>
                 </View>
 
                 <View style={profileStyles.khuVucThongKe}>
-                    <TheThongKe giaTri="3" nhan="Bài học hoàn thành" />
-                    <TheThongKe giaTri="45 phút" nhan="Thời gian thực hành" />
+                    <TheThongKe
+                        giaTri={(user?.coursesInProgress?.length || 0).toString()}
+                        nhan="Bài học hoàn thành"
+                    />
+                    <TheThongKe
+                        giaTri={formatMinutes(user?.totalActiveMinutes || 0)}
+                        nhan="Thời gian thực hành"
+                    />
                 </View>
+
+
 
                 <View style={profileStyles.khuVucThucNang}>
                     <ThucNangItem
@@ -112,8 +146,6 @@ export default function ManHinhProfile() {
                         onPress={() => router.push('./profile/assessment')}
                     />
                 </View>
-
-
             </ScrollView>
         </SafeAreaView>
     );
@@ -125,17 +157,18 @@ const styles = StyleSheet.create({
 });
 
 const profileStyles = StyleSheet.create({
-    headerNen: { backgroundColor: MAU.headerBg, paddingHorizontal: 20, paddingBottom: 40, paddingTop: 40, },
+    headerNen: { paddingHorizontal: 20, paddingBottom: 40, paddingTop: 40 },
     headerIcons: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 },
     headerPhai: { flexDirection: 'row', alignItems: 'center' },
     lua: { fontSize: 16, paddingVertical: 4, paddingHorizontal: 8, borderRadius: 12, backgroundColor: MAU.cardBg, color: MAU.chuPhu },
     userInfo: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
     tenNguoiDung: { fontSize: 32, fontWeight: '900', color: MAU.chuChinh },
-    avatar: { width: 60, height: 60, borderRadius: 30, backgroundColor: '#FFEB3B', textAlign: 'center', lineHeight: 60 },
+    avatar: { width: 60, height: 60, borderRadius: 30, backgroundColor: '#FFEB3B' },
+    avatarImage: { width: 60, height: 60, borderRadius: 30, resizeMode: 'cover' },
 
     khuVucThongKe: { flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20, marginTop: -30, marginBottom: 20 },
     theThongKe: { flex: 1, marginHorizontal: 5, backgroundColor: MAU.cardBg, borderRadius: 15, padding: 15, alignItems: 'center', shadowColor: '#000', shadowOpacity: 0.05, shadowRadius: 5, elevation: 2 },
-    giaTri: { fontSize: 24, fontWeight: 'bold', color: MAU.chuChinh },
+    giaTri: { fontSize: 20, fontWeight: 'bold', color: MAU.chuChinh },
     nhan: { fontSize: 14, color: MAU.chuPhu },
 
     khuVucThucNang: { paddingHorizontal: 20 },

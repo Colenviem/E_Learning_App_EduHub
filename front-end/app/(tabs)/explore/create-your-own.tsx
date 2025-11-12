@@ -1,6 +1,8 @@
+import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from "expo-image-picker";
 import { Stack, router } from "expo-router";
 import React, { useState } from "react";
+
 import {
   Alert,
   Image,
@@ -8,13 +10,17 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 export default function CreateYourOwn() {
   const [topic, setTopic] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const SERVER_URL = "http://192.168.0.102:5000/posts";
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -28,26 +34,62 @@ export default function CreateYourOwn() {
     }
   };
 
-  const handleCreate = () => {
+  const takePhoto = async () => {
+    const permission = await ImagePicker.requestCameraPermissionsAsync();
+    if (!permission.granted) {
+      Alert.alert("Không có quyền truy cập camera");
+      return;
+    }
+
+    const result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      quality: 0.7,
+    });
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
+
+
+  const handleCreate = async () => {
     if (!topic.trim() || !content.trim()) {
       Alert.alert("Thiếu thông tin", "Vui lòng nhập chủ đề và nội dung bài viết.");
       return;
     }
 
-    const newPost = {
-      id: Date.now().toString(),
-      topic,
-      content,
-      image,
-      likes: 0,
-      comments: [],
-    };
+    setLoading(true);
 
-    router.push({
-      pathname: "/explore/discussion",
-      params: { post: JSON.stringify(newPost) },
-    });
+    const formData = new FormData();
+    formData.append("topic", topic);
+    formData.append("content", content);
+    if (image) {
+      formData.append("image", {
+        uri: image,
+        type: "image/jpeg",
+        name: "upload.jpg",
+      } as any);
+    }
 
+    try {
+      const res = await fetch(SERVER_URL, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) throw new Error("Không thể tạo bài viết");
+      setTopic("");
+      setContent("");
+      setImage(null);
+
+      Alert.alert("Thành công", "Bài viết đã được tạo!");
+      router.push("/explore/discussion");
+    } catch (err: any) {
+      console.error(err);
+      Alert.alert("Lỗi", err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -73,12 +115,24 @@ export default function CreateYourOwn() {
 
       {image && <Image source={{ uri: image }} style={styles.preview} />}
 
-      <TouchableOpacity style={styles.imageButton} onPress={pickImage}>
-        <Text style={styles.imageButtonText}>Chọn ảnh</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonRow}>
+        <TouchableOpacity style={styles.imageButton} onPress={pickImage}>
+          <Ionicons name="image-outline" size={20} color="#5B21B6" style={{ marginRight: 6 }} />
+          <Text style={styles.imageButtonText}>Chọn ảnh</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity style={styles.createButton} onPress={handleCreate}>
-        <Text style={styles.createText}>Đăng bài</Text>
+        <TouchableOpacity style={styles.imageButton} onPress={takePhoto}>
+          <Ionicons name="camera-outline" size={20} color="#5B21B6" style={{ marginRight: 6 }} />
+          <Text style={styles.imageButtonText}>Chụp ảnh</Text>
+        </TouchableOpacity>
+      </View>
+
+      <TouchableOpacity
+        style={[styles.createButton, loading && { opacity: 0.6 }]}
+        onPress={handleCreate}
+        disabled={loading}
+      >
+        <Text style={styles.createText}>{loading ? "Đang tải..." : "Đăng bài"}</Text>
       </TouchableOpacity>
     </ScrollView>
   );
@@ -108,11 +162,18 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginBottom: 12,
   },
+  buttonRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 20,
+  },
   imageButton: {
+    flex: 1,
     backgroundColor: "#EDE9FE",
     padding: 12,
     borderRadius: 10,
-    marginBottom: 20,
+    marginHorizontal: 5,
+    alignItems: "center",
   },
   imageButtonText: {
     color: "#5B21B6",

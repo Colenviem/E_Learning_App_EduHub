@@ -17,9 +17,10 @@ type PostType = {
 };
 
 export default function ExploreScreen() {
- const router = useRouter();
+  const router = useRouter();
   const searchParams = useLocalSearchParams() || {};
   const [posts, setPosts] = useState<PostType[]>([]);
+  const [newsList, setNewsList] = useState<any[]>([]);
 
   useEffect(() => {
     if (searchParams.newPost) {
@@ -27,6 +28,19 @@ export default function ExploreScreen() {
       setPosts(prev => [newPost, ...prev]);
     }
   }, [searchParams.newPost]);
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const res = await fetch('http://192.168.0.102:5000/news');
+        const data = await res.json();
+        setNewsList(data);
+      } catch (err) {
+        console.error('Lỗi fetch news:', err);
+      }
+    };
+    fetchNews();
+  }, []);
 
   return (
     <View style={styles.container}>
