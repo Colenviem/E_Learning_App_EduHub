@@ -1,11 +1,170 @@
 [
     {
-        "_id": "LESSON101",
-        "courseId": "COURSE001", 
+        "_id": "LESSON001",
+        "courseId": "COURSE001",
         "title": "Variables & Data Types",
-        "content": "Text + Code snippet...",
-        "videoUrl": "https://video.com/lesson101.mp4",
-        "quizIds": ["quiz201", "quiz202"],
+        "content": "Trong bài học này, bạn sẽ tìm hiểu về các khái niệm cơ bản trong JavaScript như biến, hằng số và các kiểu dữ liệu cơ bản (string, number, boolean, object, array).",
+        "time": "45 phút",
+        "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/tets_xdl4te.jpg",
+        "numberOfLessons": 4,
+        "lesson_details": [
+            { "_id": "DETAIL10101", "name": "Giới thiệu về biến (Variables)", "time": "10 phút" },
+            { "_id": "DETAIL10102", "name": "Hằng số (Constants) trong JavaScript", "time": "8 phút" },
+            { "_id": "DETAIL10103", "name": "Các kiểu dữ liệu cơ bản (Data Types)", "time": "15 phút" },
+            { "_id": "DETAIL10104", "name": "Thực hành: Viết chương trình tính toán đơn giản", "time": "12 phút" }
+        ],
+        "describe": "Bài học đầu tiên trong khóa học JavaScript cơ bản, giúp bạn nắm vững nền tảng về cách khai báo biến và sử dụng các kiểu dữ liệu.",
         "createdAt": { "$date": "2024-12-31T23:59:59Z" }
+    },
+    {
+        "_id": "LESSON002",
+        "courseId": "COURSE001", 
+        "title": "Operators & Expressions",
+        "content": "Tìm hiểu các toán tử trong JavaScript như số học, gán, so sánh, logic và cách sử dụng biểu thức để xử lý dữ liệu.",
+        "time": "40 phút",
+        "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/js2_xdl4te.jpg",
+        "numberOfLessons": 3,
+        "lesson_details": [
+            { "_id": "DETAIL10201", "name": "Toán tử số học và gán", "time": "15 phút" },
+            { "_id": "DETAIL10202", "name": "Toán tử so sánh và logic", "time": "15 phút" },
+            { "_id": "DETAIL10203", "name": "Thực hành với biểu thức", "time": "10 phút" }
+        ],
+        "describe": "Giúp bạn hiểu rõ cách sử dụng toán tử và biểu thức trong xử lý logic của JavaScript.",
+        "createdAt": { "$date": "2025-01-01T00:00:00Z" }
+    },
+    {
+        "_id": "LESSON003",
+        "courseId": "COURSE001", 
+        "title": "Conditional Statements",
+        "content": "Học cách điều khiển luồng chương trình với các câu lệnh điều kiện như if, else if, else và switch.",
+        "time": "50 phút",
+        "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/js3_xdl4te.jpg",
+        "numberOfLessons": 4,
+        "lesson_details": [
+            { "_id": "DETAIL10301", "name": "Câu lệnh if và else", "time": "15 phút" },
+            { "_id": "DETAIL10302", "name": "Câu lệnh else if và switch", "time": "15 phút" },
+            { "_id": "DETAIL10303", "name": "Toán tử điều kiện", "time": "10 phút" },
+            { "_id": "DETAIL10304", "name": "Thực hành: So sánh giá trị", "time": "10 phút" }
+        ],
+        "describe": "Giúp bạn điều khiển luồng chương trình hiệu quả dựa trên các điều kiện khác nhau.",
+        "createdAt": { "$date": "2025-01-02T00:00:00Z" }
+    },
+    {
+        "_id": "LESSON004",
+        "courseId": "COURSE001", 
+        "title": "Loops & Iteration",
+        "content": "Học cách lặp lại các thao tác bằng for, while, do-while và hiểu cách sử dụng vòng lặp hiệu quả.",
+        "time": "55 phút",
+        "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/js4_xdl4te.jpg",
+        "numberOfLessons": 4,
+        "lesson_details": [
+            { "_id": "DETAIL10401", "name": "Vòng lặp for", "time": "15 phút" },
+            { "_id": "DETAIL10402", "name": "Vòng lặp while và do-while", "time": "15 phút" },
+            { "_id": "DETAIL10403", "name": "Vòng lặp lồng nhau", "time": "15 phút" },
+            { "_id": "DETAIL10404", "name": "Thực hành: Tạo bảng nhân", "time": "10 phút" }
+        ],
+        "describe": "Hiểu cách lặp lại các thao tác trong JavaScript và áp dụng vào các tình huống thực tế.",
+        "createdAt": { "$date": "2025-01-03T00:00:00Z" }
+    },
+    {
+        "_id": "LESSON005",
+        "courseId": "COURSE001", 
+        "title": "Functions & Scope",
+        "content": "Tìm hiểu về hàm, cách khai báo, tham số, giá trị trả về và phạm vi biến trong JavaScript.",
+        "time": "50 phút",
+        "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/js5_xdl4te.jpg",
+        "numberOfLessons": 4,
+        "lesson_details": [
+            { "_id": "DETAIL10501", "name": "Khai báo hàm", "time": "10 phút" },
+            { "_id": "DETAIL10502", "name": "Tham số và giá trị trả về", "time": "15 phút" },
+            { "_id": "DETAIL10503", "name": "Phạm vi biến", "time": "15 phút" },
+            { "_id": "DETAIL10504", "name": "Thực hành: Hàm tính toán", "time": "10 phút" }
+        ],
+        "describe": "Giúp bạn sử dụng hàm hiệu quả, quản lý phạm vi biến và tái sử dụng mã trong JavaScript.",
+        "createdAt": { "$date": "2025-01-04T00:00:00Z" }
+    },
+    {
+        "_id": "LESSON006",
+        "courseId": "COURSE002", 
+        "title": "Arrays & Objects",
+        "content": "Học cách làm việc với mảng và đối tượng trong JavaScript, bao gồm khai báo, truy cập và thao tác dữ liệu.",
+        "time": "60 phút",
+        "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/js6_xdl4te.jpg",
+        "numberOfLessons": 4,
+        "lesson_details": [
+            { "_id": "DETAIL10601", "name": "Mảng trong JavaScript", "time": "15 phút" },
+            { "_id": "DETAIL10602", "name": "Đối tượng trong JavaScript", "time": "15 phút" },
+            { "_id": "DETAIL10603", "name": "Truy cập và thao tác dữ liệu", "time": "15 phút" },
+            { "_id": "DETAIL10604", "name": "Thực hành: Quản lý danh sách", "time": "15 phút" }
+        ],
+        "describe": "Giúp bạn làm chủ cách quản lý dữ liệu phức tạp bằng mảng và đối tượng.",
+        "createdAt": { "$date": "2025-01-05T00:00:00Z" }
+    },
+    {
+        "_id": "LESSON007",
+        "courseId": "COURSE002", 
+        "title": "DOM Manipulation",
+        "content": "Học cách thao tác DOM trong JavaScript để thay đổi nội dung, thêm/xóa phần tử và quản lý sự kiện.",
+        "time": "55 phút",
+        "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/js7_xdl4te.jpg",
+        "numberOfLessons": 4,
+        "lesson_details": [
+            { "_id": "DETAIL10701", "name": "Giới thiệu DOM", "time": "10 phút" },
+            { "_id": "DETAIL10702", "name": "Thao tác nội dung và phần tử", "time": "15 phút" },
+            { "_id": "DETAIL10703", "name": "Quản lý sự kiện", "time": "15 phút" },
+            { "_id": "DETAIL10704", "name": "Thực hành: Tạo ứng dụng To-Do", "time": "15 phút" }
+        ],
+        "describe": "Giúp bạn hiểu và thao tác DOM để tạo giao diện web động và tương tác.",
+        "createdAt": { "$date": "2025-01-06T00:00:00Z" }
+    },
+    {
+        "_id": "LESSON008",
+        "courseId": "COURSE003", 
+        "title": "Events & Event Listeners",
+        "content": "Tìm hiểu cơ chế sự kiện trong JavaScript và cách lắng nghe các hành vi của người dùng.",
+        "time": "50 phút",
+        "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/js8_xdl4te.jpg",
+        "numberOfLessons": 3,
+        "lesson_details": [
+            { "_id": "DETAIL10801", "name": "Sự kiện cơ bản", "time": "15 phút" },
+            { "_id": "DETAIL10802", "name": "Event Listeners", "time": "15 phút" },
+            { "_id": "DETAIL10803", "name": "Thực hành: Bắt sự kiện click", "time": "20 phút" }
+        ],
+        "describe": "Hiểu cách JavaScript xử lý sự kiện và tương tác với người dùng.",
+        "createdAt": { "$date": "2025-01-07T00:00:00Z" }
+    },
+    {
+        "_id": "LESSON009",
+        "courseId": "COURSE004", 
+        "title": "Advanced Functions & Closures",
+        "content": "Khám phá các khái niệm nâng cao về hàm như closures, callback và arrow function trong JavaScript.",
+        "time": "60 phút",
+        "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/js9_xdl4te.jpg",
+        "numberOfLessons": 4,
+        "lesson_details": [
+            { "_id": "DETAIL10901", "name": "Callback Functions", "time": "15 phút" },
+            { "_id": "DETAIL10902", "name": "Arrow Functions", "time": "15 phút" },
+            { "_id": "DETAIL10903", "name": "Closures", "time": "15 phút" },
+            { "_id": "DETAIL10904", "name": "Thực hành nâng cao", "time": "15 phút" }
+        ],
+        "describe": "Hiểu sâu về các hàm nâng cao để viết code hiệu quả và tối ưu.",
+        "createdAt": { "$date": "2025-01-08T00:00:00Z" }
+    },
+    {
+        "_id": "LESSON010",
+        "courseId": "COURSE005", 
+        "title": "Asynchronous JavaScript",
+        "content": "Tìm hiểu về lập trình bất đồng bộ trong JavaScript với Promise, async/await và cách xử lý HTTP request.",
+        "time": "65 phút",
+        "image": "https://res.cloudinary.com/db8tb8tzi/image/upload/v1762862477/js10_xdl4te.jpg",
+        "numberOfLessons": 4,
+        "lesson_details": [
+            { "_id": "DETAIL11001", "name": "Promises", "time": "15 phút" },
+            { "_id": "DETAIL11002", "name": "Async/Await", "time": "20 phút" },
+            { "_id": "DETAIL11003", "name": "Fetch API", "time": "15 phút" },
+            { "_id": "DETAIL11004", "name": "Thực hành: Gọi API", "time": "15 phút" }
+        ],
+        "describe": "Giúp bạn làm chủ lập trình bất đồng bộ và tương tác với server.",
+        "createdAt": { "$date": "2025-01-09T00:00:00Z" }
     }
 ]

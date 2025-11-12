@@ -1,20 +1,30 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
-import { Animated, StyleSheet, Text, View } from 'react-native';
-import { borderRadius, colors, SCREEN_CONSTANTS, spacing, typography } from '../../constants/theme';
+import { Animated, Dimensions, StyleSheet, Text, View } from 'react-native';
+import { borderRadius, colors, spacing, typography } from '../../constants/theme';
 import Course from '../Course';
 
 interface CourseItem {
-  id: string;
-  name: string;
-  image: any;
+  _id: string;
+  title: string;
+  image: string;
   rating: number;
-  reviews: number;
+  numberOfParticipants: number;
+  numberOfLessons: number;
+  time: string;
+  price?: number;
+  discount?: number;
 }
 
 interface Props {
   courses: CourseItem[];
 }
+
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const NUM_COLUMNS = 2; 
+const GAP = 12;
+const PADDING_HORIZONTAL = spacing.md * 2;
+const CARD_WIDTH = (SCREEN_WIDTH - PADDING_HORIZONTAL - GAP) / NUM_COLUMNS;
 
 export default function CoursesGrid({ courses }: Props) {
   return (
@@ -30,13 +40,9 @@ export default function CoursesGrid({ courses }: Props) {
 
       <View style={styles.coursesGrid}>
         {courses.map((item) => (
-          <Animated.View key={item.id} style={styles.courseCardWrapper}>
+          <Animated.View key={item._id} style={[styles.courseCardWrapper, { width: CARD_WIDTH }]}>
             <Course
-              id={item.id}
-              name={item.name}
-              imageUrl={item.image}
-              rating={item.rating}
-              reviews={item.reviews}
+              item={item}
             />
           </Animated.View>
         ))}
@@ -86,11 +92,11 @@ const styles = StyleSheet.create({
   coursesGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    justifyContent: 'space-between',
     paddingHorizontal: spacing.md,
-    gap: spacing.sm,
   },
   courseCardWrapper: {
-    width: SCREEN_CONSTANTS.COURSE_CARD_WIDTH,
+    marginBottom: 4,
   },
   emptyContainer: {
     alignItems: 'center',

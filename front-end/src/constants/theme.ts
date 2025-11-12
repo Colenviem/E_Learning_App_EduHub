@@ -12,6 +12,7 @@ export const spacing = {
 };
 
 export const colors = {
+  primary: '#7C3AED',
   primaryBlue: '#007BFF',
   secondaryAccent: '#5F54E7',
   background: '#FFFFFF',

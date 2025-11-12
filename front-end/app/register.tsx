@@ -2,6 +2,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
+  ActivityIndicator,
   Alert,
   Image,
   KeyboardAvoidingView,
@@ -14,24 +15,58 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import axios from 'axios';
+
+const API_ACCOUNT = "http://192.168.2.6:5000/accounts";
 
 export default function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleRegister = () => {
-    if (!name || !email || !password || !confirmPassword) {
-      Alert.alert('Lỗi', 'Vui lòng điền đầy đủ thông tin');
+  const [nameError, setNameError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [serverError, setServerError] = useState('');
+
+  const [sending, setSending] = useState(false);
+
+  const sendOtp = async () => {
+    // Reset lỗi
+    setEmailError('');
+    if (!email) { setEmailError('Nhập email'); return; }
+
+    // Validate password match
+    if (!name || !password || !confirmPassword) {
+      Alert.alert('Vui lòng nhập đầy đủ thông tin trước khi gửi OTP');
       return;
     }
     if (password !== confirmPassword) {
-      Alert.alert('Lỗi', 'Mật khẩu không khớp');
+      setConfirmPasswordError('Mật khẩu không khớp');
       return;
     }
-    Alert.alert('Thành công', 'Đăng ký thành công!');
-    router.replace('/login');
+
+    setSending(true);
+    try {
+      const res = await axios.post(`${API_ACCOUNT}/send-otp`, { email, type: 'register' });
+      if (res.data.success) {
+        Alert.alert('Đã gửi OTP', 'Kiểm tra email để nhận mã OTP');
+        // 👉 Chuyển sang trang verify-otp, truyền name/email/password
+        router.push({
+          pathname: '/verify-otp',
+          params: { name, email, password }
+        });
+      } else {
+        setEmailError(res.data.message || 'Không thể gửi mã');
+      }
+    } catch (err: any) {
+      setEmailError(err.response?.data?.message || 'Lỗi gửi mã');
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -53,6 +88,8 @@ export default function Register() {
               value={name}
               onChangeText={setName}
             />
+            {nameError ? <Text style={styles.errorText}>{nameError}</Text> : null}
+
             <TextInput
               style={styles.input}
               placeholder="Email"
@@ -62,6 +99,8 @@ export default function Register() {
               value={email}
               onChangeText={setEmail}
             />
+            {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
+
             <TextInput
               style={styles.input}
               placeholder="Mật khẩu"
@@ -70,6 +109,8 @@ export default function Register() {
               value={password}
               onChangeText={setPassword}
             />
+            {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
+
             <TextInput
               style={styles.input}
               placeholder="Xác nhận mật khẩu"
@@ -78,31 +119,16 @@ export default function Register() {
               value={confirmPassword}
               onChangeText={setConfirmPassword}
             />
+            {confirmPasswordError ? <Text style={styles.errorText}>{confirmPasswordError}</Text> : null}
 
-            <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
-              <Text style={styles.registerButtonText}>Đăng ký</Text>
-            </TouchableOpacity>
+            {serverError ? <Text style={styles.errorText}>{serverError}</Text> : null}
 
-            <Text style={styles.orText}>HOẶC đăng ký bằng</Text>
-
-            <View style={styles.socialGroup}>
-              <TouchableOpacity
-                style={[styles.socialButton, { backgroundColor: '#1877F2' }]}
-                onPress={() => alert('Register with Facebook')}
-              >
-                <FontAwesome name="facebook" size={24} color="#fff" />
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={[styles.socialButton, { backgroundColor: '#DB4437' }]}
-                onPress={() => alert('Register with Google')}
-              >
-                <FontAwesome name="google" size={24} color="#fff" />
-              </TouchableOpacity>
-            </View>
-
-            <TouchableOpacity onPress={() => router.replace('/login')} style={styles.loginLink}>
-              <Text style={styles.loginLinkText}>Đã có tài khoản? Đăng nhập</Text>
+            <TouchableOpacity
+              style={[styles.registerButton, sending && { opacity: 0.7 }]}
+              onPress={sendOtp}
+              disabled={sending}
+            >
+              {sending ? <ActivityIndicator color="#fff" /> : <Text style={styles.registerButtonText}>Gửi OTP</Text>}
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -152,4 +178,5 @@ const styles = StyleSheet.create({
   },
   loginLink: { marginTop: 12, alignItems: 'center' },
   loginLinkText: { color: '#6C63FF', fontWeight: '600' },
+  errorText: { color: 'red', marginBottom: 8, marginLeft: 10, alignSelf: 'flex-start' }
 });
