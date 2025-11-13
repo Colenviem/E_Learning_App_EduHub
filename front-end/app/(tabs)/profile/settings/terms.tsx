@@ -1,7 +1,16 @@
 import { Stack } from 'expo-router';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useTheme } from '../../../_layout';
 
 const TermsScreen = () => {
+  const { isDarkMode } = useTheme();
+  const colors = {
+    background: isDarkMode ? '#121212' : '#F7F7F7',
+    text: isDarkMode ? '#FFF' : '#333',
+    subText: isDarkMode ? '#CCC' : '#555',
+    accent: '#A78BFA',
+  };
+
   const sections = [
     {
       title: "1. Giới thiệu",
@@ -36,17 +45,19 @@ const TermsScreen = () => {
   ];
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
-      <Stack.Screen options={{ title: "Điều khoản & Bảo mật", 
+    <ScrollView style={[styles.container, { backgroundColor: colors.background }]} contentContainerStyle={{ paddingBottom: 40 }}>
+      <Stack.Screen options={{ 
+        title: "Điều khoản & Bảo mật",
         headerTitleAlign: "center",
-        headerStyle: { backgroundColor: '#A78BFA' },
+        headerStyle: { backgroundColor: colors.accent },
         headerTintColor: "#FFF",
         headerTitleStyle: { fontWeight: "700" },
-       }} />
+      }} />
+
       {sections.map((section, index) => (
         <View key={index} style={styles.section}>
-          <Text style={styles.title}>{section.title}</Text>
-          <Text style={styles.content}>{section.content}</Text>
+          <Text style={[styles.title, { color: colors.text }]}>{section.title}</Text>
+          <Text style={[styles.content, { color: colors.subText }]}>{section.content}</Text>
         </View>
       ))}
     </ScrollView>
@@ -54,10 +65,10 @@ const TermsScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#F7F7F7" },
-  section: { marginBottom: 20, padding: 10, },
-  title: { fontSize: 16, fontWeight: "700", color: "#333", marginBottom: 6 },
-  content: { fontSize: 14, lineHeight: 20, color: "#555" },
+  container: { flex: 1 },
+  section: { marginBottom: 20, padding: 10 },
+  title: { fontSize: 16, fontWeight: "700", marginBottom: 6 },
+  content: { fontSize: 14, lineHeight: 20 },
 });
 
 export default TermsScreen;

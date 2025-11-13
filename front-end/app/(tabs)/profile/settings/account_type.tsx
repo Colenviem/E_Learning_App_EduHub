@@ -1,79 +1,96 @@
 import { Feather } from '@expo/vector-icons';
 import { Stack, useRouter } from 'expo-router';
-import React, { useState } from 'react';
-import { Alert, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Alert, FlatList, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useTheme } from '../../../_layout'; // nhớ đường dẫn tới _layout.tsx
+
+const API_BASE_URL = 'http://192.168.0.102:5000';
+const USER_ID = 'USER010';
 
 export default function AccountTypeScreen() {
   const router = useRouter();
+  const { isDarkMode } = useTheme(); // lấy global dark mode
+  const colors = {
+    background: isDarkMode ? '#121212' : '#F7F7F7',
+    card: isDarkMode ? '#1E1E1E' : '#FFF',
+    text: isDarkMode ? '#FFF' : '#333',
+    subText: isDarkMode ? '#CCC' : '#555',
+    accent: '#A78BFA',
+    success: '#48BB78',
+  };
 
   const [currentPlan, setCurrentPlan] = useState('Cơ bản');
+  const [selectedPlan, setSelectedPlan] = useState<any>(null);
+  const [modalVisible, setModalVisible] = useState(false);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/users/${USER_ID}`);
+        if (!res.ok) throw new Error('Lấy dữ liệu thất bại');
+        const data = await res.json();
+        setCurrentPlan(data.preferences?.account_type || 'Cơ bản');
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchUser();
+  }, []);
 
   const plans = [
-    {
-      id: '1',
-      name: 'Cơ bản',
-      price: 'Miễn phí',
-      features: ['Truy cập khóa học miễn phí', 'Giới hạn bài học mỗi ngày', 'Không có thống kê nâng cao'],
-      icon: 'user',
-      color: '#A78BFA',
-    },
-    {
-      id: '2',
-      name: 'Premium',
-      price: '79.000đ / tháng',
-      features: ['Truy cập toàn bộ khóa học', 'Lưu tiến độ học tập', 'Thống kê kỹ năng chi tiết'],
-      icon: 'star',
-      color: '#A78BFA',
-    },
-    {
-      id: '3',
-      name: 'Pro',
-      price: '129.000đ / tháng',
-      features: ['Toàn bộ tính năng Premium', 'AI Mentor hướng dẫn trực tiếp', 'Bài tập thử thách nâng cao'],
-      icon: 'award',
-      color: '#A78BFA',
-    },
+    { id: '1', name: 'Cơ bản', price: 'Miễn phí', features: ['Truy cập khóa học miễn phí'], icon: 'user', color: colors.accent },
+    { id: '2', name: 'Premium', price: '79.000đ / tháng', features: ['Truy cập toàn bộ khóa học'], icon: 'star', color: colors.accent },
+    { id: '3', name: 'Pro', price: '129.000đ / tháng', features: ['Toàn bộ tính năng Premium'], icon: 'award', color: colors.accent },
   ];
 
-  const handleUpgrade = (plan : any) => {
+  const handlePressUpgrade = (plan: any) => {
     if (plan.name === currentPlan) {
       Alert.alert('Thông báo', `Bạn đang sử dụng gói ${plan.name}.`);
     } else {
-      setCurrentPlan(plan.name);
-      Alert.alert('Thành công', `Đã nâng cấp lên gói ${plan.name}!`);
+      setSelectedPlan(plan);
+      setModalVisible(true);
     }
   };
 
-  const renderPlan = ({ item } : any) => (
-    <View style={[styles.planCard, { borderColor: item.color }]}>
+  const confirmUpgrade = async () => {
+    if (!selectedPlan) return;
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/users/${USER_ID}/account_type`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ account_type: selectedPlan.name }),
+      });
+      if (!res.ok) throw new Error('Cập nhật thất bại');
+
+      setCurrentPlan(selectedPlan.name);
+      setModalVisible(false);
+      Alert.alert('Thành công', `Bạn đã nâng cấp lên gói ${selectedPlan.name}`);
+    } catch (err) {
+      console.error(err);
+      Alert.alert('Lỗi', 'Không thể nâng cấp, thử lại sau.');
+    }
+  };
+
+  const renderPlan = ({ item }: any) => (
+    <View style={[styles.planCard, { borderColor: item.color, backgroundColor: colors.card }]}>
       <View style={styles.planHeader}>
         <Feather name={item.icon} size={22} color={item.color} />
         <Text style={[styles.planName, { color: item.color }]}>{item.name}</Text>
       </View>
-
-      <Text style={styles.planPrice}>{item.price}</Text>
-
-      {item.features.map((f : any, idx : any) => (
+      <Text style={[styles.planPrice, { color: colors.subText }]}>{item.price}</Text>
+      {item.features.map((f: any, idx: number) => (
         <View key={idx} style={styles.featureRow}>
-          <Feather name="check" size={16} color="#48BB78" />
-          <Text style={styles.featureText}>{f}</Text>
+          <Feather name="check" size={16} color={colors.success} />
+          <Text style={[styles.featureText, { color: colors.subText }]}>{f}</Text>
         </View>
       ))}
-
       <TouchableOpacity
-        style={[
-          styles.upgradeBtn,
-          { backgroundColor: item.name === currentPlan ? '#E2E8F0' : item.color },
-        ]}
-        onPress={() => handleUpgrade(item)}
+        style={[styles.upgradeBtn, { backgroundColor: item.name === currentPlan ? '#E2E8F0' : item.color }]}
+        onPress={() => handlePressUpgrade(item)}
         disabled={item.name === currentPlan}
       >
-        <Text
-          style={[
-            styles.upgradeText,
-            { color: item.name === currentPlan ? '#666' : '#FFF' },
-          ]}
-        >
+        <Text style={[styles.upgradeText, { color: item.name === currentPlan ? '#666' : '#FFF' }]}>
           {item.name === currentPlan ? 'Đang sử dụng' : 'Nâng cấp ngay'}
         </Text>
       </TouchableOpacity>
@@ -81,17 +98,16 @@ export default function AccountTypeScreen() {
   );
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
       <Stack.Screen options={{ headerShown: false }} />
-
       <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
-        <Feather name="arrow-left" size={24} color="#333" />
+        <Feather name="arrow-left" size={24} color={colors.text} />
       </TouchableOpacity>
-
-      <Text style={styles.title}>Loại tài khoản</Text>
-
-      <View style={styles.currentPlanBox}>
-        <Text style={styles.currentText}>Gói hiện tại: <Text style={styles.currentPlan}>{currentPlan}</Text></Text>
+      <Text style={[styles.title, { color: colors.text }]}>Loại tài khoản</Text>
+      <View style={[styles.currentPlanBox, { backgroundColor: colors.card }]}>
+        <Text style={[styles.currentText, { color: colors.subText }]}>
+          Gói hiện tại: <Text style={[styles.currentPlan, { color: colors.accent }]}>{currentPlan}</Text>
+        </Text>
       </View>
 
       <FlatList
@@ -101,48 +117,49 @@ export default function AccountTypeScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 100 }}
       />
+
+      <Modal visible={modalVisible} transparent animationType="slide">
+        <View style={styles.modalBackground}>
+          <View style={[styles.modalBox, { backgroundColor: colors.card }]}>
+            <Text style={[styles.modalTitle, { color: colors.text }]}>Xác nhận nâng cấp</Text>
+            <Text style={[styles.modalText, { color: colors.subText }]}>
+              Bạn có muốn nâng cấp lên gói {selectedPlan?.name} với giá {selectedPlan?.price}?
+            </Text>
+            <View style={styles.modalBtns}>
+              <TouchableOpacity style={styles.modalCancel} onPress={() => setModalVisible(false)}>
+                <Text style={{ color: '#333', fontWeight: '600' }}>Hủy</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.modalConfirm, { backgroundColor: colors.accent }]} onPress={confirmUpgrade}>
+                <Text style={{ color: '#FFF', fontWeight: '600' }}>Nâng cấp</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F7F7F7', paddingTop: 30, paddingHorizontal: 20 },
+  container: { flex: 1, paddingTop: 30, paddingHorizontal: 20 },
   backBtn: { marginBottom: 10 },
-  title: { fontSize: 22, fontWeight: '700', marginVertical: 10, color: '#333' },
-  currentPlanBox: {
-    backgroundColor: '#FFF',
-    borderRadius: 10,
-    padding: 15,
-    marginBottom: 20,
-    shadowColor: '#000',
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  currentText: { fontSize: 16, color: '#555' },
-  currentPlan: { fontWeight: '700', color: '#A78BFA' },
-
-  planCard: {
-    backgroundColor: '#FFF',
-    borderWidth: 1.5,
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 18,
-    shadowColor: '#000',
-    shadowOpacity: 0.05,
-    shadowRadius: 5,
-    elevation: 2,
-  },
+  title: { fontSize: 22, fontWeight: '700', marginVertical: 10 },
+  currentPlanBox: { borderRadius: 10, padding: 15, marginBottom: 20, shadowColor: '#000', shadowOpacity: 0.05, shadowRadius: 4, elevation: 2 },
+  currentText: { fontSize: 16 },
+  currentPlan: { fontWeight: '700' },
+  planCard: { borderWidth: 1.5, borderRadius: 16, padding: 20, marginBottom: 18, shadowColor: '#000', shadowOpacity: 0.05, shadowRadius: 5, elevation: 2 },
   planHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 10 },
   planName: { fontSize: 18, fontWeight: '700', marginLeft: 10 },
-  planPrice: { fontSize: 15, fontWeight: '500', color: '#666', marginBottom: 10 },
+  planPrice: { fontSize: 15, fontWeight: '500', marginBottom: 10 },
   featureRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 6 },
-  featureText: { marginLeft: 8, color: '#555', fontSize: 14 },
-  upgradeBtn: {
-    marginTop: 15,
-    paddingVertical: 10,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
+  featureText: { marginLeft: 8, fontSize: 14 },
+  upgradeBtn: { marginTop: 15, paddingVertical: 10, borderRadius: 10, alignItems: 'center' },
   upgradeText: { fontWeight: '700', fontSize: 15 },
+  modalBackground: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.4)' },
+  modalBox: { width: '85%', borderRadius: 12, padding: 20 },
+  modalTitle: { fontSize: 18, fontWeight: '700', marginBottom: 12 },
+  modalText: { fontSize: 16, marginBottom: 20 },
+  modalBtns: { flexDirection: 'row', justifyContent: 'flex-end' },
+  modalCancel: { paddingVertical: 8, paddingHorizontal: 16, marginRight: 10, borderRadius: 8, backgroundColor: '#E2E8F0' },
+  modalConfirm: { paddingVertical: 8, paddingHorizontal: 16, borderRadius: 8 },
 });

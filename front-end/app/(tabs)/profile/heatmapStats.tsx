@@ -1,7 +1,17 @@
 import { Feather } from "@expo/vector-icons";
-import { Stack } from "expo-router";
-import React from "react";
-import { Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+import { useRouter } from "expo-router";
+import React, { useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  Dimensions,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { BarChart } from "react-native-chart-kit";
 
 const screenWidth = Dimensions.get("window").width;
@@ -13,38 +23,95 @@ const MAU = {
   chuChinh: "#1E293B",
   chuPhu: "#64748B",
   accent: "#5E72E4",
-  thanh: "#E2E8F0",
 };
 
+const API_BASE_URL = "http://192.168.0.102:5000";
+
 export default function HeatMapStats() {
-  const labels = ["HTML", "CSS", "JS", "React", "Node"];
-  const data = [80, 70, 60, 50, 40];
+  const router = useRouter();
+  const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const userId = "USER001";
+
+  useEffect(() => {
+    const fetchAll = async () => {
+      try {
+        const [uRes, cRes] = await Promise.all([
+          fetch(`${API_BASE_URL}/users/${userId}`),
+          fetch(`${API_BASE_URL}/courses`),
+        ]);
+
+        const userData = await uRes.json();
+        const coursesData = await cRes.json();
+
+        const courseMap = Object.fromEntries(
+          coursesData.map((course: any) => [course._id, course.title])
+        );
+
+        const merged = userData.coursesInProgress.map((item: any) => ({
+          ...item,
+          title: (courseMap[item.courseId] || item.courseId).replace(/^Learn\s+/i, ""),
+        }));
+
+        setUser({ ...userData, coursesInProgress: merged });
+      } catch (e) {
+        console.error("Lỗi fetch dữ liệu:", e);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAll();
+  }, []);
+
+  if (loading)
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color={MAU.accent} />
+        <Text>Đang tải dữ liệu...</Text>
+      </View>
+    );
+
+  if (!user)
+    return (
+      <View style={styles.loadingContainer}>
+        <Text>Không có dữ liệu người dùng.</Text>
+      </View>
+    );
+
+  const labels = user.coursesInProgress.map((c: any) => c.title);
+  const data = user.coursesInProgress.map((c: any) => Math.round(c.progress * 100));
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <Stack.Screen
-  options={{
-    headerShown: true,
-    title: "Thống kê kỹ năng",
-    headerStyle: { backgroundColor: MAU.headerBg },
-    headerTintColor: "#FFF",
-    headerTitleStyle: { fontWeight: "bold" },
-    headerTitleAlign: "center", 
-  }}
-/>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => router.back()}>
+          <Feather name="chevron-left" size={24} color="#333" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Thống kê lập trình</Text>
+        <View style={{ width: 24 }} />
+      </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        <Text style={styles.title}>📊 Tổng quan kỹ năng lập trình</Text>
+        <View style={styles.userCard}>
+          <Image source={{ uri: user.avatarUrl }} style={styles.avatar} />
+          <View>
+            <Text style={styles.userName}>{user.name}</Text>
+            <Text style={styles.userSubtitle}>
+              🔥 {user.streak} ngày liên tiếp | ⏱ {user.totalActiveMinutes} phút học
+            </Text>
+          </View>
+        </View>
+
+        <Text style={styles.title}>📊 Tiến độ học theo khóa</Text>
 
         <View style={styles.chartCard}>
           <BarChart
-            data={{
-              labels,
-              datasets: [{ data }],
-            }}
+            data={{ labels, datasets: [{ data }] }}
             width={screenWidth - 40}
             height={220}
             fromZero
+            yAxisLabel=""
             yAxisSuffix="%"
             chartConfig={{
               backgroundColor: "#FFFFFF",
@@ -53,11 +120,7 @@ export default function HeatMapStats() {
               decimalPlaces: 0,
               color: (opacity = 1) => `rgba(94, 114, 228, ${opacity})`,
               labelColor: (opacity = 1) => `rgba(100, 116, 139, ${opacity})`,
-              propsForBackgroundLines: {
-                strokeWidth: 1,
-                stroke: "#E2E8F0",
-                strokeDasharray: "0",
-              },
+              propsForBackgroundLines: { strokeWidth: 1, stroke: "#E2E8F0", strokeDasharray: "0" },
             }}
             style={{ borderRadius: 16 }}
           />
@@ -65,20 +128,24 @@ export default function HeatMapStats() {
 
         <View style={styles.infoCards}>
           <View style={styles.infoCard}>
-            <Feather name="check-circle" size={24} color="#48BB78" />
-            <Text style={styles.infoText}>Bài học hoàn thành: <Text style={styles.infoStrong}>3</Text></Text>
+            <Feather name="book-open" size={24} color="#48BB78" />
+            <Text style={styles.infoText}>
+              Số khóa học đang học: <Text style={styles.infoStrong}>{user.coursesInProgress.length}</Text>
+            </Text>
           </View>
           <View style={styles.infoCard}>
-            <Feather name="clock" size={24} color="#F6AD55" />
-            <Text style={styles.infoText}>Thời gian học: <Text style={styles.infoStrong}>45 phút</Text></Text>
+            <Feather name="activity" size={24} color="#F6AD55" />
+            <Text style={styles.infoText}>
+              Chuỗi ngày học: <Text style={styles.infoStrong}>{user.streak} ngày</Text>
+            </Text>
           </View>
         </View>
 
         <View style={styles.summaryCard}>
           <Text style={styles.summaryTitle}>💡 Nhận xét tổng quan</Text>
           <Text style={styles.summaryText}>
-            Bạn đang có nền tảng tốt ở <Text style={styles.highlight}>HTML</Text> và <Text style={styles.highlight}>CSS</Text>,
-            nhưng cần luyện thêm về <Text style={styles.highlight}>JavaScript</Text> và <Text style={styles.highlight}>React</Text> để nâng cao kỹ năng front-end.
+            Bạn đang duy trì học khá đều đặn với {user.streak} ngày liên tiếp và tổng thời gian học{" "}
+            {user.totalActiveMinutes} phút. Hãy cố gắng hoàn thành khóa học để đạt thành tựu mới nhé!
           </Text>
         </View>
       </ScrollView>
@@ -87,16 +154,19 @@ export default function HeatMapStats() {
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: MAU.nen,
+  safeArea: { flex: 1, backgroundColor: MAU.nen },
+  scrollContent: { padding: 20, paddingBottom: 100 },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    backgroundColor: "#fff",
+    borderBottomWidth: 1,
+    borderBottomColor: "#E2E8F0",
   },
-
-  scrollContent: {
-    padding: 20,
-    paddingBottom: 100,
-  },
-
+  headerTitle: { fontSize: 18, fontWeight: "bold", color: "#333", paddingTop: 15,  },
   title: {
     fontSize: 22,
     fontWeight: "700",
@@ -104,7 +174,21 @@ const styles = StyleSheet.create({
     color: MAU.chuChinh,
     textAlign: "center",
   },
-
+  userCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    borderRadius: 15,
+    padding: 15,
+    marginBottom: 20,
+    shadowColor: "#000",
+    shadowOpacity: 0.05,
+    shadowRadius: 5,
+    elevation: 3,
+  },
+  avatar: { width: 60, height: 60, borderRadius: 30, marginRight: 15 },
+  userName: { fontSize: 18, fontWeight: "bold", color: "#333" },
+  userSubtitle: { fontSize: 14, color: "#666", marginTop: 4 },
   chartCard: {
     backgroundColor: MAU.cardBg,
     borderRadius: 20,
@@ -112,17 +196,10 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOpacity: 0.08,
     shadowRadius: 8,
-    shadowOffset: { width: 0, height: 3 },
     elevation: 3,
     marginBottom: 30,
   },
-
-  infoCards: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 25,
-  },
-
+  infoCards: { flexDirection: "row", justifyContent: "space-between", marginBottom: 25 },
   infoCard: {
     flex: 1,
     flexDirection: "row",
@@ -135,22 +212,10 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOpacity: 0.05,
     shadowRadius: 5,
-    shadowOffset: { width: 0, height: 2 },
     elevation: 2,
   },
-
-  infoText: {
-    marginLeft: 10,
-    fontSize: 15,
-    color: MAU.chuPhu,
-    fontWeight: "500",
-  },
-
-  infoStrong: {
-    color: MAU.chuChinh,
-    fontWeight: "700",
-  },
-
+  infoText: { marginLeft: 10, fontSize: 15, color: MAU.chuPhu, fontWeight: "500" },
+  infoStrong: { color: MAU.chuChinh, fontWeight: "700" },
   summaryCard: {
     backgroundColor: "#FFFFFF",
     borderRadius: 20,
@@ -158,28 +223,11 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOpacity: 0.07,
     shadowRadius: 8,
-    shadowOffset: { width: 0, height: 3 },
     elevation: 3,
     borderLeftWidth: 4,
     borderLeftColor: MAU.accent,
   },
-
-  summaryTitle: {
-    fontSize: 18,
-    fontWeight: "700",
-    marginBottom: 8,
-    color: MAU.accent,
-  },
-
-  summaryText: {
-    fontSize: 15,
-    color: MAU.chuPhu,
-    lineHeight: 22,
-    textAlign: "justify",
-  },
-
-  highlight: {
-    color: MAU.accent,
-    fontWeight: "600",
-  },
+  summaryTitle: { fontSize: 18, fontWeight: "700", marginBottom: 8, color: MAU.accent },
+  summaryText: { fontSize: 15, color: MAU.chuPhu, lineHeight: 22, textAlign: "justify" },
+  loadingContainer: { flex: 1, justifyContent: "center", alignItems: "center" },
 });
