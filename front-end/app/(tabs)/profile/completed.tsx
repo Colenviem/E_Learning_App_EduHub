@@ -1,4 +1,5 @@
-import { Ionicons } from '@expo/vector-icons';
+import { Feather, Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Stack, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
@@ -10,23 +11,46 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import { useTheme } from '../../_layout';
 
 const API_BASE_URL = 'http://192.168.0.102:5000';
-const USER_ID = 'USER010';
 
 export default function XemLaiScreen() {
   const router = useRouter();
+  const { isDarkMode } = useTheme();
+
   const [user, setUser] = useState<any>(null);
   const [courses, setCourses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const colors = {
+    background: isDarkMode ? '#121212' : '#F8F9FA',
+    cardBg: isDarkMode ? '#1E1E1E' : '#fff',
+    text: isDarkMode ? '#FFF' : '#222',
+    subText: isDarkMode ? '#AAA' : '#888',
+    accent: '#5E72E4',
+    border: isDarkMode ? '#333' : '#f0f0f0',
+    emptyIcon: '#ccc',
+    buttonText: '#fff',
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const storedUserId = await AsyncStorage.getItem('userId');
+        if (!storedUserId) {
+          console.warn("Không tìm thấy userId trong AsyncStorage");
+          setLoading(false);
+          return;
+        }
+
         const [userRes, coursesRes] = await Promise.all([
-          fetch(`${API_BASE_URL}/users/${USER_ID}`),
+          fetch(`${API_BASE_URL}/users/byAccount/${storedUserId}`),
           fetch(`${API_BASE_URL}/courses`),
         ]);
+
+        if (!userRes.ok) throw new Error("Không lấy được dữ liệu người dùng");
+        if (!coursesRes.ok) throw new Error("Không lấy được dữ liệu khóa học");
 
         const userData = await userRes.json();
         const coursesData = await coursesRes.json();
@@ -38,11 +62,7 @@ export default function XemLaiScreen() {
         const mergedCourses = userData.coursesInProgress.map((c: any) => {
           const title = courseMap[c.courseId] || c.courseId;
           const progressPercent = Math.round(c.progress * 100);
-          return {
-            ...c,
-            title,
-            progressPercent,
-          };
+          return { ...c, title, progressPercent };
         });
 
         setUser(userData);
@@ -59,9 +79,9 @@ export default function XemLaiScreen() {
 
   if (loading) {
     return (
-      <View style={styles.center}>
-        <ActivityIndicator size="large" color="#5E72E4" />
-        <Text style={styles.loadingText}>Đang tải dữ liệu...</Text>
+      <View style={[styles.center, { backgroundColor: colors.background }]}>
+        <ActivityIndicator size="large" color={colors.accent} />
+        <Text style={[styles.loadingText, { color: colors.subText }]}>Đang tải dữ liệu...</Text>
       </View>
     );
   }
@@ -70,41 +90,40 @@ export default function XemLaiScreen() {
   const ongoingCourses = courses.filter(c => c.progressPercent < 100);
 
   const renderCourse = ({ item }: { item: any }) => (
-    <View style={styles.card}>
+    <View style={[styles.card, { backgroundColor: colors.cardBg, borderColor: colors.border }]}>
       <View style={styles.cardHeader}>
         <View style={styles.iconContainer}>
-          <Ionicons name="play-circle" size={28} color="#5E72E4" />
+          <Ionicons name="play-circle" size={28} color={colors.accent} />
         </View>
         <View style={styles.titleContainer}>
-          <Text style={styles.title} numberOfLines={2}>{item.title}</Text>
-          <Text style={styles.lessonCount}>Tiến độ: {item.progressPercent}%</Text>
+          <Text style={[styles.title, { color: colors.text }]} numberOfLines={2}>{item.title}</Text>
+          <Text style={[styles.lessonCount, { color: colors.subText }]}>Tiến độ: {item.progressPercent}%</Text>
         </View>
       </View>
     </View>
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Stack.Screen
-        options={{
-          title: 'Bài học',
-          headerShown: true,
-          headerTitleAlign: 'center',
-          headerTintColor: '#000',
-          headerTitleStyle: { fontWeight: 'bold' },
-        }}
-      />
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+      <Stack.Screen options={{ headerShown: false }} />
+      <View style={[styles.header, { backgroundColor: colors.cardBg, borderBottomColor: colors.border }]}>
+        <TouchableOpacity onPress={() => router.back()}>
+          <Feather name="chevron-left" size={24} color={colors.text} />
+        </TouchableOpacity>
+        <Text style={[styles.headerTitle, { color: colors.text }]}>Bài học</Text>
+        <View style={{ width: 24 }} />
+      </View>
 
       {completedCourses.length === 0 ? (
         <View style={styles.emptyState}>
-          <Ionicons name="book-outline" size={48} color="#ccc" />
-          <Text style={styles.emptyText}>Bạn chưa có khóa học nào hoàn thành</Text>
+          <Ionicons name="book-outline" size={48} color={colors.emptyIcon} />
+          <Text style={[styles.emptyText, { color: colors.subText }]}>Bạn chưa có khóa học nào hoàn thành</Text>
           {ongoingCourses.length > 0 && (
             <TouchableOpacity
-              style={styles.reviewButton}
+              style={[styles.reviewButton, { backgroundColor: colors.accent }]}
               onPress={() => router.push(`../../saved`)}
             >
-              <Text style={styles.reviewButtonText}>Ôn tập khóa học ngay</Text>
+              <Text style={[styles.reviewButtonText, { color: colors.buttonText }]}>Ôn tập khóa học ngay</Text>
             </TouchableOpacity>
           )}
         </View>
@@ -115,17 +134,14 @@ export default function XemLaiScreen() {
           renderItem={renderCourse}
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
-          ListHeaderComponent={
-            ongoingCourses.length > 0 ? (
-              <TouchableOpacity
-                style={styles.reviewButton}
-                onPress={() => router.push(`../../saved`)}
-              >
-                <Text style={styles.reviewButtonText}>Ôn tập khóa học đang học</Text>
-              </TouchableOpacity>
-            ) : null
-          }
-
+          ListHeaderComponent={ongoingCourses.length > 0 ? (
+            <TouchableOpacity
+              style={[styles.reviewButton, { backgroundColor: colors.accent, marginBottom: 12 }]}
+              onPress={() => router.push(`../../saved`)}
+            >
+              <Text style={[styles.reviewButtonText, { color: colors.buttonText }]}>Ôn tập khóa học đang học</Text>
+            </TouchableOpacity>
+          ) : null}
         />
       )}
     </SafeAreaView>
@@ -133,9 +149,18 @@ export default function XemLaiScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F8F9FA' },
+  container: { flex: 1 },
+  header: {
+    paddingTop: 30,
+    paddingBottom: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+    borderBottomWidth: 1,
+  },
   center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  loadingText: { marginTop: 12, fontSize: 16, color: '#666' },
+  loadingText: { marginTop: 12, fontSize: 16 },
 
   emptyState: {
     flex: 1,
@@ -143,19 +168,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 24,
   },
-  emptyText: { fontSize: 16, color: '#999', marginTop: 12, textAlign: 'center' },
+  emptyText: { fontSize: 16, marginTop: 12, textAlign: 'center' },
   reviewButton: {
     marginTop: 16,
-    backgroundColor: '#5E72E4',
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 12,
   },
-  reviewButtonText: { color: '#fff', fontWeight: 'bold', fontSize: 16 },
-
+  reviewButtonText: { fontWeight: 'bold', fontSize: 16 },
+  headerTitle: {fontSize: 18, fontWeight: 'bold' },
   listContent: { padding: 16 },
   card: {
-    backgroundColor: '#fff',
     borderRadius: 16,
     padding: 16,
     marginBottom: 12,
@@ -164,10 +187,11 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowRadius: 12,
     elevation: 6,
+    borderWidth: 1,
   },
   cardHeader: { flexDirection: 'row', marginBottom: 12 },
   iconContainer: { marginRight: 12 },
   titleContainer: { flex: 1 },
-  title: { fontSize: 17, fontWeight: '600', color: '#222', lineHeight: 22 },
-  lessonCount: { fontSize: 13, color: '#888', marginTop: 4 },
+  title: { fontSize: 17, fontWeight: '600', lineHeight: 22 },
+  lessonCount: { fontSize: 13, marginTop: 4 },
 });

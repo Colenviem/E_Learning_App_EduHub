@@ -2,7 +2,7 @@ import { Stack } from 'expo-router';
 import React from 'react';
 
 export default function ProfileLayout() {
-    
+
   return (
     <Stack
       screenOptions={{
@@ -17,7 +17,7 @@ export default function ProfileLayout() {
       <Stack.Screen name="history" />
       <Stack.Screen name="assessment" />
       <Stack.Screen name="heatmapStats" />
-
+      <Stack.Screen name="review" />
       <Stack.Screen name="completed" />
     </Stack>
   );

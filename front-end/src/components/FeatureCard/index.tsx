@@ -6,17 +6,26 @@ interface FeatureCardProps {
   subtitle: string;
   iconName: keyof typeof FontAwesome.glyphMap;
   onPress: () => void;
+  cardBg?: string;      // background card
+  textColor?: string;   // title & subtitle text
 }
 
-const FeatureCard: React.FC<FeatureCardProps> = ({ title, subtitle, iconName, onPress }) => {
+const FeatureCard: React.FC<FeatureCardProps> = ({
+  title,
+  subtitle,
+  iconName,
+  onPress,
+  cardBg = '#FFF',
+  textColor = '#333',
+}) => {
   return (
-    <TouchableOpacity style={styles.card} onPress={onPress}>
+    <TouchableOpacity style={[styles.card, { backgroundColor: cardBg }]} onPress={onPress}>
       <View style={styles.iconContainer}>
-        <FontAwesome name={iconName} size={24} color="#3F83F8" /> 
+        <FontAwesome name={iconName} size={24} color="#3F83F8" />
       </View>
       <View style={styles.textContainer}>
-        <Text style={styles.title}>{title}</Text>
-        <Text style={styles.subtitle}>{subtitle}</Text>
+        <Text style={[styles.title, { color: textColor }]}>{title}</Text>
+        <Text style={[styles.subtitle, { color: textColor }]}>{subtitle}</Text>
       </View>
       <FontAwesome name="chevron-right" size={16} color="#B0B0B0" />
     </TouchableOpacity>
@@ -30,7 +39,9 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     borderBottomWidth: 1,
     borderBottomColor: '#EEE',
-    backgroundColor: '#FFF',
+    paddingHorizontal: 12,
+    borderRadius: 12,
+    marginBottom: 10,
   },
   iconContainer: {
     marginRight: 15,
@@ -41,11 +52,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
   },
   subtitle: {
     fontSize: 13,
-    color: '#888',
     marginTop: 2,
   },
 });

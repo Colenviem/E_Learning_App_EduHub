@@ -29,12 +29,7 @@ export default function SettingsLayout() {
           title: 'Loại tài khoản',
         }}
       />
-      <Stack.Screen
-        name="chat_settings"
-        options={{
-          title: 'Cài đặt Chat',
-        }}
-      />
+      
       <Stack.Screen
         name="content_settings"
         options={{
@@ -59,10 +54,8 @@ export default function SettingsLayout() {
           title: 'Điều khoản Dịch vụ',
         }}
       />
-      <Stack.Screen name="promo" options={{ title: 'Mã khuyến mãi' }} />
-      <Stack.Screen name="restore" options={{ title: 'Khôi phục Mua hàng' }} />
+
       <Stack.Screen name="review" options={{ title: 'Đánh giá Ứng dụng' }} />
-      <Stack.Screen name="upgrade" options={{ title: 'Nâng cấp Tài khoản' }} />
 
     </Stack>
   );

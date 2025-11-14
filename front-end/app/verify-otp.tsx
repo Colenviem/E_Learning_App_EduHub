@@ -12,7 +12,7 @@ import {
     View
 } from 'react-native';
 
-const API_ACCOUNT = "http://192.168.2.6:5000/accounts";
+const API_ACCOUNT = "http://192.168.0.102:5000/accounts";
 
 export default function VerifyOtpScreen() {
     const params = useLocalSearchParams();
@@ -34,10 +34,8 @@ export default function VerifyOtpScreen() {
         setLoading(true);
         setOtpError('');
         try {
-            // Gọi API verify OTP
             const res = await axios.post(`${API_ACCOUNT}/verify-otp`, { email, otp });
             if (res.data.verified) {
-                // OTP hợp lệ -> tạo tài khoản
                 await axios.post(`${API_ACCOUNT}/register`, { name, email, password });
                 Alert.alert('Thành công', 'Tài khoản đã được tạo!');
                 router.replace('/login');
@@ -56,7 +54,7 @@ export default function VerifyOtpScreen() {
         setResendLoading(true);
         try {
             await axios.post(`${API_ACCOUNT}/send-otp`, { email, type: 'register' });
-            setCountdown(30); // countdown 30s
+            setCountdown(30); 
         } catch (err: any) {
             Alert.alert('Lỗi', err.response?.data?.message || 'Không thể gửi OTP');
         } finally {

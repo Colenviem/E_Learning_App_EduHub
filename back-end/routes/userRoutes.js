@@ -7,7 +7,6 @@ const streamifier = require("streamifier");
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
-
 // Lấy tất cả user
 router.get("/", async (req, res) => {
   try {
@@ -181,6 +180,42 @@ router.patch("/:id/account_type", async (req, res) => {
     res.json({ message: "Cập nhật account_type thành công", user });
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+});
+
+router.patch("/:id/account_type", async (req, res) => {
+  try {
+    const { account_type } = req.body;
+    if (!account_type) return res.status(400).json({ message: "Thiếu account_type" });
+
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      { "preferences.account_type": account_type },
+      { new: true }
+    );
+
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    res.json({ message: "Cập nhật account_type thành công", user });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.put("/byAccount/:accountId", async (req, res) => {
+  try {
+    const user = await User.findOne({ accountId: req.params.accountId });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    if (req.body.name) user.name = req.body.name;
+    if (req.body.avatarUrl) user.avatarUrl = req.body.avatarUrl;
+    if (req.body.backgroundColor) user.backgroundColor = req.body.backgroundColor;
+
+    await user.save();
+    res.json(user);
+
+  } catch (err) {
+    res.status(400).json({ message: err.message });
   }
 });
 

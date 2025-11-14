@@ -1,4 +1,5 @@
 import { Feather } from "@expo/vector-icons";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
@@ -31,15 +32,26 @@ export default function HeatMapStats() {
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const userId = "USER001";
+  const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchAll = async () => {
+    const loadUserAndData = async () => {
       try {
+        const storedUserId = await AsyncStorage.getItem("userId");
+        if (!storedUserId) {
+          console.log("Không tìm thấy userId trong AsyncStorage");
+          setLoading(false);
+          return;
+        }
+        setUserId(storedUserId);
+
         const [uRes, cRes] = await Promise.all([
-          fetch(`${API_BASE_URL}/users/${userId}`),
+          fetch(`${API_BASE_URL}/users/byAccount/${storedUserId}`),
           fetch(`${API_BASE_URL}/courses`),
         ]);
+
+        if (!uRes.ok) throw new Error("Cannot fetch user");
+        if (!cRes.ok) throw new Error("Cannot fetch courses");
 
         const userData = await uRes.json();
         const coursesData = await cRes.json();
@@ -61,7 +73,7 @@ export default function HeatMapStats() {
       }
     };
 
-    fetchAll();
+    loadUserAndData();
   }, []);
 
   if (loading)
@@ -161,12 +173,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingTop: 20,
+    paddingBottom: 15,
     backgroundColor: "#fff",
     borderBottomWidth: 1,
     borderBottomColor: "#E2E8F0",
   },
-  headerTitle: { fontSize: 18, fontWeight: "bold", color: "#333", paddingTop: 15,  },
+  headerTitle: { fontSize: 18, fontWeight: "bold", color: "#333", paddingTop: 15, },
   title: {
     fontSize: 22,
     fontWeight: "700",

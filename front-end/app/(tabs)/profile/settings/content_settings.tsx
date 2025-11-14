@@ -1,10 +1,17 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Stack } from "expo-router";
-import React from "react";
-import { ScrollView, StyleSheet, Switch, Text, View } from "react-native";
-import { useTheme } from '../../../_layout'; // đúng đường dẫn tới _layout.tsx
+import React, { useEffect, useState } from "react";
+import { ScrollView, StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
+import { useTheme } from '../../../_layout';
+
+const LANGUAGES = [
+  { code: "vi", label: "Tiếng Việt" },
+  { code: "en", label: "English" },
+];
 
 const ContentSettingsScreen = () => {
-  const { isDarkMode, toggleTheme } = useTheme(); // dùng global theme từ context
+  const { isDarkMode, toggleTheme } = useTheme();
+  const [language, setLanguage] = useState("vi");
 
   const colors = {
     background: isDarkMode ? '#121212' : '#F7F7F7',
@@ -12,6 +19,19 @@ const ContentSettingsScreen = () => {
     text: isDarkMode ? '#FFF' : '#333',
     subText: isDarkMode ? '#CCC' : '#555',
     accent: '#A78BFA',
+  };
+
+  useEffect(() => {
+    const loadLanguage = async () => {
+      const storedLang = await AsyncStorage.getItem("appLanguage");
+      if (storedLang) setLanguage(storedLang);
+    };
+    loadLanguage();
+  }, []);
+
+  const changeLanguage = async (langCode: string) => {
+    setLanguage(langCode);
+    await AsyncStorage.setItem("appLanguage", langCode);
   };
 
   return (
@@ -38,6 +58,20 @@ const ContentSettingsScreen = () => {
             trackColor={{ false: "#ccc", true: colors.accent + "50" }}
           />
         </View>
+
+        <Text style={[styles.sectionTitle, { color: colors.text, marginTop: 20 }]}>Ngôn ngữ</Text>
+        <View style={[styles.card, { backgroundColor: colors.cardBg }]}>
+          {LANGUAGES.map(lang => (
+            <TouchableOpacity
+              key={lang.code}
+              style={[styles.languageItem, { backgroundColor: language === lang.code ? colors.accent + "20" : colors.cardBg }]}
+              onPress={() => changeLanguage(lang.code)}
+            >
+              <Text style={[styles.label, { color: colors.text }]}>{lang.label}</Text>
+              {language === lang.code && <Text style={{ color: colors.accent }}>✓</Text>}
+            </TouchableOpacity>
+          ))}
+        </View>
       </ScrollView>
     </View>
   );
@@ -61,6 +95,21 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 4,
     elevation: 2,
+  },
+  card: {
+    borderRadius: 12,
+    padding: 10,
+    shadowColor: "#000",
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  languageItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 6,
   },
   label: { fontSize: 16 },
 });

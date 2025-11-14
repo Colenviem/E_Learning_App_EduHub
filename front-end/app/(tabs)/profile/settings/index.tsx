@@ -1,9 +1,10 @@
 import { Feather } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 import { Stack, useRouter } from 'expo-router';
 import React, { useCallback, useState } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useTheme } from '../../../_layout'; // nhớ đường dẫn đúng tới _layout.tsx
+import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useTheme } from '../../../_layout';
 
 interface SettingItemData {
   title: string;
@@ -43,9 +44,7 @@ const SettingsItem: React.FC<SettingsItemProps> = ({ item, onPress, accountType,
     onPress={() => onPress(item.action)}
     activeOpacity={0.7}
   >
-    {item.icon && (
-      <View style={settingsStyles.iconContainer}>{item.icon}</View>
-    )}
+    {item.icon && <View style={settingsStyles.iconContainer}>{item.icon}</View>}
 
     <Text style={[
       settingsStyles.menuTitle,
@@ -65,11 +64,10 @@ const SettingsItem: React.FC<SettingsItemProps> = ({ item, onPress, accountType,
 );
 
 const API_BASE_URL = 'http://192.168.0.102:5000';
-const USER_ID = 'USER010';
 
 const SettingsScreen = () => {
   const router = useRouter();
-  const { isDarkMode, toggleTheme } = useTheme(); // hook dùng bên trong component
+  const { isDarkMode, toggleTheme } = useTheme();
   const colors = {
     primary: '#6C63FF',
     danger: '#E53E3E',
@@ -80,27 +78,42 @@ const SettingsScreen = () => {
   };
 
   const [accountType, setAccountType] = useState('Cơ bản');
+  const [userId, setUserId] = useState<string | null>(null);
+  const [logoutModalVisible, setLogoutModalVisible] = useState(false);
+
+  const getUserId = async () => {
+    try {
+      const storedId = await AsyncStorage.getItem('userId');
+      if (storedId) setUserId(storedId);
+      return storedId;
+    } catch (err) {
+      console.error('Lỗi lấy USER_ID từ AsyncStorage:', err);
+      return null;
+    }
+  };
 
   const fetchAccountType = async () => {
+    const id = userId || await getUserId();
+    if (!id) return;
     try {
-      const res = await fetch(`${API_BASE_URL}/users/${USER_ID}`);
+      const res = await fetch(`${API_BASE_URL}/users/byAccount/${id}`);
       const data = await res.json();
       setAccountType(data.preferences?.account_type || 'Cơ bản');
     } catch (err) {
-      console.error(err);
+      console.error('Lỗi fetch user:', err);
     }
   };
 
   useFocusEffect(
     useCallback(() => {
       fetchAccountType();
-    }, [])
+    }, [userId])
   );
 
   const handlePress = (action: string) => {
     switch (action) {
       case 'logout':
-        alert("Bạn có muốn đăng xuất không?");
+        setLogoutModalVisible(true);
         break;
       case 'toggle_dark_mode':
         toggleTheme();
@@ -132,6 +145,16 @@ const SettingsScreen = () => {
     }
   };
 
+  const handleLogoutConfirm = async () => {
+    try {
+      await AsyncStorage.clear();
+      setLogoutModalVisible(false);
+      router.replace('/login');
+    } catch (err) {
+      console.error('Lỗi xóa AsyncStorage:', err);
+    }
+  };
+
   return (
     <View style={[settingsStyles.container, { backgroundColor: colors.background }]}>
       <Stack.Screen options={{ headerShown: false }} />
@@ -158,10 +181,30 @@ const SettingsScreen = () => {
         </View>
 
         <View style={settingsStyles.footer}>
-          <Text style={[settingsStyles.versionText, { color: colors.textSecondary }]}>v1.1.874</Text>
+          <Text style={[settingsStyles.versionText, { color: colors.textSecondary }]}>v1.1.1</Text>
           <Text style={[settingsStyles.versionText, { color: colors.textSecondary }]}>ID hỗ trợ: 95GXLMD7K2B</Text>
         </View>
       </ScrollView>
+
+      {/* Modal đăng xuất */}
+      <Modal visible={logoutModalVisible} transparent animationType="fade">
+        <View style={settingsStyles.modalBackground}>
+          <View style={[settingsStyles.modalBox, { backgroundColor: colors.card }]}>
+            <Text style={[settingsStyles.modalTitle, { color: colors.textDark }]}>Đăng xuất</Text>
+            <Text style={[settingsStyles.modalText, { color: colors.textSecondary }]}>
+              Bạn có chắc chắn muốn đăng xuất?
+            </Text>
+            <View style={settingsStyles.modalBtns}>
+              <TouchableOpacity style={settingsStyles.modalCancel} onPress={() => setLogoutModalVisible(false)}>
+                <Text style={{ color: '#333', fontWeight: '600' }}>Hủy</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={[settingsStyles.modalConfirm, { backgroundColor: colors.danger }]} onPress={handleLogoutConfirm}>
+                <Text style={{ color: '#FFF', fontWeight: '600' }}>Xác nhận</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -200,6 +243,13 @@ const settingsStyles = StyleSheet.create({
   accountType: { fontSize: 14, marginRight: 10 },
   footer: { alignItems: 'center', paddingVertical: 30, marginBottom: 20 },
   versionText: { fontSize: 12, marginBottom: 3 },
+  modalBackground: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.4)' },
+  modalBox: { width: '85%', borderRadius: 12, padding: 20 },
+  modalTitle: { fontSize: 18, fontWeight: '700', marginBottom: 10 },
+  modalText: { fontSize: 16, marginBottom: 20 },
+  modalBtns: { flexDirection: 'row', justifyContent: 'flex-end' },
+  modalCancel: { paddingVertical: 8, paddingHorizontal: 16, marginRight: 10, borderRadius: 8, backgroundColor: '#E2E8F0' },
+  modalConfirm: { paddingVertical: 8, paddingHorizontal: 16, borderRadius: 8 },
 });
 
 export default SettingsScreen;

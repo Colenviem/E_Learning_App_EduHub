@@ -1,4 +1,4 @@
-import { FontAwesome } from '@expo/vector-icons';
+import axios from 'axios';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
@@ -15,9 +15,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import axios from 'axios';
 
-const API_ACCOUNT = "http://192.168.2.6:5000/accounts";
+const API_ACCOUNT = "http://192.168.0.102:5000/accounts";
 
 export default function Register() {
   const [name, setName] = useState('');
@@ -35,11 +34,9 @@ export default function Register() {
   const [sending, setSending] = useState(false);
 
   const sendOtp = async () => {
-    // Reset lỗi
     setEmailError('');
     if (!email) { setEmailError('Nhập email'); return; }
 
-    // Validate password match
     if (!name || !password || !confirmPassword) {
       Alert.alert('Vui lòng nhập đầy đủ thông tin trước khi gửi OTP');
       return;
@@ -54,7 +51,6 @@ export default function Register() {
       const res = await axios.post(`${API_ACCOUNT}/send-otp`, { email, type: 'register' });
       if (res.data.success) {
         Alert.alert('Đã gửi OTP', 'Kiểm tra email để nhận mã OTP');
-        // 👉 Chuyển sang trang verify-otp, truyền name/email/password
         router.push({
           pathname: '/verify-otp',
           params: { name, email, password }
@@ -130,6 +126,9 @@ export default function Register() {
             >
               {sending ? <ActivityIndicator color="#fff" /> : <Text style={styles.registerButtonText}>Gửi OTP</Text>}
             </TouchableOpacity>
+            <TouchableOpacity onPress={() => router.push('/login')} style={styles.registerButton1}>
+              <Text style={styles.registerText}>Bạn đã có tài khoản? Đăng nhập ngay</Text>
+            </TouchableOpacity>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -153,6 +152,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     width: '100%',
   },
+  registerButton1: { marginTop: 12, alignItems: 'center' },
+  registerText: { color: '#6C63FF', fontWeight: '600' },
   registerButton: {
     backgroundColor: '#6C63FF',
     paddingVertical: 16,

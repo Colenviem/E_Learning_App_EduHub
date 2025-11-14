@@ -1,5 +1,6 @@
-import { Ionicons } from '@expo/vector-icons';
-import { Stack } from 'expo-router';
+import { Feather, Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -10,29 +11,52 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { useTheme } from '../../_layout'; // giả sử bạn có context theme
 
 const API_BASE_URL = 'http://192.168.0.102:5000';
-const USER_ID = 'USER010';
 
 export default function OnTapScreen() {
   const [loading, setLoading] = useState(true);
   const [reviewLessons, setReviewLessons] = useState<any[]>([]);
   const [user, setUser] = useState<any>(null);
+  const [userId, setUserId] = useState<string | null>(null);
+  const router = useRouter();
+  const { isDarkMode } = useTheme();
+
+  const colors = {
+    background: isDarkMode ? '#121212' : '#F8F9FA',
+    cardBg: isDarkMode ? '#1E1E1E' : '#fff',
+    text: isDarkMode ? '#FFF' : '#222',
+    subText: isDarkMode ? '#AAA' : '#888',
+    accent: '#4A4AFF',
+    alert: '#FF6B6B',
+    border: isDarkMode ? '#333' : '#f0f0f0',
+    emptyIcon: '#4CAF50',
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const storedUserId = await AsyncStorage.getItem('userId');
+        if (!storedUserId) {
+          console.warn("Không tìm thấy userId trong AsyncStorage");
+          setLoading(false);
+          return;
+        }
+        setUserId(storedUserId);
+
         const [userRes, coursesRes] = await Promise.all([
-          fetch(`${API_BASE_URL}/users/${USER_ID}`),
+          fetch(`${API_BASE_URL}/users/byAccount/${storedUserId}`),
           fetch(`${API_BASE_URL}/courses`),
         ]);
+
+        if (!userRes.ok) throw new Error("Không lấy được dữ liệu người dùng");
+        if (!coursesRes.ok) throw new Error("Không lấy được dữ liệu khóa học");
 
         const userData = await userRes.json();
         const coursesData = await coursesRes.json();
 
-        const courseMap = Object.fromEntries(
-          coursesData.map((c: any) => [c._id, c])
-        );
+        const courseMap = Object.fromEntries(coursesData.map((c: any) => [c._id, c]));
 
         const lessons = userData.coursesInProgress
           .map((c: any) => {
@@ -40,7 +64,7 @@ export default function OnTapScreen() {
             if (!course) return null;
 
             const progressPercent = Math.round(c.progress * 100);
-            const daysSinceReview = Math.floor(Math.random() * 7); 
+            const daysSinceReview = Math.floor(Math.random() * 7);
             const needsReview = daysSinceReview >= 2 || progressPercent < 70;
 
             return {
@@ -55,7 +79,7 @@ export default function OnTapScreen() {
           })
           .filter(Boolean);
 
-        lessons.sort((a : any, b : any) => (b.needsReview ? 1 : 0) - (a.needsReview ? 1 : 0));
+        lessons.sort((a: any, b: any) => (b.needsReview ? 1 : 0) - (a.needsReview ? 1 : 0));
 
         setUser(userData);
         setReviewLessons(lessons);
@@ -85,47 +109,53 @@ export default function OnTapScreen() {
 
   if (loading) {
     return (
-      <View style={styles.center}>
-        <ActivityIndicator size="large" color="#4A4AFF" />
-        <Text style={styles.loadingText}>Đang tải bài ôn tập...</Text>
+      <View style={[styles.center, { backgroundColor: colors.background }]}>
+        <ActivityIndicator size="large" color={colors.accent} />
+        <Text style={[styles.loadingText, { color: colors.subText }]}>Đang tải bài ôn tập...</Text>
       </View>
     );
   }
 
   const renderItem = ({ item }: { item: any }) => (
-    <TouchableOpacity style={[styles.card, item.needsReview && styles.priorityCard]} activeOpacity={0.85}>
+    <TouchableOpacity
+      style={[
+        styles.card,
+        { backgroundColor: colors.cardBg, borderColor: item.needsReview ? colors.alert : colors.border },
+        item.needsReview && { backgroundColor: isDarkMode ? '#3A0000' : '#FFF5F5' },
+      ]}
+      activeOpacity={0.85}
+    >
       <View style={styles.cardHeader}>
         <View style={styles.iconWrapper}>
           <Ionicons
             name={item.needsReview ? 'alert-circle' : 'book'}
             size={26}
-            color={item.needsReview ? '#FF6B6B' : '#4A4AFF'}
+            color={item.needsReview ? colors.alert : colors.accent}
           />
         </View>
         <View style={styles.content}>
-          <Text style={styles.title} numberOfLines={2}>
+          <Text style={[styles.title, { color: colors.text }]} numberOfLines={2}>
             {item.title}
           </Text>
-          <Text style={styles.lastReviewed}>
+          <Text style={[styles.lastReviewed, { color: colors.subText }]}>
             {item.needsReview ? 'Cần ôn ngay!' : `Ôn lại: ${item.lastReviewed}`}
           </Text>
         </View>
       </View>
 
-  
       <View style={styles.progressContainer}>
-        <View style={styles.progressBar}>
+        <View style={[styles.progressBar, { backgroundColor: isDarkMode ? '#333' : '#E3E3FF' }]}>
           <View
             style={[
               styles.progressFill,
               {
                 width: `${item.progress}%`,
-                backgroundColor: item.needsReview ? '#FF6B6B' : '#4A4AFF',
+                backgroundColor: item.needsReview ? colors.alert : colors.accent,
               },
             ]}
           />
         </View>
-        <Text style={[styles.progressText, item.needsReview && { color: '#FF6B6B' }]}>
+        <Text style={[styles.progressText, { color: item.needsReview ? colors.alert : colors.accent }]}>
           {item.progress}%
         </Text>
       </View>
@@ -133,37 +163,35 @@ export default function OnTapScreen() {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Stack.Screen
-        options={{
-          title: 'Ôn tập',
-          headerShown: true,
-          headerTitleAlign: 'center',
-          headerTintColor: '#000',
-          headerTitleStyle: { fontWeight: 'bold' },
-        }}
-      />
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+      <View style={[styles.header, { backgroundColor: colors.cardBg, borderBottomColor: colors.border }]}>
+        <TouchableOpacity onPress={() => router.back()}>
+          <Feather name="chevron-left" size={24} color={colors.text} />
+        </TouchableOpacity>
+        <Text style={[styles.headerTitle, { color: colors.text }]}>Ôn tập</Text>
+        <View style={{ width: 24 }} />
+      </View>
 
-      <View style={styles.header}>
+      <View style={[styles.header, { backgroundColor: colors.cardBg, borderBottomColor: colors.border }]}>
         <View>
-          <Text style={styles.greeting}>Ôn tập hôm nay</Text>
-          <Text style={styles.streak}>
-            <Ionicons name="flame" size={18} color="#FF6B6B" /> {user?.streak || 0} ngày liên tục
+          <Text style={[styles.greeting, { color: colors.subText }]}>Ôn tập hôm nay</Text>
+          <Text style={[styles.streak, { color: colors.text }]}>
+            <Ionicons name="flame" size={18} color={colors.alert} /> {user?.streak || 0} ngày liên tục
           </Text>
         </View>
         <View style={styles.reviewCount}>
-          <Text style={styles.reviewCountText}>
+          <Text style={[styles.reviewCountText, { color: colors.accent }]}>
             {reviewLessons.filter(l => l.needsReview).length}
           </Text>
-          <Text style={styles.reviewLabel}>cần ôn</Text>
+          <Text style={[styles.reviewLabel, { color: colors.subText }]}>cần ôn</Text>
         </View>
       </View>
 
       {reviewLessons.length === 0 ? (
         <View style={styles.emptyState}>
-          <Ionicons name="checkmark-circle-outline" size={64} color="#4CAF50" />
-          <Text style={styles.emptyTitle}>Tuyệt vời!</Text>
-          <Text style={styles.emptyText}>Bạn đã ôn tập đầy đủ.</Text>
+          <Ionicons name="checkmark-circle-outline" size={64} color={colors.emptyIcon} />
+          <Text style={[styles.emptyTitle, { color: colors.text }]}>Tuyệt vời!</Text>
+          <Text style={[styles.emptyText, { color: colors.subText }]}>Bạn đã ôn tập đầy đủ.</Text>
         </View>
       ) : (
         <FlatList
@@ -173,7 +201,7 @@ export default function OnTapScreen() {
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={
-            <Text style={styles.sectionTitle}>
+            <Text style={[styles.sectionTitle, { color: colors.text }]}>
               {reviewLessons.filter(l => l.needsReview).length > 0
                 ? 'Ưu tiên ôn tập hôm nay'
                 : 'Các khóa học đã học'}
@@ -186,9 +214,9 @@ export default function OnTapScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F8F9FA' },
+  container: { flex: 1 },
   center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  loadingText: { marginTop: 12, fontSize: 16, color: '#666' },
+  loadingText: { marginTop: 12, fontSize: 16 },
 
   header: {
     flexDirection: 'row',
@@ -196,36 +224,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
     paddingVertical: 16,
-    backgroundColor: '#fff',
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
   },
-  greeting: { fontSize: 15, color: '#555' },
-  streak: { fontSize: 16, fontWeight: '600', color: '#333', marginTop: 2 },
-  reviewCount: {
-    alignItems: 'center',
-  },
-  reviewCountText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#4A4AFF',
-  },
-  reviewLabel: {
-    fontSize: 12,
-    color: '#666',
-  },
+  greeting: { fontSize: 15 },
+  streak: { fontSize: 16, fontWeight: '600', marginTop: 2 },
+  reviewCount: { alignItems: 'center' },
+  reviewCountText: { fontSize: 24, fontWeight: 'bold' },
+  reviewLabel: { fontSize: 12 },
 
   listContent: { padding: 16 },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#444',
-    marginBottom: 12,
-    paddingHorizontal: 4,
-  },
+  sectionTitle: { fontSize: 16, fontWeight: '600', marginBottom: 12, paddingHorizontal: 4 },
 
   card: {
-    backgroundColor: '#fff',
     borderRadius: 16,
     padding: 16,
     marginBottom: 12,
@@ -235,76 +245,21 @@ const styles = StyleSheet.create({
     shadowRadius: 12,
     elevation: 6,
     borderWidth: 1,
-    borderColor: '#f0f0f0',
   },
-  priorityCard: {
-    borderColor: '#FF6B6B',
-    borderWidth: 1.5,
-    backgroundColor: '#FFF5F5',
-  },
-  cardHeader: {
-    flexDirection: 'row',
-    marginBottom: 12,
-  },
-  iconWrapper: {
-    marginRight: 12,
-    justifyContent: 'center',
-  },
+  cardHeader: { flexDirection: 'row', marginBottom: 12 },
+  iconWrapper: { marginRight: 12, justifyContent: 'center' },
   content: { flex: 1 },
-  title: {
-    fontSize: 17,
-    fontWeight: '600',
-    color: '#222',
-    lineHeight: 22,
-  },
-  lastReviewed: {
-    fontSize: 13,
-    color: '#888',
-    marginTop: 4,
-    fontWeight: '500',
-  },
+  title: { fontSize: 17, fontWeight: '600', lineHeight: 22 },
+  lastReviewed: { fontSize: 13, marginTop: 4, fontWeight: '500' },
 
-  progressContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  progressBar: {
-    flex: 1,
-    height: 8,
-    backgroundColor: '#E3E3FF',
-    borderRadius: 4,
-    overflow: 'hidden',
-    marginRight: 12,
-  },
-  progressFill: {
-    height: '100%',
-    backgroundColor: '#4A4AFF',
-    borderRadius: 4,
-  },
-  progressText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#4A4AFF',
-    minWidth: 40,
-    textAlign: 'right',
-  },
+  progressContainer: { flexDirection: 'row', alignItems: 'center' },
+  progressBar: { flex: 1, height: 8, borderRadius: 4, overflow: 'hidden', marginRight: 12 },
+  progressFill: { height: '100%', borderRadius: 4 },
+  progressText: { fontSize: 14, fontWeight: '600', minWidth: 40, textAlign: 'right' },
 
-  emptyState: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 40,
-  },
-  emptyTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
-    marginTop: 16,
-  },
-  emptyText: {
-    fontSize: 15,
-    color: '#777',
-    marginTop: 8,
-    textAlign: 'center',
-  },
+  headerTitle: { fontSize: 18, fontWeight: 'bold' },
+
+  emptyState: { flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 40 },
+  emptyTitle: { fontSize: 20, fontWeight: 'bold', marginTop: 16 },
+  emptyText: { fontSize: 15, marginTop: 8, textAlign: 'center' },
 });

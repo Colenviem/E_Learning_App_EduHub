@@ -17,7 +17,7 @@ import {
   TouchableOpacity, View
 } from 'react-native';
 
-const API = "http://192.168.2.6:5000/accounts";
+const API = "http://192.168.0.102:5000/accounts";
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -30,19 +30,16 @@ export default function Login() {
 
   const router = useRouter();
 
-  // Lưu token và userId
   const saveAuthData = async (token: string, userId: string) => {
     await AsyncStorage.setItem('token', token);
     await AsyncStorage.setItem('userId', userId);
   };
 
   const handleLogin = async () => {
-    // Reset lỗi
     setEmailError('');
     setPasswordError('');
     setLoginError('');
 
-    // Kiểm tra input
     let valid = true;
 
     if (!email) {
@@ -57,14 +54,11 @@ export default function Login() {
 
     setLoading(true);
     try {
-      // Gọi API login backend
       const res = await axios.post(`${API}/login`, { email, password });
-      const { token, user } = res.data; // user chứa _id, email, username...
+      const { token, user } = res.data; 
 
-      // Lưu token và userId
       await saveAuthData(token, user._id);
 
-      // Chuyển trang kèm userId (có thể dùng router.push với params)
       router.push({
         pathname: '/(tabs)/home',
         params: { userId: user._id }
