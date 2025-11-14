@@ -1,26 +1,39 @@
 const express = require("express");
 const multer = require("multer");
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
-const cloudinary = require("../config/cloudinary");
+const cloudinary = require("cloudinary").v2;
+const fs = require("fs");
 const Post = require("../models/Post");
 
 const router = express.Router();
 
-// Cấu hình multer + cloudinary
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: { folder: "posts", allowed_formats: ["jpg", "png", "jpeg"] },
+// Cấu hình Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET,
 });
-const parser = multer({ storage });
+
+// Multer lưu tạm file vào folder 'uploads/'
+const upload = multer({ dest: "uploads/" });
 
 // POST tạo bài viết kèm ảnh
-router.post("/", parser.single("image"), async (req, res) => {
+router.post("/", upload.single("image"), async (req, res) => {
   try {
     const { topic, content } = req.body;
-    let imageUrl = req.file?.path || null;
+    let imageUrl = null;
+
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: "posts",
+      });
+      imageUrl = result.secure_url;
+      fs.unlinkSync(req.file.path); // Xóa file tạm
+    }
+
     const post = new Post({ topic, content, image: imageUrl, likes: 0, comments: [] });
     await post.save();
     res.status(201).json(post);
+
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

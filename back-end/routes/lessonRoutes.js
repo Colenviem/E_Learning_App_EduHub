@@ -13,10 +13,10 @@ router.get("/", async (req, res) => {
 });
 
 // GET lessons by courseId
-router.get("/course-lessons", async (req, res) => {
-    const { id } = req.query; // id = courseId
+router.get("/:courseId", async (req, res) => {
+    const { courseId } = req.params; // Lấy từ params, không phải query
     try {
-        const lessons = await Lesson.find({ courseId: id });
+        const lessons = await Lesson.find({ courseId });
         res.json(lessons);
     } catch (err) {
         res.status(500).json({ message: err.message });
