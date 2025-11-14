@@ -9,8 +9,9 @@ import Categories from '../../src/components/Categories';
 import CoursesGrid from '../../src/components/CoursesGrid';
 import CoursesInProgress from '../../src/components/CoursesInProgress';
 
-import { useSearchParams } from 'expo-router/build/hooks';
-import { colors, spacing } from '../../src/constants/theme';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { spacing, colors as themeColors } from '../../src/constants/theme';
+import { useTheme } from '../_layout';
 
 const API_COURSES = "http://192.168.0.102:5000/courses";
 const API_CATEGORIES = "http://192.168.0.102:5000/categories";
@@ -22,15 +23,36 @@ const BANNERS = [
 ];
 
 function Home() {
+  const { isDarkMode } = useTheme();
   const [courses, setCourses] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [selectedCategory, setSelectedCategory] = useState("CAT001");
+  const [userId, setUserId] = useState<string | null>(null);
   const carouselRef = useRef<any>(null);
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const userId = searchParams.get('userId');
+
+  const colors = {
+    background: isDarkMode ? '#121212' : '#F3F4F6',
+    cardBg: isDarkMode ? '#1E1E1E' : '#FFF',
+    text: isDarkMode ? '#FFF' : '#1A1A1A',
+    subText: isDarkMode ? '#CCC' : '#555',
+    primary: themeColors.primary,
+    accent: themeColors.primary,
+  };
+
+  useEffect(() => {
+    const getUserId = async () => {
+      try {
+        const storedUserId = await AsyncStorage.getItem('userId');
+        if (storedUserId) setUserId(storedUserId);
+      } catch (error) {
+        console.error('Error fetching userId from AsyncStorage:', error);
+      }
+    };
+    getUserId();
+  }, []);
 
   const fetchCourses = useCallback(async () => {
     try {
@@ -73,8 +95,7 @@ function Home() {
 
   const filteredCourses = useMemo(() => {
     return courses.filter(course => {
-      const matchCategory =
-        selectedCategory === 'CAT001' || course.categoryId === selectedCategory;
+      const matchCategory = selectedCategory === 'CAT001' || course.categoryId === selectedCategory;
       const matchSearch = course.title.toLowerCase().includes(inputValue.toLowerCase());
       return matchCategory && matchSearch;
     });
@@ -86,27 +107,23 @@ function Home() {
     <>
       <Stack.Screen options={{ headerShown: false }} />
 
-      {/* HEADER */}
-      <View style={styles.headerContainer}>
+      <View style={[styles.headerContainer, { backgroundColor: colors.background }]}>
         <View style={styles.headerTop}>
-          <Text style={styles.greeting}>
-            EduHub
-          </Text>
-
+          <Text style={[styles.greeting, { color: colors.primary }]}>EduHub</Text>
           <TouchableOpacity onPress={() => router.push('../notifications')}>
             <FontAwesome name="bell-o" size={24} color={colors.primary} />
           </TouchableOpacity>
         </View>
 
-        {/* SEARCH BAR */}
-        <View style={styles.searchBar}>
+
+        <View style={[styles.searchBar, { backgroundColor: isDarkMode ? '#2A2A2A' : '#F4F4F5' }]}>
           <FontAwesome name="search" size={16} color="#666" style={{ marginRight: 10 }} />
           <TextInput
             placeholder="Tìm kiếm khóa học..."
             placeholderTextColor="#999"
             value={inputValue}
             onChangeText={setInputValue}
-            style={styles.searchInput}
+            style={[styles.searchInput, { color: colors.text }]}
           />
           <TouchableOpacity style={styles.filterButton}>
             <MaterialIcons name="tune" size={20} color={colors.primary} />
@@ -116,7 +133,7 @@ function Home() {
 
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContainer}
+        contentContainerStyle={[styles.scrollContainer, { backgroundColor: colors.background }]}
       >
         <BannerCarousel banners={BANNERS} carouselRef={carouselRef} />
 
@@ -138,7 +155,6 @@ function Home() {
 
 const styles = StyleSheet.create({
   headerContainer: {
-    backgroundColor: '#fff',
     paddingTop: spacing.xxl,
     paddingHorizontal: spacing.md,
     paddingBottom: spacing.md,
@@ -151,14 +167,12 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   greeting: {
-    color: colors.primary,
     fontSize: 26,
     fontWeight: '900',
   },
   searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F4F4F5',
     borderRadius: 14,
     paddingHorizontal: spacing.md,
     height: 46,
@@ -166,7 +180,6 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     fontSize: 14,
-    color: '#1A1A1A',
   },
   filterButton: {
     width: 32,
@@ -179,7 +192,6 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     paddingBottom: 100,
-    backgroundColor: '#F3F4F6',
   },
 });
 

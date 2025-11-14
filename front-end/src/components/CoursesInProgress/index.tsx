@@ -1,8 +1,8 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View, Dimensions } from 'react-native';
-import { borderRadius, colors, SCREEN_CONSTANTS, spacing, typography } from '../../constants/theme';
+import { Dimensions, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { borderRadius, colors, spacing, typography } from '../../constants/theme';
 
 interface CourseInProgress {
   courseId: string;
