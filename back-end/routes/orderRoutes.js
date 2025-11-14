@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Order = require("../models/Order");
+const { getNextSequence } = require('../utils/sequenceGenerator');
 
 // ✅ GET all orders
 router.get("/", async (req, res) => {
@@ -13,12 +14,31 @@ router.get("/", async (req, res) => {
 });
 
 // ✅ CREATE order
-router.post("/", async (req, res) => {
+router.post('/', async (req, res) => {
     try {
-        const newItem = new Order(req.body);
-        await newItem.save();
-        res.status(201).json(newItem);
+        const { userId, courseId, amount, paymentMethod } = req.body;
+
+        if (!userId || !courseId || !amount || !paymentMethod) {
+            return res.status(400).json({ message: 'Thiếu dữ liệu bắt buộc' });
+        }
+
+        const orderSeq = await getNextSequence('orderId');
+        const orderId = `ORDER${orderSeq.toString().padStart(3, '0')}`;
+
+        const order = new Order({
+            _id: orderId,
+            userId,
+            courseId,
+            amount: Number(amount),
+            paymentMethod,
+            status: 'completed',
+            createdAt: new Date(),
+        });
+
+        await order.save();
+        res.status(201).json(order);
     } catch (err) {
+        console.error(err);
         res.status(400).json({ message: err.message });
     }
 });

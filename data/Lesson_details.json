@@ -1,0 +1,572 @@
+[
+    {
+        "_id": "DETAIL10101",
+        "lessonId": "LESSON001",
+        "name": "Giới thiệu về biến (Variables)",
+        "videoTitle": "Hiểu về biến trong JavaScript",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/variables-intro.mp4",
+        "time": "10 phút",
+        "tasks": [
+            "Biến là gì trong JavaScript?",
+            "Cách khai báo biến bằng var, let và const.",
+            "Quy tắc đặt tên biến.",
+            "So sánh phạm vi hoạt động của biến."
+        ],
+        "createdAt": { "$date": "2024-12-31T23:59:59Z" }
+    },
+    {
+        "_id": "DETAIL10102",
+        "lessonId": "LESSON001",
+        "name": "Hằng số (Constants) trong JavaScript",
+        "videoTitle": "Sử dụng const trong JavaScript",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/constants.mp4",
+        "time": "8 phút",
+        "tasks": [
+        "Hằng số const là gì?",
+        "Sự khác nhau giữa let và const.",
+        "Giá trị không thay đổi nhưng object và array có thể thay đổi thuộc tính.",
+        "Ứng dụng const trong thực tế."
+        ],
+        "createdAt": { "$date": "2024-12-31T23:59:59Z" }
+    },
+    {
+        "_id": "DETAIL10103",
+        "lessonId": "LESSON001",
+        "name": "Các kiểu dữ liệu cơ bản (Data Types)",
+        "videoTitle": "Tổng quan các kiểu dữ liệu trong JavaScript",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/data-types.mp4",
+        "time": "15 phút",
+        "tasks": [
+        "String, Number, Boolean trong JavaScript.",
+        "Null và Undefined.",
+        "Object và Array.",
+        "Thực hành kiểm tra kiểu dữ liệu với typeof."
+        ],
+        "createdAt": { "$date": "2024-12-31T23:59:59Z" }
+    },
+    {
+        "_id": "DETAIL10104",
+        "lessonId": "LESSON001",
+        "name": "Thực hành: Viết chương trình tính toán đơn giản",
+        "videoTitle": "Thực hành lập trình cơ bản",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/simple-calculation.mp4",
+        "time": "12 phút",
+        "tasks": [
+        "Viết chương trình tính tổng hai số.",
+        "Kiểm tra số lớn hơn.",
+        "In kết quả ra console.",
+        "Tạo input cho người dùng nhập số."
+        ],
+        "createdAt": { "$date": "2024-12-31T23:59:59Z" }
+    },
+    {
+        "_id": "DETAIL10201",
+        "lessonId": "LESSON002",
+        "name": "Toán tử số học và gán",
+        "videoTitle": "Arithmetic & Assignment Operators",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/operators1.mp4",
+        "time": "15 phút",
+        "tasks": [
+        "Giới thiệu các toán tử +, -, *, /, %.",
+        "Cách sử dụng toán tử gán =, +=, -=.",
+        "Thực hành tính toán cơ bản.",
+        "Ứng dụng vào bài toán thực tế."
+        ],
+        "createdAt": { "$date": "2025-01-01T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL10202",
+        "lessonId": "LESSON002",
+        "name": "Toán tử so sánh và logic",
+        "videoTitle": "Comparison & Logical Operators",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/operators2.mp4",
+        "time": "15 phút",
+        "tasks": [
+        "Các toán tử >, <, <=, >=, ==, ===.",
+        "Toán tử logic &&, ||, !.",
+        "Lỗi phổ biến khi so sánh biến.",
+        "Thực hành tạo điều kiện bằng toán tử logic."
+        ],
+        "createdAt": { "$date": "2025-01-01T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL10203",
+        "lessonId": "LESSON002",
+        "name": "Thực hành với biểu thức",
+        "videoTitle": "Practice with Expressions",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/operators-practice.mp4",
+        "time": "10 phút",
+        "tasks": [
+        "Kết hợp nhiều toán tử.",
+        "Viết biểu thức tính toán.",
+        "Bài tập nâng cao.",
+        "Debug lỗi biểu thức."
+        ],
+        "createdAt": { "$date": "2025-01-01T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL10301",
+        "lessonId": "LESSON003",
+        "name": "Câu lệnh if và else",
+        "videoTitle": "If & Else Statements",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/if-else.mp4",
+        "time": "15 phút",
+        "tasks": [
+        "Viết câu lệnh điều kiện cơ bản.",
+        "Tối ưu hóa điều kiện.",
+        "Tránh lồng if quá sâu.",
+        "Ứng dụng vào chương trình thực tế."
+        ],
+        "createdAt": { "$date": "2025-01-02T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL10302",
+        "lessonId": "LESSON003",
+        "name": "Câu lệnh else if và switch",
+        "videoTitle": "Else If & Switch Case",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/switch-case.mp4",
+        "time": "15 phút",
+        "tasks": [
+        "Khi nào nên dùng else if?",
+        "Giới thiệu switch-case.",
+        "Xử lý nhiều điều kiện.",
+        "Thực hành phân loại dữ liệu."
+        ],
+        "createdAt": { "$date": "2025-01-02T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL10303",
+        "lessonId": "LESSON003",
+        "name": "Toán tử điều kiện",
+        "videoTitle": "Conditional (Ternary) Operator",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/ternary.mp4",
+        "time": "10 phút",
+        "tasks": [
+        "Cú pháp toán tử ? :",
+        "Viết điều kiện ngắn gọn.",
+        "Thay thế if-else đơn giản.",
+        "Thực hành với biểu thức."
+        ],
+        "createdAt": { "$date": "2025-01-02T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL10304",
+        "lessonId": "LESSON003",
+        "name": "Thực hành: So sánh giá trị",
+        "videoTitle": "Practice: Compare Values",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/compare-values.mp4",
+        "time": "10 phút",
+        "tasks": [
+        "So sánh số.",
+        "So sánh string.",
+        "So sánh boolean.",
+        "Bài tập nâng cao."
+        ],
+        "createdAt": { "$date": "2025-01-02T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL10401",
+        "lessonId": "LESSON004",
+        "name": "Vòng lặp for",
+        "videoTitle": "For Loop in JavaScript",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/loop-for.mp4",
+        "time": "15 phút",
+        "tasks": [
+        "Cấu trúc vòng lặp for.",
+        "Lỗi phổ biến trong vòng lặp.",
+        "Lặp qua số, mảng, object.",
+        "Thực hành tạo chuỗi."
+        ],
+        "createdAt": { "$date": "2025-01-03T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL10402",
+        "lessonId": "LESSON004",
+        "name": "Vòng lặp while và do-while",
+        "videoTitle": "While & Do-While Loops",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/loop-while.mp4",
+        "time": "15 phút",
+        "tasks": [
+        "Giới thiệu vòng while.",
+        "Do-while khác gì while?",
+        "Khi nào sử dụng while?",
+        "Thực hành với ví dụ thực tế."
+        ],
+        "createdAt": { "$date": "2025-01-03T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL10403",
+        "lessonId": "LESSON004",
+        "name": "Vòng lặp lồng nhau",
+        "videoTitle": "Nested Loops",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/loop-nested.mp4",
+        "time": "15 phút",
+        "tasks": [
+        "Lặp mảng 2 chiều.",
+        "Tối ưu vòng lặp.",
+        "Nhược điểm của nested loop.",
+        "Ứng dụng vào xử lý dữ liệu."
+        ],
+        "createdAt": { "$date": "2025-01-03T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL10404",
+        "lessonId": "LESSON004",
+        "name": "Thực hành: Tạo bảng nhân",
+        "videoTitle": "Practice: Multiplication Table",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/loop-multiply.mp4",
+        "time": "10 phút",
+        "tasks": [
+        "Sử dụng vòng lặp for để tạo bảng nhân.",
+        "In bảng nhân ra console.",
+        "Tối ưu logic.",
+        "Tạo bảng nhân tùy chọn."
+        ],
+        "createdAt": { "$date": "2025-01-03T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL10501",
+        "lessonId": "LESSON005",
+        "name": "Khai báo hàm",
+        "videoTitle": "Function Declaration",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/functions1.mp4",
+        "time": "10 phút",
+        "tasks": [
+        "Hàm là gì trong JavaScript?",
+        "Khai báo hàm cơ bản.",
+        "Hoisting trong function.",
+        "Thực hành gọi hàm."
+        ],
+        "createdAt": { "$date": "2025-01-04T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL10502",
+        "lessonId": "LESSON005",
+        "name": "Tham số và giá trị trả về",
+        "videoTitle": "Parameters & Return Values",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/functions2.mp4",
+        "time": "15 phút",
+        "tasks": [
+        "Truyền tham số.",
+        "Return giá trị từ hàm.",
+        "Default parameters.",
+        "Thực hành với hàm tính toán."
+        ],
+        "createdAt": { "$date": "2025-01-04T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL10503",
+        "lessonId": "LESSON005",
+        "name": "Phạm vi biến",
+        "videoTitle": "Understanding Scope",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/functions3.mp4",
+        "time": "15 phút",
+        "tasks": [
+        "Local và global scope.",
+        "Block scope.",
+        "Scope chain.",
+        "Thực hành với ví dụ thực tế."
+        ],
+        "createdAt": { "$date": "2025-01-04T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL10504",
+        "lessonId": "LESSON005",
+        "name": "Thực hành: Hàm tính toán",
+        "videoTitle": "Practice: Math Functions",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/functions-practice.mp4",
+        "time": "10 phút",
+        "tasks": [
+        "Viết hàm tính tổng.",
+        "Viết hàm kiểm tra số nguyên tố.",
+        "In kết quả ra console.",
+        "Xử lý lỗi đầu vào."
+        ],
+        "createdAt": { "$date": "2025-01-04T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL10601",
+        "lessonId": "LESSON006",
+        "name": "Mảng trong JavaScript",
+        "videoTitle": "Arrays in JavaScript",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/arrays1.mp4",
+        "time": "15 phút",
+        "tasks": [
+        "Khai báo mảng.",
+        "Truy cập phần tử mảng.",
+        "Các phương thức phổ biến.",
+        "Thực hành xử lý danh sách."
+        ],
+        "createdAt": { "$date": "2025-01-05T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL10602",
+        "lessonId": "LESSON006",
+        "name": "Đối tượng trong JavaScript",
+        "videoTitle": "Objects in JavaScript",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/objects1.mp4",
+        "time": "15 phút",
+        "tasks": [
+        "Khai báo object.",
+        "Truy cập thuộc tính.",
+        "Thay đổi giá trị object.",
+        "Thực hành quản lý thông tin."
+        ],
+        "createdAt": { "$date": "2025-01-05T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL10603",
+        "lessonId": "LESSON006",
+        "name": "Truy cập và thao tác dữ liệu",
+        "videoTitle": "Data Accessing & Manipulation",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/arrays2.mp4",
+        "time": "15 phút",
+        "tasks": [
+        "Sửa đổi dữ liệu.",
+        "Thêm và xoá phần tử.",
+        "Lọc dữ liệu.",
+        "Thực hành với danh sách phức tạp."
+        ],
+        "createdAt": { "$date": "2025-01-05T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL10604",
+        "lessonId": "LESSON006",
+        "name": "Thực hành: Quản lý danh sách",
+        "videoTitle": "Practice: List Management",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/arrays-practice.mp4",
+        "time": "15 phút",
+        "tasks": [
+        "Tạo danh sách người dùng.",
+        "Thêm phần tử vào danh sách.",
+        "Xoá người dùng theo ID.",
+        "Tìm kiếm phần tử trong danh sách."
+        ],
+        "createdAt": { "$date": "2025-01-05T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL10701",
+        "lessonId": "LESSON007",
+        "name": "Giới thiệu DOM",
+        "videoTitle": "Introduction to DOM",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/dom1.mp4",
+        "time": "10 phút",
+        "tasks": [
+        "DOM là gì?",
+        "Cách JavaScript tương tác với DOM.",
+        "Hiểu cấu trúc cây DOM.",
+        "Thực hành truy cập phần tử."
+        ],
+        "createdAt": { "$date": "2025-01-06T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL10702",
+        "lessonId": "LESSON007",
+        "name": "Thao tác nội dung và phần tử",
+        "videoTitle": "Manipulating Elements",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/dom2.mp4",
+        "time": "15 phút",
+        "tasks": [
+        "Thay đổi textContent.",
+        "Thêm/xoá phần tử trong DOM.",
+        "Thêm CSS bằng JS.",
+        "Ứng dụng vào UI."
+        ],
+        "createdAt": { "$date": "2025-01-06T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL10703",
+        "lessonId": "LESSON007",
+        "name": "Quản lý sự kiện",
+        "videoTitle": "Handling Events",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/dom3.mp4",
+        "time": "15 phút",
+        "tasks": [
+        "Lắng nghe sự kiện click.",
+        "Sử dụng addEventListener.",
+        "Xử lý input từ người dùng.",
+        "Thực hành với bài toán thực tế."
+        ],
+        "createdAt": { "$date": "2025-01-06T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL10704",
+        "lessonId": "LESSON007",
+        "name": "Thực hành: Tạo ứng dụng To-Do",
+        "videoTitle": "Practice: To-Do App",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/dom-todo.mp4",
+        "time": "15 phút",
+        "tasks": [
+        "Tạo giao diện To-Do.",
+        "Thêm nhiệm vụ mới.",
+        "Xoá nhiệm vụ.",
+        "Lưu dữ liệu trong LocalStorage."
+        ],
+        "createdAt": { "$date": "2025-01-06T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL10801",
+        "lessonId": "LESSON008",
+        "name": "Sự kiện cơ bản",
+        "videoTitle": "Basic Events",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/events1.mp4",
+        "time": "15 phút",
+        "tasks": [
+        "Khái niệm event trong JS.",
+        "Các loại sự kiện phổ biến.",
+        "Event object.",
+        "Thực hành xử lý sự kiện đơn giản."
+        ],
+        "createdAt": { "$date": "2025-01-07T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL10802",
+        "lessonId": "LESSON008",
+        "name": "Event Listeners",
+        "videoTitle": "Using Event Listeners",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/events2.mp4",
+        "time": "15 phút",
+        "tasks": [
+        "Thêm event listener.",
+        "Gỡ event listener.",
+        "Event bubbling và capturing.",
+        "Ứng dụng trong UI."
+        ],
+        "createdAt": { "$date": "2025-01-07T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL10803",
+        "lessonId": "LESSON008",
+        "name": "Thực hành: Bắt sự kiện click",
+        "videoTitle": "Practice: Click Events",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/events-click.mp4",
+        "time": "20 phút",
+        "tasks": [
+        "Tạo button và bắt sự kiện click.",
+        "Đổi màu nền khi click.",
+        "Đếm số lần người dùng click.",
+        "Ứng dụng thực tế."
+        ],
+        "createdAt": { "$date": "2025-01-07T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL10901",
+        "lessonId": "LESSON009",
+        "name": "Callback Functions",
+        "videoTitle": "Understanding Callbacks",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/callbacks.mp4",
+        "time": "15 phút",
+        "tasks": [
+        "Callback là gì?",
+        "Truyền hàm vào hàm.",
+        "Lỗi callback hell.",
+        "Thực hành callback."
+        ],
+        "createdAt": { "$date": "2025-01-08T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL10902",
+        "lessonId": "LESSON009",
+        "name": "Arrow Functions",
+        "videoTitle": "Arrow Functions Explained",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/arrow-functions.mp4",
+        "time": "15 phút",
+        "tasks": [
+        "Cú pháp arrow function.",
+        "So sánh arrow và function truyền thống.",
+        "Tính chất không có this.",
+        "Thực hành với ví dụ thực tế."
+        ],
+        "createdAt": { "$date": "2025-01-08T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL10903",
+        "lessonId": "LESSON009",
+        "name": "Closures",
+        "videoTitle": "Mastering Closures",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/closures.mp4",
+        "time": "15 phút",
+        "tasks": [
+        "Closure là gì?",
+        "Ứng dụng closure.",
+        "Lưu trạng thái với closure.",
+        "Thực hành với ví dụ."
+        ],
+        "createdAt": { "$date": "2025-01-08T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL10904",
+        "lessonId": "LESSON009",
+        "name": "Thực hành nâng cao",
+        "videoTitle": "Advanced Function Practice",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/functions-advanced.mp4",
+        "time": "15 phút",
+        "tasks": [
+        "Kết hợp callback và closure.",
+        "Viết factory function.",
+        "Tạo module đơn giản.",
+        "Ứng dụng vào dự án thực tế."
+        ],
+        "createdAt": { "$date": "2025-01-08T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL11001",
+        "lessonId": "LESSON010",
+        "name": "Promises",
+        "videoTitle": "Understanding Promises",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/promises.mp4",
+        "time": "15 phút",
+        "tasks": [
+        "Promise là gì?",
+        "Trạng thái của Promise.",
+        "then(), catch(), finally().",
+        "Thực hành tạo promise."
+        ],
+        "createdAt": { "$date": "2025-01-09T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL11002",
+        "lessonId": "LESSON010",
+        "name": "Async/Await",
+        "videoTitle": "Async & Await Explained",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/async-await.mp4",
+        "time": "20 phút",
+        "tasks": [
+        "Async function là gì?",
+        "Cách dùng await.",
+        "Xử lý lỗi với try-catch.",
+        "Chuyển Promise sang async/await."
+        ],
+        "createdAt": { "$date": "2025-01-09T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL11003",
+        "lessonId": "LESSON010",
+        "name": "Fetch API",
+        "videoTitle": "Fetch API Overview",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/fetch-api.mp4",
+        "time": "15 phút",
+        "tasks": [
+        "Giới thiệu Fetch API.",
+        "GET request.",
+        "POST request.",
+        "Xử lý JSON."
+        ],
+        "createdAt": { "$date": "2025-01-09T00:00:00Z" }
+    },
+    {
+        "_id": "DETAIL11004",
+        "lessonId": "LESSON010",
+        "name": "Thực hành: Gọi API",
+        "videoTitle": "Practice: API Requests",
+        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/fetch-practice.mp4",
+        "time": "15 phút",
+        "tasks": [
+        "Gọi API thật từ server.",
+        "Hiển thị dữ liệu ra UI.",
+        "Xử lý lỗi khi gọi API.",
+        "Tối ưu cách gọi API."
+        ],
+        "createdAt": { "$date": "2025-01-09T00:00:00Z" }
+    }
+]

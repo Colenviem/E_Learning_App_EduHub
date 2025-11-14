@@ -2,6 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+const geminiRoute = require('./routes/geminiRoute')
 
 const app = express();
 
@@ -24,6 +26,7 @@ const userRoutes = require("./routes/userRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const commentRoutes = require("./routes/commentRoutes");
 const courseRoutes = require("./routes/courseRoutes");
+const lessonDetailRoutes = require("./routes/lessonDetailRoutes");
 const lessonRoutes = require("./routes/lessonRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
 const orderRoutes = require("./routes/orderRoutes");
@@ -31,12 +34,14 @@ const quizzRoutes = require("./routes/quizzRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
 const newsRoutes = require("./routes/newsRoutes");  
 const postRoutes = require("./routes/postRoutes");  
+const geminiRoutes = require('./routes/geminiRoute');
 
 app.use("/accounts", accountRoutes);
 app.use("/users", userRoutes);
 app.use("/categories", categoryRoutes);
 app.use("/comments", commentRoutes);
 app.use("/courses", courseRoutes);
+app.use("/lesson-details", lessonDetailRoutes);
 app.use("/lessons", lessonRoutes);
 app.use("/notifications", notificationRoutes);
 app.use("/orders", orderRoutes);
@@ -44,6 +49,7 @@ app.use("/quizzes", quizzRoutes);
 app.use("/reviews", reviewRoutes);
 app.use("/news", newsRoutes);
 app.use("/posts", postRoutes);
+app.use('/api', geminiRoutes);
 
 const cloudinary = require("./config/cloudinary");
 if (cloudinary.config().cloud_name) {
