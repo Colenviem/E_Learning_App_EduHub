@@ -1,32 +1,39 @@
 import { Feather } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Stack, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { Alert, FlatList, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useTheme } from '../../../_layout'; // nhớ đường dẫn tới _layout.tsx
+import { useTheme } from '../../../_layout';
 
 const API_BASE_URL = 'http://192.168.0.102:5000';
-const USER_ID = 'USER010';
 
 export default function AccountTypeScreen() {
   const router = useRouter();
-  const { isDarkMode } = useTheme(); // lấy global dark mode
+  const { isDarkMode } = useTheme();
+  const [currentPlan, setCurrentPlan] = useState('Cơ bản');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<any>(null);
+  const [storedUserId, setStoredUserId] = useState<string | null>(null);
+
   const colors = {
     background: isDarkMode ? '#121212' : '#F7F7F7',
-    card: isDarkMode ? '#1E1E1E' : '#FFF',
+    card: isDarkMode ? '#633838ff' : '#FFF',
     text: isDarkMode ? '#FFF' : '#333',
     subText: isDarkMode ? '#CCC' : '#555',
     accent: '#A78BFA',
     success: '#48BB78',
   };
 
-  const [currentPlan, setCurrentPlan] = useState('Cơ bản');
-  const [selectedPlan, setSelectedPlan] = useState<any>(null);
-  const [modalVisible, setModalVisible] = useState(false);
-
   useEffect(() => {
-    const fetchUser = async () => {
+    const loadUser = async () => {
+      const id = await AsyncStorage.getItem('userId');
+      setStoredUserId(id);
+
+      if (!id) return;
+
+
       try {
-        const res = await fetch(`${API_BASE_URL}/users/${USER_ID}`);
+        const res = await fetch(`${API_BASE_URL}/users/byAccount/${id}`);
         if (!res.ok) throw new Error('Lấy dữ liệu thất bại');
         const data = await res.json();
         setCurrentPlan(data.preferences?.account_type || 'Cơ bản');
@@ -34,7 +41,8 @@ export default function AccountTypeScreen() {
         console.error(err);
       }
     };
-    fetchUser();
+
+    loadUser();
   }, []);
 
   const plans = [
@@ -56,7 +64,7 @@ export default function AccountTypeScreen() {
     if (!selectedPlan) return;
 
     try {
-      const res = await fetch(`${API_BASE_URL}/users/${USER_ID}/account_type`, {
+      const res = await fetch(`${API_BASE_URL}/users/${storedUserId}/account_type`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ account_type: selectedPlan.name }),

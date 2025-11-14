@@ -1,11 +1,11 @@
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useTheme } from '../../_layout';
 
 import FeatureCard from '../../../src/components/FeatureCard';
 import NewsSection from '../../../src/components/NewsSection';
 import SuggestionSection from '../../../src/components/SuggestionSection';
-
 
 type PostType = {
   id: string;
@@ -21,6 +21,15 @@ export default function ExploreScreen() {
   const searchParams = useLocalSearchParams() || {};
   const [posts, setPosts] = useState<PostType[]>([]);
   const [newsList, setNewsList] = useState<any[]>([]);
+  const { isDarkMode } = useTheme();
+
+  const colors = {
+    background: isDarkMode ? '#121212' : '#fff',
+    cardBg: isDarkMode ? '#1E1E1E' : '#F3F4F6',
+    text: isDarkMode ? '#FFF' : '#000',
+    subText: isDarkMode ? '#CCC' : '#444',
+    accent: '#A78BFA',
+  };
 
   useEffect(() => {
     if (searchParams.newPost) {
@@ -43,18 +52,14 @@ export default function ExploreScreen() {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Stack.Screen
-        options={{
-          headerShown: false,
-        }}
-      />
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Stack.Screen options={{ headerShown: false }} />
 
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.headerTitle}>Khám phá</Text>
+        <Text style={[styles.headerTitle, { color: colors.text }]}>Khám phá</Text>
 
         <View style={styles.sectionContainer}>
           <FeatureCard
@@ -62,28 +67,34 @@ export default function ExploreScreen() {
             subtitle="Trò chuyện về mọi thứ"
             iconName="user"
             onPress={() => router.push('/explore/chat-with-ai')}
+            cardBg={colors.cardBg}
+            textColor={colors.text}
           />
           <FeatureCard
             title="Trò chuyện với gia sư AI"
             subtitle="Hỏi câu hỏi, nhận câu trả lời"
             iconName="graduation-cap"
             onPress={() => router.push('/explore/tutor-ai')}
+            cardBg={colors.cardBg}
+            textColor={colors.text}
           />
           <FeatureCard
             title="Tạo của riêng bạn"
             subtitle="Luyện tập tình huống thực tế"
             iconName="magic"
             onPress={() => router.push('/explore/discussion')}
+            cardBg={colors.cardBg}
+            textColor={colors.text}
           />
         </View>
 
         {posts.length > 0 && (
           <View style={[styles.sectionContainer, { marginBottom: 30 }]}>
-            <Text style={styles.sectionTitle}>Bài viết mới</Text>
+            <Text style={[styles.sectionTitle, { color: colors.text }]}>Bài viết mới</Text>
             {posts.map(post => (
               <TouchableOpacity
                 key={post.id}
-                style={styles.postCard}
+                style={[styles.postCard, { backgroundColor: colors.cardBg }]}
                 onPress={() =>
                   router.push({
                     pathname: '/explore/discussion',
@@ -91,8 +102,8 @@ export default function ExploreScreen() {
                   })
                 }
               >
-                <Text style={styles.postTopic}>{post.topic}</Text>
-                <Text style={styles.postContent} numberOfLines={2}>
+                <Text style={[styles.postTopic, { color: colors.text }]}>{post.topic}</Text>
+                <Text style={[styles.postContent, { color: colors.subText }]} numberOfLines={2}>
                   {post.content}
                 </Text>
                 {post.image && <Image source={{ uri: post.image }} style={styles.postImage} />}
@@ -101,8 +112,26 @@ export default function ExploreScreen() {
           </View>
         )}
 
-        <NewsSection />
-        <SuggestionSection />
+        <NewsSection
+          colors={{
+            cardBg: isDarkMode ? '#1E1E1E' : '#FFF',
+            titleColor: isDarkMode ? '#FFF' : '#1F2937',
+            dateColor: isDarkMode ? '#CCC' : '#6B7280',
+            textColor: isDarkMode ? '#CCC' : '#6B7280',
+            badgeBg: isDarkMode ? '#3B82F6AA' : 'rgba(59,130,246,0.95)',
+          }}
+        />
+
+        <SuggestionSection
+          colors={{
+            cardBg: isDarkMode ? '#1E1E1E' : '#FFF',
+            titleColor: isDarkMode ? '#FFF' : '#1F2937',
+            textColor: isDarkMode ? '#CCC' : '#6B7280',
+            priceColor: isDarkMode ? '#EF4444' : '#EF4444',
+            oldPriceColor: isDarkMode ? '#9CA3AF' : '#9CA3AF',
+          }}
+        />
+
       </ScrollView>
     </View>
   );
@@ -111,7 +140,6 @@ export default function ExploreScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     paddingTop: 50,
   },
   scrollContent: {
@@ -132,7 +160,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   postCard: {
-    backgroundColor: '#F3F4F6',
     padding: 12,
     borderRadius: 12,
     marginBottom: 12,
@@ -144,7 +171,6 @@ const styles = StyleSheet.create({
   },
   postContent: {
     fontSize: 14,
-    color: '#444',
     marginBottom: 6,
   },
   postImage: {
