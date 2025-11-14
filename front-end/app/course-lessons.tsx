@@ -1,7 +1,10 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 import { router, Stack, useLocalSearchParams } from 'expo-router';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
     ActivityIndicator,
+    Alert,
     Animated,
     Dimensions,
     FlatList,
@@ -13,12 +16,9 @@ import {
     TouchableOpacity,
     UIManager,
     View,
-    Alert,
 } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import IonIcon from 'react-native-vector-icons/Ionicons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
 
 import EnrollmentModal from '../src/components/EnrollmentModal';
 import PaymentModal from '../src/components/PaymentModal';
