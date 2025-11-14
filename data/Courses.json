@@ -7,10 +7,11 @@
         "status": true,
         "time": "520 phút",
         "numberOfParticipants": 21400,
-        "numberOfLessons": 10,
+        "numberOfLessons": 19,
         "rating": 4.9,
         "price": 499000,
         "discount": 10,
+        "description": "Khóa học giúp bạn nắm vững JavaScript từ cơ bản đến nâng cao, làm nền tảng cho các framework hiện đại.",
         "createdAt": { "$date": "2024-12-31T23:59:59Z" }
     },
     {
@@ -25,6 +26,7 @@
         "rating": 4.9,
         "price": 499000,
         "discount": 10,
+        "description": "Khóa học hướng dẫn xây dựng ứng dụng di động đa nền tảng bằng React Native và Expo.",
         "createdAt": { "$date": "2024-12-30T23:59:59Z" }
     },
     {
@@ -39,6 +41,7 @@
         "rating": 4.9,
         "price": 499000,
         "discount": 10,
+        "description": "Tìm hiểu cách sử dụng TypeScript để tăng tính an toàn và khả năng mở rộng trong phát triển ứng dụng JavaScript.",
         "createdAt": { "$date": "2024-12-29T23:59:59Z" }
     },
     {
@@ -53,6 +56,7 @@
         "rating": 4.9,
         "price": 499000,
         "discount": 10,
+        "description": "Học cách xây dựng backend mạnh mẽ với Node.js, Express và kết nối cơ sở dữ liệu MongoDB.",
         "createdAt": { "$date": "2024-12-28T23:59:59Z" }
     },
     {
@@ -67,6 +71,7 @@
         "rating": 4.9,
         "price": 499000,
         "discount": 10,
+        "description": "Khóa học giúp bạn làm chủ kỹ thuật bố cục hiện đại với CSS Flexbox và Grid để thiết kế web chuyên nghiệp.",
         "createdAt": { "$date": "2024-12-27T23:59:59Z" }
     }
 ]

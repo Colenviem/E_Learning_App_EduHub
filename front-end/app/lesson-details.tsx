@@ -1,148 +1,203 @@
-import { router, Stack, useLocalSearchParams } from 'expo-router';
-import React, { useCallback } from 'react';
-import { Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import axios from 'axios';
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
+import React, { useCallback, useEffect, useState } from 'react';
+import { ActivityIndicator, Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const placeholderVideo = require('../assets/images/tets.jpg'); 
+const placeholderVideo = require('../assets/images/tets.jpg');
 
 const COLORS = {
   background: '#FFFFFF',
   textPrimary: '#1E1E2A',
   textSecondary: '#6A6A6A',
-  primary: '#A78BFA', 
+  primary: '#A78BFA',
   accent: '#FF4D4D',
   border: '#E0E0E0',
   buttonBg: '#EAF4FF',
 };
 
-interface IExercise {
-  id: string;
+interface ILesson {
+  _id: string;
+  courseId: string;
+  title: string;
+  lesson_details: { _id: string; name: string; time: string }[];
+}
+
+interface ILessonDetail {
+  _id: string;
+  lessonId: string;
   name: string;
   videoTitle: string;
+  videoUrl: string;
+  time: string;
   tasks: string[];
 }
 
-const getExerciseData = (exerciseId: string): IExercise => ({
-  id: exerciseId,
-  name: 'Thiết lập môi trường & Hello World',
-  videoTitle: 'Cài đặt Node.js và Express cơ bản',
-  tasks: [
-    'Thiết lập môi trường phát triển Node.js (cài đặt npm/yarn).',
-    'Tạo một dự án ExpressJS mới và cấu hình cổng (port).',
-    'Viết route đầu tiên trả về dòng chữ "Hello World" khi truy cập /.',
-    'Sử dụng Postman hoặc trình duyệt để kiểm tra kết quả.',
-  ],
-});
+const LESSON_API = "http://localhost:5000/lessons";
+const LESSON_DETAIL_API = "http://localhost:5000/lesson-details";
 
 export default function ExerciseDetails() {
-  const params = useLocalSearchParams<{ id: string; course_id: string; lessonNumber: string }>();
-  
-  const exercise = getExerciseData(params.id || 'ex-1');
-  const exerciseNumber = parseInt(params.lessonNumber || '1');
+  const { id, courseId } = useLocalSearchParams();
+  const [allLessonSummaries, setAllLessonSummaries] = useState<{ _id: string; name: string; time: string }[]>([]);
+  const [lessonDetail, setLessonDetail] = useState<ILessonDetail | null>(null);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const router = useRouter();
+
+  // Load chi tiết bài học
+  const fetchLessonDetail = useCallback(async () => {
+    if (!id) return;
+    try {
+      const res = await axios.get(`${LESSON_DETAIL_API}/${id}`);
+      setLessonDetail(res.data);
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Lỗi', 'Không tải được chi tiết bài học');
+    }
+  }, [id]);
+
+  // Load danh sách tất cả lesson details trong course
+  const fetchLessonSummaries = useCallback(async () => {
+    if (!courseId) return;
+    try {
+      // Đảm bảo bạn đang gọi đến route '/by-course/'
+      const res = await axios.get(`${LESSON_API}/${courseId}`);
+
+      const lessons: ILesson[] = Array.isArray(res.data) ? res.data : [res.data];
+
+      const details = lessons.flatMap(l => l.lesson_details);
+      setAllLessonSummaries(details);
+
+      const index = details.findIndex(d => d._id === id);
+      setCurrentIndex(index >= 0 ? index : 0);
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Lỗi', 'Không tải được danh sách bài học');
+    }
+  }, [courseId, id]);
+
+  useEffect(() => {
+    fetchLessonDetail();
+    fetchLessonSummaries();
+  }, [fetchLessonDetail, fetchLessonSummaries]);
 
   const handleGoBack = useCallback(() => router.back(), []);
 
-  const handleGoPreviousExercise = useCallback(() => {
-    if (exerciseNumber > 1) {
-      router.push({
-        pathname: '/exercise-details',
-        params: { id: `ex-${exerciseNumber - 1}`, course_id: params.course_id, lessonNumber: String(exerciseNumber - 1) },
+  const handleGoPrevious = () => {
+    if (currentIndex > 0) {
+      const prevId = allLessonSummaries[currentIndex - 1]._id;
+      // KHÔNG CẦN: setCurrentIndex(currentIndex - 1);
+      
+      // Dùng 'replace' để có trải nghiệm back tốt hơn
+      router.replace({
+        pathname: "/lesson-details", 
+        params: { 
+          id: prevId, 
+          courseId: courseId
+        }
       });
-    } else Alert.alert('Thông báo', 'Đây là bài tập đầu tiên.');
-  }, [exerciseNumber, params.course_id]);
+    } else {
+      Alert.alert('Thông báo', 'Đây là bài đầu tiên.');
+    }
+  };
 
-  const handleGoNextExercise = useCallback(() => {
-    router.push({
-      pathname: '/exercise-details',
-      params: { id: `ex-${exerciseNumber + 1}`, course_id: params.course_id, lessonNumber: String(exerciseNumber + 1) },
-    });
-  }, [exerciseNumber, params.course_id]);
+  const handleGoNext = () => {
+    if (currentIndex < allLessonSummaries.length - 1) {
+      const nextId = allLessonSummaries[currentIndex + 1]._id;
+      // KHÔNG CẦN: setCurrentIndex(currentIndex + 1);
+
+      // Dùng 'replace' để có trải nghiệm back tốt hơn
+      router.replace({
+        pathname: "/lesson-details", 
+        params: { 
+          id: nextId, 
+          courseId: courseId
+        }
+      });
+    } else {
+      Alert.alert('Thông báo', 'Đây là bài cuối cùng.');
+    }
+  };
+
+  if (!lessonDetail) {
+    return (
+      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+        <ActivityIndicator size={20} />
+        <Text>Đang tải dữ liệu...</Text>
+      </View>
+    );
+  }
 
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
       <View style={styles.container}>
-        
-      
+        {/* Header */}
         <View style={styles.headerContainer}>
-            <View style={styles.header}>
-                <TouchableOpacity onPress={handleGoBack} style={styles.headerButton} activeOpacity={0.7}>
-                    <FeatherIcon size={24} color={COLORS.background} name="arrow-left" />
-                </TouchableOpacity>
+          <View style={styles.header}>
+            <TouchableOpacity onPress={handleGoBack} style={styles.headerButton}>
+              <FeatherIcon size={24} color={COLORS.background} name="arrow-left" />
+            </TouchableOpacity>
 
-                <Text style={styles.courseTitle} numberOfLines={1}>Node & ExpressJS</Text>
+            <Text style={styles.courseTitle} numberOfLines={1}>{lessonDetail.name}</Text>
 
-                <View style={styles.headerRight}>
-                    <Text style={styles.progressText}>0%</Text>
-                    <MaterialIcon name="notebook-outline" size={24} color={COLORS.background} />
-                </View>
+            <View style={styles.headerRight}>
+              <Text style={styles.progressText}>{lessonDetail.time}</Text>
+              <MaterialIcon name="notebook-outline" size={24} color={COLORS.background} />
             </View>
-        </View>
-
-        <View style={styles.videoWrapper}>
-          <Image source={placeholderVideo} style={styles.video} resizeMode="cover" />
-          <TouchableOpacity style={styles.playButton}>
-            <MaterialIcon name="play-circle" size={80} color="rgba(255,255,255,0.9)" />
-          </TouchableOpacity>
-        </View>
-        
-        <ScrollView style={styles.contentScroll} showsVerticalScrollIndicator={false}>
-          <View style={styles.contentContainer}>
-
-            <Text style={[styles.mainTitle, { color: COLORS.textPrimary }]}>
-                📝 Bài Tập {exerciseNumber}
-            </Text>
-            <Text style={[styles.exerciseName, { color: COLORS.textPrimary }]}>
-                {exercise.name}
-            </Text>
-
-            <Text style={[styles.sectionTitle, { color: COLORS.textPrimary }]}>
-                Nội dung Yêu cầu chi tiết:
-            </Text>
-            
-            {exercise.tasks.map((task, index) => (
-                <View key={index} style={styles.taskItem}>
-                    <Text style={[styles.taskIndex, { color: COLORS.primary }]}>-</Text>
-                    <Text style={[styles.taskText, { color: COLORS.textPrimary }]}>{task}</Text>
-                </View>
-            ))}
-            
-            <View style={styles.noteBox}>
-                <FeatherIcon name="info" size={20} color={COLORS.primary} style={{ marginRight: 10 }} />
-                <Text style={[styles.noteText, { color: COLORS.textSecondary }]}>
-                    Hãy hoàn thành bài tập này để củng cố kiến thức từ video bài giảng.
-                </Text>
-            </View>
-
           </View>
-          <View style={{ height: 100 }} /> 
+        </View>
+
+        {/* Video */}
+        <View style={styles.videoWrapper}>
+          {lessonDetail.videoUrl ? (
+            <Image source={{ uri: lessonDetail.videoUrl }} style={styles.video} resizeMode="cover" />
+          ) : (
+            <Image source={placeholderVideo} style={styles.video} resizeMode="cover" />
+          )}
+        </View>
+
+        {/* Tasks */}
+        <ScrollView style={styles.contentScroll}>
+          <View style={styles.contentContainer}>
+            <Text style={[styles.sectionTitle, { color: COLORS.textPrimary }]}>Nội dung bài học:</Text>
+            {lessonDetail.tasks.map((task, i) => (
+              <View key={i} style={styles.taskItem}>
+                <Text style={[styles.taskIndex, { color: COLORS.primary }]}>{i + 1}.</Text>
+                <Text style={[styles.taskText, { color: COLORS.textPrimary }]}>{task}</Text>
+              </View>
+            ))}
+          </View>
         </ScrollView>
 
+        {/* Footer */}
         <View style={styles.footer}>
-          <TouchableOpacity 
-            style={[styles.footerButton, styles.buttonOutline, { opacity: exerciseNumber > 1 ? 1 : 0.5 }]}
-            onPress={handleGoPreviousExercise}
-            disabled={exerciseNumber <= 1}
+          {/* Nút BÀI TRƯỚC */}
+          <TouchableOpacity
+            style={[styles.footerButton, { opacity: currentIndex > 0 ? 1 : 0.5 }]}
+            onPress={handleGoPrevious}
+            disabled={currentIndex <= 0}
           >
-            <Text style={[styles.footerButtonText, styles.buttonOutlineText]}>
-                <FeatherIcon name="arrow-left" size={16} color={COLORS.primary} /> BÀI TRƯỚC
-            </Text>
+            <Text style={styles.footerButtonText}>BÀI TRƯỚC</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity 
-            style={[styles.footerButton, styles.buttonPrimary]}
-            onPress={handleGoNextExercise}
-          >
-            <Text style={[styles.footerButtonText, styles.buttonPrimaryText]}>
-                BÀI TIẾP THEO <FeatherIcon name="arrow-right" size={16} color={COLORS.background} />
-            </Text>
-          </TouchableOpacity>
+          {/* Nút BÀI TIẾP THEO / HOÀN THÀNH */}
+          {currentIndex < allLessonSummaries.length - 1 ? (
+            <TouchableOpacity style={styles.footerButton} onPress={handleGoNext}>
+              <Text style={styles.footerButtonText}>BÀI TIẾP THEO</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={styles.footerButton}
+              onPress={() => {
+                Alert.alert('Hoàn thành', 'Bạn đã hoàn thành tất cả các bài học!');
+                router.back(); // hoặc router.push('/course-detail') tùy flow
+              }}
+            >
+              <Text style={styles.footerButtonText}>HOÀN THÀNH</Text>
+            </TouchableOpacity>
+          )}
         </View>
-        <TouchableOpacity style={styles.chatIcon}>
-            <FeatherIcon name="message-square" size={24} color={COLORS.background} />
-        </TouchableOpacity>
-        
       </View>
     </>
   );
@@ -151,166 +206,33 @@ export default function ExerciseDetails() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.background },
 
-  headerContainer: {
-    paddingTop: 50, 
-    backgroundColor: COLORS.primary, 
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 15,
-    paddingBottom: 15,
-  },
+  // Header
+  headerContainer: { paddingTop: 50, backgroundColor: COLORS.primary, paddingBottom: 15 },
+  header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20 },
   headerButton: { padding: 5 },
-  courseTitle: { 
-    fontSize: 18, 
-    fontWeight: '700', 
-    color: COLORS.background, 
-  },
-  headerRight: { 
-    flexDirection: 'row', 
-    alignItems: 'center', 
-    gap: 10,
-  },
-  progressText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: COLORS.background,
-  },
+  courseTitle: { fontSize: 16, fontWeight: '700', color: COLORS.background, flex: 1, textAlign: 'center' },
+  headerRight: { flexDirection: 'row', alignItems: 'center', gap: 10 },
 
-  videoWrapper: {
-    width: '100%',
-    height: 200, 
-    backgroundColor: COLORS.textPrimary,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  video: { 
-    width: '100%', 
-    height: '100%', 
-    opacity: 0.6, 
-  },
-  playButton: {
-    position: 'absolute',
-    padding: 10,
-  },
+  progressText: { fontSize: 12, fontWeight: '600', color: COLORS.background },
 
+  // Video
+  videoWrapper: { width: '100%', height: 220, backgroundColor: COLORS.border, justifyContent: 'center', alignItems: 'center', marginTop: 15, borderRadius: 15, overflow: 'hidden' },
+  video: { width: '100%', height: '100%' },
 
-  contentScroll: {
-    flex: 1,
-  },
-  contentContainer: {
-    padding: 20,
-    paddingTop: 30, 
-  },
-  mainTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: COLORS.primary,
-    marginBottom: 5,
-  },
-  exerciseName: {
-    fontSize: 24,
-    fontWeight: '800',
-    marginBottom: 20,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    marginTop: 15,
-    marginBottom: 10,
-  },
-  taskItem: {
-    flexDirection: 'row',
-    marginBottom: 10,
-    alignItems: 'flex-start',
-  },
-  taskIndex: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginRight: 8,
-    lineHeight: 24,
-    paddingTop: 0, 
-  },
-  taskText: {
-    flex: 1,
-    fontSize: 16,
-    lineHeight: 24,
-  },
-  noteBox: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(26, 115, 232, 0.08)', 
-    padding: 15,
-    borderRadius: 8,
-    marginTop: 30,
-    borderLeftWidth: 4,
-    borderLeftColor: COLORS.primary,
-  },
-  noteText: {
-    flex: 1,
-    fontSize: 14,
-    fontWeight: '500',
-    lineHeight: 20,
-    color: COLORS.textSecondary,
-  },
+  // Scroll Content
+  contentScroll: { flex: 1, marginTop: 15 },
+  contentContainer: { paddingHorizontal: 20, paddingBottom: 80 },
+  sectionTitle: { fontSize: 18, fontWeight: '700', marginBottom: 12, color: COLORS.textPrimary },
 
-  footer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    backgroundColor: COLORS.background,
-    borderTopWidth: 1,
-    borderTopColor: COLORS.border,
-    position: 'absolute', 
-    bottom: 0,
-    left: 0,
-    right: 0,
-  },
-  footerButton: {
-    flex: 1,
-    paddingVertical: 12,
-    borderRadius: 8,
-    marginHorizontal: 5,
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  buttonOutline: {
-    backgroundColor: COLORS.buttonBg, 
-    borderWidth: 1,
-    borderColor: COLORS.primary,
-  },
-  buttonPrimary: {
-    backgroundColor: COLORS.primary, 
-  },
-  footerButtonText: {
-    fontSize: 15,
-    fontWeight: '700',
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-  },
-  buttonOutlineText: {
-    color: COLORS.primary,
-  },
-  buttonPrimaryText: {
-    color: COLORS.background,
-  },
+  taskItem: { flexDirection: 'row', marginBottom: 12, alignItems: 'flex-start', backgroundColor: '#F9F9F9', padding: 12, borderRadius: 10, shadowColor: '#000', shadowOpacity: 0.05, shadowOffset: { width: 0, height: 2 }, shadowRadius: 4, elevation: 2 },
+  taskIndex: { fontWeight: '700', marginRight: 10, color: COLORS.primary, fontSize: 16 },
+  taskText: { flex: 1, fontSize: 16, lineHeight: 22, color: COLORS.textPrimary },
 
+  // Footer
+  footer: { flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20, paddingVertical: 15, position: 'absolute', bottom: 0, left: 0, right: 0, backgroundColor: COLORS.background, borderTopWidth: 1, borderTopColor: COLORS.border },
+  footerButton: { flex: 1, padding: 14, marginHorizontal: 5, borderRadius: 12, justifyContent: 'center', alignItems: 'center', backgroundColor: COLORS.primary, shadowColor: '#000', shadowOpacity: 0.1, shadowOffset: { width: 0, height: 2 }, shadowRadius: 6, elevation: 3 },
+  footerButtonText: { color: COLORS.background, fontWeight: '700', fontSize: 14 },
 
-  chatIcon: {
-    position: 'absolute',
-    bottom: 80, 
-    right: 20,
-    backgroundColor: COLORS.primary,
-    borderRadius: 30,
-    width: 50,
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    elevation: 5,
-  },
+  // Placeholder / Play Button (Optional)
+  playButton: { position: 'absolute', justifyContent: 'center', alignItems: 'center' },
 });
