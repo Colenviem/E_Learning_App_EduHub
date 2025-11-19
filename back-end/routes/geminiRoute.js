@@ -1,80 +1,78 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { GoogleGenerativeAI } = require('@google/generative-ai');
-const Document = require('../models/Document');
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+const Document = require("../models/Document");
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-// ĐỊNH NGHĨA NGƯỠNG TƯƠNG ĐỒNG
-// Bạn có thể điều chỉnh con số này (từ 0.0 đến 1.0)
-// 0.75 là một khởi đầu tốt, nghĩa là "khá tương đồng"
-const SIMILARITY_THRESHOLD = 0.75;
-
-// Cosine similarity (Code của bạn đã đúng)
 function cosineSim(a, b) {
-  const dot = a.reduce((sum, val, i) => sum + val * b[i], 0);
-  const normA = Math.sqrt(a.reduce((sum, val) => sum + val*val, 0));
-  const normB = Math.sqrt(b.reduce((sum, val) => sum + val*val, 0));
-  return dot / (normA * normB);
+  const dot = a.reduce((sum, v, i) => sum + v * b[i], 0);
+  const normA = Math.sqrt(a.reduce((s, v) => s + v * v, 0));
+  const normB = Math.sqrt(b.reduce((s, v) => s + v * v, 0));
+  return dot / (normA * normB);
 }
 
-router.post('/ask-gemini', async (req, res) => {
-  try {
-    const { prompt } = req.body;
-    if (!prompt) return res.status(400).json({ error: 'Vui lòng cung cấp "prompt"' });
+router.post("/ask-gemini", async (req, res) => {
+  try {
+    const { prompt } = req.body;
 
-    // --- 1. TẠO EMBEDDING CHO CÂU HỎI ---
-    const embeddingModel = genAI.getGenerativeModel({ 
-      model: "text-embedding-004"
-    });
-    const embeddingResult = await embeddingModel.embedContent(prompt);
-    const queryVector = embeddingResult.embedding.values;
+    const embedModel = genAI.getGenerativeModel({
+      model: "text-embedding-004",
+    });
 
-    // --- 2. TÌM TÀI LIỆU TƯƠNG ĐỒNG NHẤT ---
-    const docs = await Document.find();
-    let bestDoc = null;
-    let bestScore = -1;
-    for (let doc of docs) {
-      const sim = cosineSim(queryVector, doc.vector);
-      if (sim > bestScore) {
-        bestScore = sim;
-        bestDoc = doc;
-      }
-    }
+    const embedResult = await embedModel.embedContent(prompt);
+    const queryVector = embedResult.embedding.values;
 
-    // --- 3. QUYẾT ĐỊNH VÀ TẠO CÂU TRẢ LỜI ---
-    
-    let augmentedPrompt = ""; // Prompt cuối cùng sẽ gửi cho AI
-    
-    // Kiểm tra xem điểm tương đồng có VƯỢT QUA NGƯỠNG không
-    if (bestDoc && bestScore > SIMILARITY_THRESHOLD) {
-      // NẾU CÓ: Câu hỏi liên quan đến khóa học -> Thêm context
-      console.log(`Tìm thấy context liên quan (Score: ${bestScore.toFixed(2)})`);
-      const context = bestDoc.text;
-      augmentedPrompt = `Dựa trên thông tin sau:\n"${context}"\n\nTrả lời câu hỏi: ${prompt}`;
-    } else {
-      // NẾU KHÔNG: Câu hỏi chung -> Không thêm context
-      console.log(`Không tìm thấy context liên quan (Score: ${bestScore.toFixed(2)}). Trả lời chung.`);
-      augmentedPrompt = prompt; // Chỉ gửi câu hỏi gốc
-    }
+    const docs = await Document.find();
+    let bestDoc = null;
+    let bestScore = -1;
 
-    // 3a. Lấy mô hình generative
-    const generativeModel = genAI.getGenerativeModel({ 
-      model: "gemini-2.0-flash" 
-    });
+    // Find best match
+    for (let doc of docs) {
+        const sim = cosineSim(queryVector, doc.vector);
+        if (sim > bestScore) {
+            bestScore = sim;
+            bestDoc = doc;
+        }
+    }
 
-    // 3b. Gọi .generateContent() với prompt đã được xử lý
-    const result = await generativeModel.generateContent(augmentedPrompt);
-    
-    // 3c. Lấy text
-    const text = result.response.text(); 
+    const shouldUseContext =
+        bestDoc && bestScore > 0.45 && ["course", "lesson", "detail"].includes(bestDoc.type);
 
-    res.json({ answer: text });
+    let finalPrompt;
 
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Lỗi server AI' });
-  }
+    if (shouldUseContext) {
+        finalPrompt = `
+            Bạn là E-Learning.AI, một trợ lý AI cho nền tảng học trực tuyến. Hãy sử dụng dữ liệu được trích xuất bên dưới để trả lời câu hỏi.
+
+            DƯỚI ĐÂY LÀ DỮ LIỆU ĐƯỢC TRÍCH XUẤT:
+            ${bestDoc.text}
+
+            NHIỆM VỤ:
+            - Chỉ sử dụng thông tin từ dữ liệu trên.
+            - Khi trả lời, đừng dùng ** để in đậm. Thay toàn bộ bằng dấu gạch đầu dòng -
+
+            CÂU HỎI:
+            ${prompt}
+        `;
+    } else {
+      finalPrompt = prompt;
+    }
+
+    const model = genAI.getGenerativeModel({
+        model: "gemini-2.0-flash-lite",
+    });
+
+    const result = await model.generateContent(finalPrompt);
+        res.json({
+            answer: result.response.text(),
+            matched: bestDoc?.type,
+            score: bestScore,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "AI error" });
+    }
 });
 
 module.exports = router;

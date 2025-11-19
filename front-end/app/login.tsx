@@ -17,7 +17,7 @@ import {
   TouchableOpacity, View
 } from 'react-native';
 
-const API = "http://192.168.0.102:5000/accounts";
+const API = "http://192.168.2.6:5000/accounts";
 
 export default function Login() {
   const [email, setEmail] = useState('');

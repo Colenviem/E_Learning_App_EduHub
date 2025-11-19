@@ -28,7 +28,7 @@ if (Platform.OS === 'android') {
     UIManager.setLayoutAnimationEnabledExperimental?.(true);
 }
 
-const API_BASE_URL = 'http://192.168.0.102:5000';
+const API_BASE_URL = 'http://192.168.2.6:5000';
 const API_COURSES = `${API_BASE_URL}/courses`;
 const API_LESSONS = `${API_BASE_URL}/lessons`;
 const API_ORDERS = `${API_BASE_URL}/orders`;

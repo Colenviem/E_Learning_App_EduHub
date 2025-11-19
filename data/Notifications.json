@@ -1,7 +1,39 @@
 [
     {
         "_id": "NOTIF001",
-        "userId": "USER001", 
+        "userId": "ACC005", 
+        "type": "lesson",
+        "message": "You completed lesson 101!",
+        "read": false,
+        "createdAt": { "$date": "2024-12-31T23:59:59Z" }
+    },
+    {
+        "_id": "NOTIF002",
+        "userId": "ACC005", 
+        "type": "lesson",
+        "message": "You completed lesson 101!",
+        "read": false,
+        "createdAt": { "$date": "2024-12-31T23:59:59Z" }
+    },
+    {
+        "_id": "NOTIF003",
+        "userId": "ACC001", 
+        "type": "lesson",
+        "message": "You completed lesson 101!",
+        "read": false,
+        "createdAt": { "$date": "2024-12-31T23:59:59Z" }
+    },
+    {
+        "_id": "NOTIF004",
+        "userId": "ACC005", 
+        "type": "lesson",
+        "message": "You completed lesson 101!",
+        "read": false,
+        "createdAt": { "$date": "2024-12-31T23:59:59Z" }
+    },
+    {
+        "_id": "NOTIF005",
+        "userId": "ACC001", 
         "type": "lesson",
         "message": "You completed lesson 101!",
         "read": false,

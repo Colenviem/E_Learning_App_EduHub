@@ -1,9 +1,10 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const docSchema = new mongoose.Schema({
-  text: String,
-  vector: { type: [Number], index: '2dsphere' }, // dùng vector lưu embedding
-  createdAt: { type: Date, default: Date.now }
+const DocumentSchema = new mongoose.Schema({
+  type: String,       // course | lesson | detail
+  sourceId: String,   // COURSE001 / LESSON001 / DETAIL10101
+  text: String,       // Nội dung text dùng cho RAG
+  vector: [Number],   // Embedding vector
 });
 
-module.exports = mongoose.model('Document', docSchema);
+module.exports = mongoose.model("Document", DocumentSchema);

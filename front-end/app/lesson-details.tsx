@@ -4,6 +4,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Video, ResizeMode } from 'expo-av';
+
+import { QuizComponent } from '../src/components/Quiz/QuizComponent';
 
 const placeholderVideo = require('../assets/images/tets.jpg');
 
@@ -24,6 +27,19 @@ interface ILesson {
   lesson_details: { _id: string; name: string; time: string }[];
 }
 
+interface IOption {
+  option: string;
+  correct: boolean;
+}
+
+interface IQuiz {
+  _id: string;
+  type: 'single_choice' | 'multiple_choice' | 'true_false';
+  question: string;
+  options: IOption[];
+  createdAt: string;
+}
+
 interface ILessonDetail {
   _id: string;
   lessonId: string;
@@ -32,10 +48,11 @@ interface ILessonDetail {
   videoUrl: string;
   time: string;
   tasks: string[];
+  quizzes?: IQuiz[];
 }
 
-const LESSON_API = "http://localhost:5000/lessons";
-const LESSON_DETAIL_API = "http://localhost:5000/lesson-details";
+const LESSON_API = "http://192.168.2.6:5000/lessons";
+const LESSON_DETAIL_API = "http://192.168.2.6:5000/lesson-details";
 
 export default function ExerciseDetails() {
   const { id, courseId } = useLocalSearchParams();
@@ -151,14 +168,20 @@ export default function ExerciseDetails() {
         {/* Video */}
         <View style={styles.videoWrapper}>
           {lessonDetail.videoUrl ? (
-            <Image source={{ uri: lessonDetail.videoUrl }} style={styles.video} resizeMode="cover" />
+            <Video
+              source={{ uri: lessonDetail.videoUrl }}
+              style={{ width: '100%', height: '100%' }}
+              useNativeControls
+              resizeMode={ResizeMode.CONTAIN}
+              isLooping
+            />
           ) : (
             <Image source={placeholderVideo} style={styles.video} resizeMode="cover" />
           )}
         </View>
 
-        {/* Tasks */}
         <ScrollView style={styles.contentScroll}>
+          {/* Tasks */}
           <View style={styles.contentContainer}>
             <Text style={[styles.sectionTitle, { color: COLORS.textPrimary }]}>Nội dung bài học:</Text>
             {lessonDetail.tasks.map((task, i) => (
@@ -168,6 +191,19 @@ export default function ExerciseDetails() {
               </View>
             ))}
           </View>
+
+          {/* Quiz Section */}
+          {lessonDetail.quizzes && lessonDetail.quizzes.length > 0 && (
+            <View style={{ marginTop: 20, paddingHorizontal: 20 }}>
+              <Text style={{ fontSize: 18, fontWeight: '700', borderBottomWidth: 1, borderBottomColor: '#E0E0E0', paddingBottom: 8, marginBottom: 12, color: COLORS.textPrimary }}>
+                Bài kiểm tra nhanh ({lessonDetail.quizzes.length} câu)
+              </Text>
+
+              {lessonDetail.quizzes.map((quiz, i) => (
+                <QuizComponent key={quiz._id} quiz={quiz} index={i} />
+              ))}
+            </View>
+          )}
         </ScrollView>
 
         {/* Footer */}
@@ -216,12 +252,12 @@ const styles = StyleSheet.create({
   progressText: { fontSize: 12, fontWeight: '600', color: COLORS.background },
 
   // Video
-  videoWrapper: { width: '100%', height: 220, backgroundColor: COLORS.border, justifyContent: 'center', alignItems: 'center', marginTop: 15, borderRadius: 15, overflow: 'hidden' },
+  videoWrapper: { height: 220, backgroundColor: COLORS.border, justifyContent: 'center', alignItems: 'center', marginTop: 15, overflow: 'hidden' },
   video: { width: '100%', height: '100%' },
 
   // Scroll Content
-  contentScroll: { flex: 1, marginTop: 15 },
-  contentContainer: { paddingHorizontal: 20, paddingBottom: 80 },
+  contentScroll: { flex: 1, marginTop: 15, marginBottom: 80 },
+  contentContainer: { paddingHorizontal: 20 },
   sectionTitle: { fontSize: 18, fontWeight: '700', marginBottom: 12, color: COLORS.textPrimary },
 
   taskItem: { flexDirection: 'row', marginBottom: 12, alignItems: 'flex-start', backgroundColor: '#F9F9F9', padding: 12, borderRadius: 10, shadowColor: '#000', shadowOpacity: 0.05, shadowOffset: { width: 0, height: 2 }, shadowRadius: 4, elevation: 2 },
