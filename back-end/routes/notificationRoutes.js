@@ -23,15 +23,14 @@ router.post("/", async (req, res) => {
     }
 });
 
-// ✅ GET notification by ID
-router.get("/:id", async (req, res) => {
-    try {
-        const item = await Notification.findById(req.params.id);
-        if (!item) return res.status(404).json({ message: "Not found" });
-        res.json(item);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
+// Lấy tất cả notifications của một user
+router.get("/:userId", async (req, res) => {
+  try {
+    const notifications = await Notification.find({ userId: req.params.userId });
+    res.json(notifications);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
 // ✅ UPDATE notification

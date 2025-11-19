@@ -34,7 +34,7 @@ type paymentMethodProps = {
   courseId: string;        // Received from parent
 };
 
-const API = "http://localhost:5000/orders";
+const API = "http://192.168.2.6:5000/orders";
 
 export default function PaymentModal({ 
   visible, 

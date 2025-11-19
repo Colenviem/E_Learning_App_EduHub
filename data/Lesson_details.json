@@ -1,572 +1,2803 @@
 [
-    {
-        "_id": "DETAIL10101",
-        "lessonId": "LESSON001",
-        "name": "Giới thiệu về biến (Variables)",
-        "videoTitle": "Hiểu về biến trong JavaScript",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/variables-intro.mp4",
-        "time": "10 phút",
-        "tasks": [
-            "Biến là gì trong JavaScript?",
-            "Cách khai báo biến bằng var, let và const.",
-            "Quy tắc đặt tên biến.",
-            "So sánh phạm vi hoạt động của biến."
-        ],
-        "createdAt": { "$date": "2024-12-31T23:59:59Z" }
+  {
+    "_id": "DETAIL10101",
+    "lessonId": "LESSON001",
+    "name": "Giới thiệu về biến (Variables)",
+    "videoTitle": "Hiểu về biến trong JavaScript",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "10 phút",
+    "tasks": [
+      "Biến là gì trong JavaScript?",
+      "Cách khai báo biến bằng var, let và const.",
+      "Quy tắc đặt tên biến.",
+      "So sánh phạm vi hoạt động của biến."
+    ],
+    "createdAt": {
+      "$date": "2024-12-31T23:59:59Z"
     },
-    {
-        "_id": "DETAIL10102",
-        "lessonId": "LESSON001",
-        "name": "Hằng số (Constants) trong JavaScript",
-        "videoTitle": "Sử dụng const trong JavaScript",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/constants.mp4",
-        "time": "8 phút",
-        "tasks": [
-        "Hằng số const là gì?",
-        "Sự khác nhau giữa let và const.",
-        "Giá trị không thay đổi nhưng object và array có thể thay đổi thuộc tính.",
-        "Ứng dụng const trong thực tế."
+    "quizzes": [
+      {
+        "_id": "QUIZ10101_01",
+        "type": "single_choice",
+        "question": "Trong JavaScript hiện đại (ES6+), từ khóa nào được khuyến nghị dùng để khai báo một biến có thể thay đổi giá trị và có phạm vi hoạt động (scope) là Block Scope?",
+        "options": [
+          {
+            "option": "const",
+            "correct": false
+          },
+          {
+            "option": "var",
+            "correct": false
+          },
+          {
+            "option": "let",
+            "correct": true
+          },
+          {
+            "option": "value",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2024-12-31T23:59:59Z" }
+        "createdAt": {
+          "$date": "2025-01-01T00:00:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10101_02",
+        "type": "single_choice",
+        "question": "Quy tắc đặt tên biến nào là **sai** trong JavaScript?",
+        "options": [
+          {
+            "option": "Tên biến không được bắt đầu bằng số.",
+            "correct": false
+          },
+          {
+            "option": "Tên biến phân biệt chữ hoa, chữ thường (case-sensitive).",
+            "correct": false
+          },
+          {
+            "option": "Tên biến phải chứa khoảng trắng.",
+            "correct": true
+          },
+          {
+            "option": "Tên biến có thể chứa dấu gạch dưới `_`.",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-01T00:01:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10101_03",
+        "type": "single_choice",
+        "question": "Phạm vi hoạt động (scope) của biến được khai báo bằng `var` là gì?",
+        "options": [
+          {
+            "option": "Block Scope",
+            "correct": false
+          },
+          {
+            "option": "Global Scope",
+            "correct": false
+          },
+          {
+            "option": "Lexical Scope",
+            "correct": false
+          },
+          {
+            "option": "Function Scope",
+            "correct": true
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-01T00:02:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10102",
+    "lessonId": "LESSON001",
+    "name": "Hằng số (Constants) trong JavaScript",
+    "videoTitle": "Sử dụng const trong JavaScript",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "8 phút",
+    "tasks": [
+      "Hằng số const là gì?",
+      "Sự khác nhau giữa let và const.",
+      "Giá trị không thay đổi nhưng object và array có thể thay đổi thuộc tính.",
+      "Ứng dụng const trong thực tế."
+    ],
+    "createdAt": {
+      "$date": "2024-12-31T23:59:59Z"
     },
-    {
-        "_id": "DETAIL10103",
-        "lessonId": "LESSON001",
-        "name": "Các kiểu dữ liệu cơ bản (Data Types)",
-        "videoTitle": "Tổng quan các kiểu dữ liệu trong JavaScript",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/data-types.mp4",
-        "time": "15 phút",
-        "tasks": [
-        "String, Number, Boolean trong JavaScript.",
-        "Null và Undefined.",
-        "Object và Array.",
-        "Thực hành kiểm tra kiểu dữ liệu với typeof."
+    "quizzes": [
+      {
+        "_id": "QUIZ10102_01",
+        "type": "single_choice",
+        "question": "Khi khai báo một biến với `const`, điều gì là **luôn luôn** đúng?",
+        "options": [
+          {
+            "option": "Giá trị không thể thay đổi.",
+            "correct": false
+          },
+          {
+            "option": "Biến phải được khởi tạo ngay lập tức.",
+            "correct": true
+          },
+          {
+            "option": "Phạm vi hoạt động là Global Scope.",
+            "correct": false
+          },
+          {
+            "option": "Chỉ dùng cho các giá trị số.",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2024-12-31T23:59:59Z" }
+        "createdAt": {
+          "$date": "2025-01-01T00:03:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10102_02",
+        "type": "single_choice",
+        "question": "Nếu một Object được khai báo bằng `const`, ta có thể làm gì?",
+        "options": [
+          {
+            "option": "Gán lại hoàn toàn Object đó.",
+            "correct": false
+          },
+          {
+            "option": "Thay đổi giá trị của các thuộc tính bên trong Object.",
+            "correct": true
+          },
+          {
+            "option": "Xóa Object đó khỏi bộ nhớ.",
+            "correct": false
+          },
+          {
+            "option": "Không làm gì cả vì nó là hằng số.",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-01T00:04:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10103",
+    "lessonId": "LESSON001",
+    "name": "Các kiểu dữ liệu cơ bản (Data Types)",
+    "videoTitle": "Tổng quan các kiểu dữ liệu trong JavaScript",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "15 phút",
+    "tasks": [
+      "String, Number, Boolean trong JavaScript.",
+      "Null và Undefined.",
+      "Object và Array.",
+      "Thực hành kiểm tra kiểu dữ liệu với typeof."
+    ],
+    "createdAt": {
+      "$date": "2024-12-31T23:59:59Z"
     },
-    {
-        "_id": "DETAIL10104",
-        "lessonId": "LESSON001",
-        "name": "Thực hành: Viết chương trình tính toán đơn giản",
-        "videoTitle": "Thực hành lập trình cơ bản",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/simple-calculation.mp4",
-        "time": "12 phút",
-        "tasks": [
-        "Viết chương trình tính tổng hai số.",
-        "Kiểm tra số lớn hơn.",
-        "In kết quả ra console.",
-        "Tạo input cho người dùng nhập số."
+    "quizzes": [
+      {
+        "_id": "QUIZ10103_01",
+        "type": "single_choice",
+        "question": "Kết quả của `typeof null` trong JavaScript là gì?",
+        "options": [
+          {
+            "option": "'null'",
+            "correct": false
+          },
+          {
+            "option": "'undefined'",
+            "correct": false
+          },
+          {
+            "option": "'object'",
+            "correct": true
+          },
+          {
+            "option": "'number'",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2024-12-31T23:59:59Z" }
+        "createdAt": {
+          "$date": "2025-01-01T00:05:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10103_02",
+        "type": "single_choice",
+        "question": "Kiểu dữ liệu nào biểu thị một biến đã được khai báo nhưng chưa được gán giá trị?",
+        "options": [
+          {
+            "option": "null",
+            "correct": false
+          },
+          {
+            "option": "NaN",
+            "correct": false
+          },
+          {
+            "option": "Undefined",
+            "correct": true
+          },
+          {
+            "option": "Void",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-01T00:06:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10103_03",
+        "type": "single_choice",
+        "question": "Kiểu dữ liệu cơ bản (primitive type) nào không có trong JavaScript?",
+        "options": [
+          {
+            "option": "Symbol",
+            "correct": false
+          },
+          {
+            "option": "Number",
+            "correct": false
+          },
+          {
+            "option": "Char",
+            "correct": true
+          },
+          {
+            "option": "BigInt",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-01T00:07:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10104",
+    "lessonId": "LESSON001",
+    "name": "Thực hành: Viết chương trình tính toán đơn giản",
+    "videoTitle": "Thực hành lập trình cơ bản",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "12 phút",
+    "tasks": [
+      "Viết chương trình tính tổng hai số.",
+      "Kiểm tra số lớn hơn.",
+      "In kết quả ra console.",
+      "Tạo input cho người dùng nhập số."
+    ],
+    "createdAt": {
+      "$date": "2024-12-31T23:59:59Z"
     },
-    {
-        "_id": "DETAIL10201",
-        "lessonId": "LESSON002",
-        "name": "Toán tử số học và gán",
-        "videoTitle": "Arithmetic & Assignment Operators",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/operators1.mp4",
-        "time": "15 phút",
-        "tasks": [
-        "Giới thiệu các toán tử +, -, *, /, %.",
-        "Cách sử dụng toán tử gán =, +=, -=.",
-        "Thực hành tính toán cơ bản.",
-        "Ứng dụng vào bài toán thực tế."
+    "quizzes": [
+      {
+        "_id": "QUIZ10104_01",
+        "type": "single_choice",
+        "question": "Để hiển thị một thông báo hoặc giá trị ra cửa sổ console (bảng điều khiển), ta sử dụng hàm nào?",
+        "options": [
+          {
+            "option": "alert()",
+            "correct": false
+          },
+          {
+            "option": "console.log()",
+            "correct": true
+          },
+          {
+            "option": "document.write()",
+            "correct": false
+          },
+          {
+            "option": "print()",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-01T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-01T00:08:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10104_02",
+        "type": "single_choice",
+        "question": "Hàm nào thường được dùng để lấy dữ liệu nhập vào từ người dùng dưới dạng một cửa sổ pop-up?",
+        "options": [
+          {
+            "option": "confirm()",
+            "correct": false
+          },
+          {
+            "option": "alert()",
+            "correct": false
+          },
+          {
+            "option": "prompt()",
+            "correct": true
+          },
+          {
+            "option": "console.log()",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-01T00:09:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10201",
+    "lessonId": "LESSON002",
+    "name": "Toán tử số học và gán",
+    "videoTitle": "Arithmetic & Assignment Operators",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "15 phút",
+    "tasks": [
+      "Giới thiệu các toán tử +, -, *, /, %.",
+      "Cách sử dụng toán tử gán =, +=, -=.",
+      "Thực hành tính toán cơ bản.",
+      "Ứng dụng vào bài toán thực tế."
+    ],
+    "createdAt": {
+      "$date": "2025-01-01T00:00:00Z"
     },
-    {
-        "_id": "DETAIL10202",
-        "lessonId": "LESSON002",
-        "name": "Toán tử so sánh và logic",
-        "videoTitle": "Comparison & Logical Operators",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/operators2.mp4",
-        "time": "15 phút",
-        "tasks": [
-        "Các toán tử >, <, <=, >=, ==, ===.",
-        "Toán tử logic &&, ||, !.",
-        "Lỗi phổ biến khi so sánh biến.",
-        "Thực hành tạo điều kiện bằng toán tử logic."
+    "quizzes": [
+      {
+        "_id": "QUIZ10201_01",
+        "type": "single_choice",
+        "question": "Toán tử `%` trong JavaScript dùng để làm gì?",
+        "options": [
+          {
+            "option": "Lũy thừa.",
+            "correct": false
+          },
+          {
+            "option": "Phép chia lấy phần nguyên.",
+            "correct": false
+          },
+          {
+            "option": "Phép chia lấy phần dư (modulus).",
+            "correct": true
+          },
+          {
+            "option": "Tăng giá trị thêm 1.",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-01T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-01T00:10:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10201_02",
+        "type": "single_choice",
+        "question": "Biểu thức `let x = 5; x += 3;` sẽ cho kết quả `x` bằng bao nhiêu?",
+        "options": [
+          {
+            "option": "5",
+            "correct": false
+          },
+          {
+            "option": "8",
+            "correct": true
+          },
+          {
+            "option": "3",
+            "correct": false
+          },
+          {
+            "option": "15",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-01T00:11:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10201_03",
+        "type": "single_choice",
+        "question": "Toán tử nào là toán tử tăng (Increment) tiền tố (prefix)?",
+        "options": [
+          {
+            "option": "x++",
+            "correct": false
+          },
+          {
+            "option": "++x",
+            "correct": true
+          },
+          {
+            "option": "x+1",
+            "correct": false
+          },
+          {
+            "option": "x--",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-01T00:12:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10202",
+    "lessonId": "LESSON002",
+    "name": "Toán tử so sánh và logic",
+    "videoTitle": "Comparison & Logical Operators",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "15 phút",
+    "tasks": [
+      "Các toán tử >, <, <=, >=, ==, ===.",
+      "Toán tử logic &&, ||, !.",
+      "Lỗi phổ biến khi so sánh biến.",
+      "Thực hành tạo điều kiện bằng toán tử logic."
+    ],
+    "createdAt": {
+      "$date": "2025-01-01T00:00:00Z"
     },
-    {
-        "_id": "DETAIL10203",
-        "lessonId": "LESSON002",
-        "name": "Thực hành với biểu thức",
-        "videoTitle": "Practice with Expressions",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/operators-practice.mp4",
-        "time": "10 phút",
-        "tasks": [
-        "Kết hợp nhiều toán tử.",
-        "Viết biểu thức tính toán.",
-        "Bài tập nâng cao.",
-        "Debug lỗi biểu thức."
+    "quizzes": [
+      {
+        "_id": "QUIZ10202_01",
+        "type": "single_choice",
+        "question": "Toán tử nào so sánh giá trị **và** kiểu dữ liệu?",
+        "options": [
+          {
+            "option": "==",
+            "correct": false
+          },
+          {
+            "option": "===",
+            "correct": true
+          },
+          {
+            "option": "!=",
+            "correct": false
+          },
+          {
+            "option": "!==",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-01T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-01T00:13:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10202_02",
+        "type": "single_choice",
+        "question": "Kết quả của biểu thức `(true && false) || !false` là gì?",
+        "options": [
+          {
+            "option": "true",
+            "correct": true
+          },
+          {
+            "option": "false",
+            "correct": false
+          },
+          {
+            "option": "Error",
+            "correct": false
+          },
+          {
+            "option": "undefined",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-01T00:14:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10202_03",
+        "type": "single_choice",
+        "question": "Toán tử logic nào tương đương với phép toán 'OR' và trả về `true` nếu ít nhất một toán hạng là `true`?",
+        "options": [
+          {
+            "option": "!",
+            "correct": false
+          },
+          {
+            "option": "&&",
+            "correct": false
+          },
+          {
+            "option": "||",
+            "correct": true
+          },
+          {
+            "option": "&",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-01T00:15:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10203",
+    "lessonId": "LESSON002",
+    "name": "Thực hành với biểu thức",
+    "videoTitle": "Practice with Expressions",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "10 phút",
+    "tasks": [
+      "Kết hợp nhiều toán tử.",
+      "Viết biểu thức tính toán.",
+      "Bài tập nâng cao.",
+      "Debug lỗi biểu thức."
+    ],
+    "createdAt": {
+      "$date": "2025-01-01T00:00:00Z"
     },
-    {
-        "_id": "DETAIL10301",
-        "lessonId": "LESSON003",
-        "name": "Câu lệnh if và else",
-        "videoTitle": "If & Else Statements",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/if-else.mp4",
-        "time": "15 phút",
-        "tasks": [
-        "Viết câu lệnh điều kiện cơ bản.",
-        "Tối ưu hóa điều kiện.",
-        "Tránh lồng if quá sâu.",
-        "Ứng dụng vào chương trình thực tế."
+    "quizzes": [
+      {
+        "_id": "QUIZ10203_01",
+        "type": "single_choice",
+        "question": "Thứ tự ưu tiên nào là đúng (từ cao đến thấp)?",
+        "options": [
+          {
+            "option": "So sánh, Số học, Gán",
+            "correct": false
+          },
+          {
+            "option": "Số học, So sánh, Logic",
+            "correct": true
+          },
+          {
+            "option": "Logic, So sánh, Số học",
+            "correct": false
+          },
+          {
+            "option": "Gán, Số học, So sánh",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-02T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-01T00:16:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10203_02",
+        "type": "single_choice",
+        "question": "Kết quả của biểu thức `5 + 3 * 2` là bao nhiêu?",
+        "options": [
+          {
+            "option": "16",
+            "correct": false
+          },
+          {
+            "option": "11",
+            "correct": true
+          },
+          {
+            "option": "13",
+            "correct": false
+          },
+          {
+            "option": "10",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-01T00:17:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10301",
+    "lessonId": "LESSON003",
+    "name": "Câu lệnh if và else",
+    "videoTitle": "If & Else Statements",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "15 phút",
+    "tasks": [
+      "Viết câu lệnh điều kiện cơ bản.",
+      "Tối ưu hóa điều kiện.",
+      "Tránh lồng if quá sâu.",
+      "Ứng dụng vào chương trình thực tế."
+    ],
+    "createdAt": {
+      "$date": "2025-01-02T00:00:00Z"
     },
-    {
-        "_id": "DETAIL10302",
-        "lessonId": "LESSON003",
-        "name": "Câu lệnh else if và switch",
-        "videoTitle": "Else If & Switch Case",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/switch-case.mp4",
-        "time": "15 phút",
-        "tasks": [
-        "Khi nào nên dùng else if?",
-        "Giới thiệu switch-case.",
-        "Xử lý nhiều điều kiện.",
-        "Thực hành phân loại dữ liệu."
+    "quizzes": [
+      {
+        "_id": "QUIZ10301_01",
+        "type": "single_choice",
+        "question": "Khối lệnh `else` sẽ được thực thi khi nào?",
+        "options": [
+          {
+            "option": "Luôn luôn được thực thi.",
+            "correct": false
+          },
+          {
+            "option": "Khi điều kiện trong `if` là `true`.",
+            "correct": false
+          },
+          {
+            "option": "Khi điều kiện trong `if` là `false`.",
+            "correct": true
+          },
+          {
+            "option": "Khi có lỗi xảy ra.",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-02T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-02T00:00:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10301_02",
+        "type": "single_choice",
+        "question": "Giá trị nào được coi là **truthy** trong JavaScript?",
+        "options": [
+          {
+            "option": "0",
+            "correct": false
+          },
+          {
+            "option": "null",
+            "correct": false
+          },
+          {
+            "option": "[] (Mảng rỗng)",
+            "correct": true
+          },
+          {
+            "option": "undefined",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-02T00:01:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10302",
+    "lessonId": "LESSON003",
+    "name": "Câu lệnh else if và switch",
+    "videoTitle": "Else If & Switch Case",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "15 phút",
+    "tasks": [
+      "Khi nào nên dùng else if?",
+      "Giới thiệu switch-case.",
+      "Xử lý nhiều điều kiện.",
+      "Thực hành phân loại dữ liệu."
+    ],
+    "createdAt": {
+      "$date": "2025-01-02T00:00:00Z"
     },
-    {
-        "_id": "DETAIL10303",
-        "lessonId": "LESSON003",
-        "name": "Toán tử điều kiện",
-        "videoTitle": "Conditional (Ternary) Operator",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/ternary.mp4",
-        "time": "10 phút",
-        "tasks": [
-        "Cú pháp toán tử ? :",
-        "Viết điều kiện ngắn gọn.",
-        "Thay thế if-else đơn giản.",
-        "Thực hành với biểu thức."
+    "quizzes": [
+      {
+        "_id": "QUIZ10302_01",
+        "type": "single_choice",
+        "question": "Từ khóa nào được sử dụng để thoát khỏi khối `case` trong câu lệnh `switch`?",
+        "options": [
+          {
+            "option": "exit",
+            "correct": false
+          },
+          {
+            "option": "break",
+            "correct": true
+          },
+          {
+            "option": "return",
+            "correct": false
+          },
+          {
+            "option": "continue",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-02T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-02T00:02:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10302_02",
+        "type": "single_choice",
+        "question": "Nên sử dụng `switch` thay vì `if...else if` khi nào?",
+        "options": [
+          {
+            "option": "Khi cần kiểm tra một loạt các điều kiện phức tạp.",
+            "correct": false
+          },
+          {
+            "option": "Khi cần so sánh cùng một biến với nhiều giá trị khác nhau.",
+            "correct": true
+          },
+          {
+            "option": "Khi chỉ có hai điều kiện.",
+            "correct": false
+          },
+          {
+            "option": "Khi thực hiện các phép toán số học.",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-02T00:03:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10303",
+    "lessonId": "LESSON003",
+    "name": "Toán tử điều kiện",
+    "videoTitle": "Conditional (Ternary) Operator",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "10 phút",
+    "tasks": [
+      "Cú pháp toán tử ? :",
+      "Viết điều kiện ngắn gọn.",
+      "Thay thế if-else đơn giản.",
+      "Thực hành với biểu thức."
+    ],
+    "createdAt": {
+      "$date": "2025-01-02T00:00:00Z"
     },
-    {
-        "_id": "DETAIL10304",
-        "lessonId": "LESSON003",
-        "name": "Thực hành: So sánh giá trị",
-        "videoTitle": "Practice: Compare Values",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/compare-values.mp4",
-        "time": "10 phút",
-        "tasks": [
-        "So sánh số.",
-        "So sánh string.",
-        "So sánh boolean.",
-        "Bài tập nâng cao."
+    "quizzes": [
+      {
+        "_id": "QUIZ10303_01",
+        "type": "single_choice",
+        "question": "Cú pháp đúng của Toán tử Điều kiện (Ternary Operator) là gì?",
+        "options": [
+          {
+            "option": "condition ? value_if_true : value_if_false",
+            "correct": true
+          },
+          {
+            "option": "condition : value_if_true ? value_if_false",
+            "correct": false
+          },
+          {
+            "option": "value_if_true : value_if_false ? condition",
+            "correct": false
+          },
+          {
+            "option": "if (condition) ? value_if_true : value_if_false",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-02T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-02T00:04:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10303_02",
+        "type": "single_choice",
+        "question": "Biểu thức `let result = (5 > 10) ? 'Lớn hơn' : 'Nhỏ hơn';` sẽ gán giá trị nào cho `result`?",
+        "options": [
+          {
+            "option": "Lớn hơn",
+            "correct": false
+          },
+          {
+            "option": "Nhỏ hơn",
+            "correct": true
+          },
+          {
+            "option": "true",
+            "correct": false
+          },
+          {
+            "option": "false",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-02T00:05:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10304",
+    "lessonId": "LESSON003",
+    "name": "Thực hành: So sánh giá trị",
+    "videoTitle": "Practice: Compare Values",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "10 phút",
+    "tasks": [
+      "So sánh số.",
+      "So sánh string.",
+      "So sánh boolean.",
+      "Bài tập nâng cao."
+    ],
+    "createdAt": {
+      "$date": "2025-01-02T00:00:00Z"
     },
-    {
-        "_id": "DETAIL10401",
-        "lessonId": "LESSON004",
-        "name": "Vòng lặp for",
-        "videoTitle": "For Loop in JavaScript",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/loop-for.mp4",
-        "time": "15 phút",
-        "tasks": [
-        "Cấu trúc vòng lặp for.",
-        "Lỗi phổ biến trong vòng lặp.",
-        "Lặp qua số, mảng, object.",
-        "Thực hành tạo chuỗi."
+    "quizzes": [
+      {
+        "_id": "QUIZ10304_01",
+        "type": "single_choice",
+        "question": "Kết quả của `5 == '5'` là gì?",
+        "options": [
+          {
+            "option": "true",
+            "correct": true
+          },
+          {
+            "option": "false",
+            "correct": false
+          },
+          {
+            "option": "Error",
+            "correct": false
+          },
+          {
+            "option": "NaN",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-03T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-02T00:06:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10304_02",
+        "type": "single_choice",
+        "question": "Kết quả của `false === 0` là gì?",
+        "options": [
+          {
+            "option": "true",
+            "correct": false
+          },
+          {
+            "option": "false",
+            "correct": true
+          },
+          {
+            "option": "Error",
+            "correct": false
+          },
+          {
+            "option": "undefined",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-02T00:07:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10401",
+    "lessonId": "LESSON004",
+    "name": "Vòng lặp for",
+    "videoTitle": "For Loop in JavaScript",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "15 phút",
+    "tasks": [
+      "Cấu trúc vòng lặp for.",
+      "Lỗi phổ biến trong vòng lặp.",
+      "Lặp qua số, mảng, object.",
+      "Thực hành tạo chuỗi."
+    ],
+    "createdAt": {
+      "$date": "2025-01-03T00:00:00Z"
     },
-    {
-        "_id": "DETAIL10402",
-        "lessonId": "LESSON004",
-        "name": "Vòng lặp while và do-while",
-        "videoTitle": "While & Do-While Loops",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/loop-while.mp4",
-        "time": "15 phút",
-        "tasks": [
-        "Giới thiệu vòng while.",
-        "Do-while khác gì while?",
-        "Khi nào sử dụng while?",
-        "Thực hành với ví dụ thực tế."
+    "quizzes": [
+      {
+        "_id": "QUIZ10401_01",
+        "type": "single_choice",
+        "question": "Vòng lặp `for (let i = 0; i < 3; i++)` sẽ thực thi thân vòng lặp bao nhiêu lần?",
+        "options": [
+          {
+            "option": "2",
+            "correct": false
+          },
+          {
+            "option": "3",
+            "correct": true
+          },
+          {
+            "option": "4",
+            "correct": false
+          },
+          {
+            "option": "Vô hạn",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-03T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-03T00:00:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10401_02",
+        "type": "single_choice",
+        "question": "Vòng lặp nào được sử dụng để lặp qua các giá trị (values) của một mảng hoặc chuỗi?",
+        "options": [
+          {
+            "option": "for (i of array)",
+            "correct": true
+          },
+          {
+            "option": "for (i in object)",
+            "correct": false
+          },
+          {
+            "option": "for (let i = 0; ...)",
+            "correct": false
+          },
+          {
+            "option": "while (condition)",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-03T00:01:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10402",
+    "lessonId": "LESSON004",
+    "name": "Vòng lặp while và do-while",
+    "videoTitle": "While & Do-While Loops",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "15 phút",
+    "tasks": [
+      "Giới thiệu vòng while.",
+      "Do-while khác gì while?",
+      "Khi nào sử dụng while?",
+      "Thực hành với ví dụ thực tế."
+    ],
+    "createdAt": {
+      "$date": "2025-01-03T00:00:00Z"
     },
-    {
-        "_id": "DETAIL10403",
-        "lessonId": "LESSON004",
-        "name": "Vòng lặp lồng nhau",
-        "videoTitle": "Nested Loops",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/loop-nested.mp4",
-        "time": "15 phút",
-        "tasks": [
-        "Lặp mảng 2 chiều.",
-        "Tối ưu vòng lặp.",
-        "Nhược điểm của nested loop.",
-        "Ứng dụng vào xử lý dữ liệu."
+    "quizzes": [
+      {
+        "_id": "QUIZ10402_01",
+        "type": "single_choice",
+        "question": "Sự khác biệt chính giữa `while` và `do-while` là gì?",
+        "options": [
+          {
+            "option": "`while` nhanh hơn.",
+            "correct": false
+          },
+          {
+            "option": "`do-while` luôn thực thi khối lệnh ít nhất một lần.",
+            "correct": true
+          },
+          {
+            "option": "`while` kiểm tra điều kiện sau.",
+            "correct": false
+          },
+          {
+            "option": "`do-while` chỉ dùng cho mảng.",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-03T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-03T00:02:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10402_02",
+        "type": "single_choice",
+        "question": "Nếu điều kiện là `false` ngay từ đầu, vòng lặp `while` sẽ thực thi bao nhiêu lần?",
+        "options": [
+          {
+            "option": "Một lần",
+            "correct": false
+          },
+          {
+            "option": "Hai lần",
+            "correct": false
+          },
+          {
+            "option": "Vô hạn",
+            "correct": false
+          },
+          {
+            "option": "Không lần nào",
+            "correct": true
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-03T00:03:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10403",
+    "lessonId": "LESSON004",
+    "name": "Vòng lặp lồng nhau",
+    "videoTitle": "Nested Loops",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "15 phút",
+    "tasks": [
+      "Lặp mảng 2 chiều.",
+      "Tối ưu vòng lặp.",
+      "Nhược điểm của nested loop.",
+      "Ứng dụng vào xử lý dữ liệu."
+    ],
+    "createdAt": {
+      "$date": "2025-01-03T00:00:00Z"
     },
-    {
-        "_id": "DETAIL10404",
-        "lessonId": "LESSON004",
-        "name": "Thực hành: Tạo bảng nhân",
-        "videoTitle": "Practice: Multiplication Table",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/loop-multiply.mp4",
-        "time": "10 phút",
-        "tasks": [
-        "Sử dụng vòng lặp for để tạo bảng nhân.",
-        "In bảng nhân ra console.",
-        "Tối ưu logic.",
-        "Tạo bảng nhân tùy chọn."
+    "quizzes": [
+      {
+        "_id": "QUIZ10403_01",
+        "type": "single_choice",
+        "question": "Nếu vòng lặp ngoài chạy `M` lần và vòng lặp trong chạy `N` lần, tổng số lần thực thi của khối lệnh bên trong vòng lặp lồng nhau là bao nhiêu?",
+        "options": [
+          {
+            "option": "M + N",
+            "correct": false
+          },
+          {
+            "option": "M / N",
+            "correct": false
+          },
+          {
+            "option": "M * N",
+            "correct": true
+          },
+          {
+            "option": "M - N",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-03T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-03T00:04:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10403_02",
+        "type": "single_choice",
+        "question": "Vòng lặp lồng nhau (Nested Loop) thường được sử dụng để xử lý kiểu cấu trúc dữ liệu nào?",
+        "options": [
+          {
+            "option": "Biến đơn",
+            "correct": false
+          },
+          {
+            "option": "Mảng 2 chiều (Multi-dimensional Array)",
+            "correct": true
+          },
+          {
+            "option": "Hằng số",
+            "correct": false
+          },
+          {
+            "option": "Hàm đơn",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-03T00:05:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10404",
+    "lessonId": "LESSON004",
+    "name": "Thực hành: Tạo bảng nhân",
+    "videoTitle": "Practice: Multiplication Table",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "10 phút",
+    "tasks": [
+      "Sử dụng vòng lặp for để tạo bảng nhân.",
+      "In bảng nhân ra console.",
+      "Tối ưu logic.",
+      "Tạo bảng nhân tùy chọn."
+    ],
+    "createdAt": {
+      "$date": "2025-01-03T00:00:00Z"
     },
-    {
-        "_id": "DETAIL10501",
-        "lessonId": "LESSON005",
-        "name": "Khai báo hàm",
-        "videoTitle": "Function Declaration",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/functions1.mp4",
-        "time": "10 phút",
-        "tasks": [
-        "Hàm là gì trong JavaScript?",
-        "Khai báo hàm cơ bản.",
-        "Hoisting trong function.",
-        "Thực hành gọi hàm."
+    "quizzes": [
+      {
+        "_id": "QUIZ10404_01",
+        "type": "single_choice",
+        "question": "Để tạo một bảng nhân (ví dụ: 9x9), người ta thường sử dụng cấu trúc lập trình nào?",
+        "options": [
+          {
+            "option": "Một vòng lặp đơn",
+            "correct": false
+          },
+          {
+            "option": "Hai vòng lặp lồng nhau",
+            "correct": true
+          },
+          {
+            "option": "Câu lệnh switch-case",
+            "correct": false
+          },
+          {
+            "option": "Toán tử điều kiện",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-04T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-03T00:06:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10404_02",
+        "type": "single_choice",
+        "question": "Từ khóa nào được sử dụng để bỏ qua lần lặp hiện tại của vòng lặp và chuyển sang lần lặp tiếp theo?",
+        "options": [
+          {
+            "option": "break",
+            "correct": false
+          },
+          {
+            "option": "continue",
+            "correct": true
+          },
+          {
+            "option": "return",
+            "correct": false
+          },
+          {
+            "option": "exit",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-03T00:07:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10501",
+    "lessonId": "LESSON005",
+    "name": "Khai báo hàm",
+    "videoTitle": "Function Declaration",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "10 phút",
+    "tasks": [
+      "Hàm là gì trong JavaScript?",
+      "Khai báo hàm cơ bản.",
+      "Hoisting trong function.",
+      "Thực hành gọi hàm."
+    ],
+    "createdAt": {
+      "$date": "2025-01-04T00:00:00Z"
     },
-    {
-        "_id": "DETAIL10502",
-        "lessonId": "LESSON005",
-        "name": "Tham số và giá trị trả về",
-        "videoTitle": "Parameters & Return Values",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/functions2.mp4",
-        "time": "15 phút",
-        "tasks": [
-        "Truyền tham số.",
-        "Return giá trị từ hàm.",
-        "Default parameters.",
-        "Thực hành với hàm tính toán."
+    "quizzes": [
+      {
+        "_id": "QUIZ10501_01",
+        "type": "single_choice",
+        "question": "Khả năng gọi một `function declaration` trước khi nó được khai báo trong code được gọi là gì?",
+        "options": [
+          {
+            "option": "Scope",
+            "correct": false
+          },
+          {
+            "option": "Hoisting",
+            "correct": true
+          },
+          {
+            "option": "Callback",
+            "correct": false
+          },
+          {
+            "option": "Closure",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-04T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-04T00:00:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10501_02",
+        "type": "single_choice",
+        "question": "Để khai báo một hàm truyền thống (Function Declaration) ta sử dụng từ khóa nào?",
+        "options": [
+          {
+            "option": "func",
+            "correct": false
+          },
+          {
+            "option": "function",
+            "correct": true
+          },
+          {
+            "option": "def",
+            "correct": false
+          },
+          {
+            "option": "method",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-04T00:01:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10502",
+    "lessonId": "LESSON005",
+    "name": "Tham số và giá trị trả về",
+    "videoTitle": "Parameters & Return Values",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "15 phút",
+    "tasks": [
+      "Truyền tham số.",
+      "Return giá trị từ hàm.",
+      "Default parameters.",
+      "Thực hành với hàm tính toán."
+    ],
+    "createdAt": {
+      "$date": "2025-01-04T00:00:00Z"
     },
-    {
-        "_id": "DETAIL10503",
-        "lessonId": "LESSON005",
-        "name": "Phạm vi biến",
-        "videoTitle": "Understanding Scope",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/functions3.mp4",
-        "time": "15 phút",
-        "tasks": [
-        "Local và global scope.",
-        "Block scope.",
-        "Scope chain.",
-        "Thực hành với ví dụ thực tế."
+    "quizzes": [
+      {
+        "_id": "QUIZ10502_01",
+        "type": "single_choice",
+        "question": "Từ khóa nào được sử dụng để trả về một giá trị từ hàm và kết thúc việc thực thi hàm đó?",
+        "options": [
+          {
+            "option": "break",
+            "correct": false
+          },
+          {
+            "option": "continue",
+            "correct": false
+          },
+          {
+            "option": "return",
+            "correct": true
+          },
+          {
+            "option": "exit",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-04T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-04T00:02:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10502_02",
+        "type": "single_choice",
+        "question": "Trong cú pháp ES6, làm thế nào để gán một giá trị mặc định cho tham số của hàm?",
+        "options": [
+          {
+            "option": "Đặt giá trị trong ngoặc nhọn `{}`.",
+            "correct": false
+          },
+          {
+            "option": "Sử dụng toán tử gán `=` trong khai báo tham số.",
+            "correct": true
+          },
+          {
+            "option": "Dùng câu lệnh `if` để kiểm tra giá trị `undefined`.",
+            "correct": false
+          },
+          {
+            "option": "Không thể gán giá trị mặc định.",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-04T00:03:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10503",
+    "lessonId": "LESSON005",
+    "name": "Phạm vi biến",
+    "videoTitle": "Understanding Scope",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "15 phút",
+    "tasks": [
+      "Local và global scope.",
+      "Block scope.",
+      "Scope chain.",
+      "Thực hành với ví dụ thực tế."
+    ],
+    "createdAt": {
+      "$date": "2025-01-04T00:00:00Z"
     },
-    {
-        "_id": "DETAIL10504",
-        "lessonId": "LESSON005",
-        "name": "Thực hành: Hàm tính toán",
-        "videoTitle": "Practice: Math Functions",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/functions-practice.mp4",
-        "time": "10 phút",
-        "tasks": [
-        "Viết hàm tính tổng.",
-        "Viết hàm kiểm tra số nguyên tố.",
-        "In kết quả ra console.",
-        "Xử lý lỗi đầu vào."
+    "quizzes": [
+      {
+        "_id": "QUIZ10503_01",
+        "type": "single_choice",
+        "question": "Biến nào có phạm vi hoạt động trong toàn bộ chương trình JavaScript (Global Scope)?",
+        "options": [
+          {
+            "option": "Biến khai báo với `let` trong một khối `{}`.",
+            "correct": false
+          },
+          {
+            "option": "Biến khai báo ngoài bất kỳ hàm hay khối nào.",
+            "correct": true
+          },
+          {
+            "option": "Biến khai báo với `const` trong một hàm.",
+            "correct": false
+          },
+          {
+            "option": "Biến được truyền làm tham số cho hàm.",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-04T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-04T00:04:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10503_02",
+        "type": "single_choice",
+        "question": "Khai báo biến bằng `let` hoặc `const` tạo ra loại phạm vi (scope) nào?",
+        "options": [
+          {
+            "option": "Global Scope",
+            "correct": false
+          },
+          {
+            "option": "Function Scope",
+            "correct": false
+          },
+          {
+            "option": "Block Scope",
+            "correct": true
+          },
+          {
+            "option": "Lexical Scope",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-04T00:05:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10504",
+    "lessonId": "LESSON005",
+    "name": "Thực hành: Hàm tính toán",
+    "videoTitle": "Practice: Math Functions",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "10 phút",
+    "tasks": [
+      "Viết hàm tính tổng.",
+      "Viết hàm kiểm tra số nguyên tố.",
+      "In kết quả ra console.",
+      "Xử lý lỗi đầu vào."
+    ],
+    "createdAt": {
+      "$date": "2025-01-04T00:00:00Z"
     },
-    {
-        "_id": "DETAIL10601",
-        "lessonId": "LESSON006",
-        "name": "Mảng trong JavaScript",
-        "videoTitle": "Arrays in JavaScript",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/arrays1.mp4",
-        "time": "15 phút",
-        "tasks": [
-        "Khai báo mảng.",
-        "Truy cập phần tử mảng.",
-        "Các phương thức phổ biến.",
-        "Thực hành xử lý danh sách."
+    "quizzes": [
+      {
+        "_id": "QUIZ10504_01",
+        "type": "single_choice",
+        "question": "Trong JavaScript, một hàm được gọi là **pure function** nếu nó thỏa mãn điều kiện nào?",
+        "options": [
+          {
+            "option": "Nó không có giá trị trả về.",
+            "correct": false
+          },
+          {
+            "option": "Nó không nhận tham số.",
+            "correct": false
+          },
+          {
+            "option": "Với cùng đầu vào, luôn trả về cùng đầu ra và không gây tác dụng phụ (side effects).",
+            "correct": true
+          },
+          {
+            "option": "Nó sử dụng biến toàn cục (global variable).",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-05T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-04T00:06:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10504_02",
+        "type": "single_choice",
+        "question": "Khi gọi một hàm mà không truyền đủ tham số, các tham số còn thiếu sẽ có giá trị là gì?",
+        "options": [
+          {
+            "option": "null",
+            "correct": false
+          },
+          {
+            "option": "0",
+            "correct": false
+          },
+          {
+            "option": "undefined",
+            "correct": true
+          },
+          {
+            "option": "'' (chuỗi rỗng)",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-04T00:07:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10601",
+    "lessonId": "LESSON006",
+    "name": "Mảng trong JavaScript",
+    "videoTitle": "Arrays in JavaScript",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "15 phút",
+    "tasks": [
+      "Khai báo mảng.",
+      "Truy cập phần tử mảng.",
+      "Các phương thức phổ biến.",
+      "Thực hành xử lý danh sách."
+    ],
+    "createdAt": {
+      "$date": "2025-01-05T00:00:00Z"
     },
-    {
-        "_id": "DETAIL10602",
-        "lessonId": "LESSON006",
-        "name": "Đối tượng trong JavaScript",
-        "videoTitle": "Objects in JavaScript",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/objects1.mp4",
-        "time": "15 phút",
-        "tasks": [
-        "Khai báo object.",
-        "Truy cập thuộc tính.",
-        "Thay đổi giá trị object.",
-        "Thực hành quản lý thông tin."
+    "quizzes": [
+      {
+        "_id": "QUIZ10601_01",
+        "type": "single_choice",
+        "question": "Chỉ mục (index) của phần tử đầu tiên trong một mảng JavaScript là bao nhiêu?",
+        "options": [
+          {
+            "option": "1",
+            "correct": false
+          },
+          {
+            "option": "0",
+            "correct": true
+          },
+          {
+            "option": "-1",
+            "correct": false
+          },
+          {
+            "option": "Độ dài mảng",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-05T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-05T00:00:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10601_02",
+        "type": "single_choice",
+        "question": "Phương thức nào dùng để thêm một hoặc nhiều phần tử vào **cuối** mảng?",
+        "options": [
+          {
+            "option": "unshift()",
+            "correct": false
+          },
+          {
+            "option": "pop()",
+            "correct": false
+          },
+          {
+            "option": "push()",
+            "correct": true
+          },
+          {
+            "option": "slice()",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-05T00:01:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10602",
+    "lessonId": "LESSON006",
+    "name": "Đối tượng trong JavaScript",
+    "videoTitle": "Objects in JavaScript",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "15 phút",
+    "tasks": [
+      "Khai báo object.",
+      "Truy cập thuộc tính.",
+      "Thay đổi giá trị object.",
+      "Thực hành quản lý thông tin."
+    ],
+    "createdAt": {
+      "$date": "2025-01-05T00:00:00Z"
     },
-    {
-        "_id": "DETAIL10603",
-        "lessonId": "LESSON006",
-        "name": "Truy cập và thao tác dữ liệu",
-        "videoTitle": "Data Accessing & Manipulation",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/arrays2.mp4",
-        "time": "15 phút",
-        "tasks": [
-        "Sửa đổi dữ liệu.",
-        "Thêm và xoá phần tử.",
-        "Lọc dữ liệu.",
-        "Thực hành với danh sách phức tạp."
+    "quizzes": [
+      {
+        "_id": "QUIZ10602_01",
+        "type": "single_choice",
+        "question": "Để truy cập thuộc tính của một đối tượng có tên thuộc tính chứa dấu cách (ví dụ: `object['ten day du']`), ta sử dụng cách nào?",
+        "options": [
+          {
+            "option": "Dấu chấm (`.`)",
+            "correct": false
+          },
+          {
+            "option": "Dấu ngoặc vuông (`[]`)",
+            "correct": true
+          },
+          {
+            "option": "Dấu ngoặc đơn (`()`)",
+            "correct": false
+          },
+          {
+            "option": "Toán tử gán (`=`)",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-05T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-05T00:02:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10602_02",
+        "type": "single_choice",
+        "question": "Một **cặp key-value** trong Object được gọi là gì?",
+        "options": [
+          {
+            "option": "Element",
+            "correct": false
+          },
+          {
+            "option": "Index",
+            "correct": false
+          },
+          {
+            "option": "Property (Thuộc tính)",
+            "correct": true
+          },
+          {
+            "option": "Method",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-05T00:03:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10603",
+    "lessonId": "LESSON006",
+    "name": "Truy cập và thao tác dữ liệu",
+    "videoTitle": "Data Accessing & Manipulation",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "15 phút",
+    "tasks": [
+      "Sửa đổi dữ liệu.",
+      "Thêm và xoá phần tử.",
+      "Lọc dữ liệu.",
+      "Thực hành với danh sách phức tạp."
+    ],
+    "createdAt": {
+      "$date": "2025-01-05T00:00:00Z"
     },
-    {
-        "_id": "DETAIL10604",
-        "lessonId": "LESSON006",
-        "name": "Thực hành: Quản lý danh sách",
-        "videoTitle": "Practice: List Management",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/arrays-practice.mp4",
-        "time": "15 phút",
-        "tasks": [
-        "Tạo danh sách người dùng.",
-        "Thêm phần tử vào danh sách.",
-        "Xoá người dùng theo ID.",
-        "Tìm kiếm phần tử trong danh sách."
+    "quizzes": [
+      {
+        "_id": "QUIZ10603_01",
+        "type": "single_choice",
+        "question": "Phương thức nào của Array trả về một mảng mới chứa các phần tử thỏa mãn điều kiện kiểm tra (mà không thay đổi mảng gốc)?",
+        "options": [
+          {
+            "option": "map()",
+            "correct": false
+          },
+          {
+            "option": "forEach()",
+            "correct": false
+          },
+          {
+            "option": "filter()",
+            "correct": true
+          },
+          {
+            "option": "reduce()",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-05T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-05T00:04:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10603_02",
+        "type": "single_choice",
+        "question": "Để loại bỏ phần tử **cuối cùng** của một mảng và lấy ra giá trị đó, ta dùng phương thức nào?",
+        "options": [
+          {
+            "option": "shift()",
+            "correct": false
+          },
+          {
+            "option": "pop()",
+            "correct": true
+          },
+          {
+            "option": "splice()",
+            "correct": false
+          },
+          {
+            "option": "slice()",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-05T00:05:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10604",
+    "lessonId": "LESSON006",
+    "name": "Thực hành: Quản lý danh sách",
+    "videoTitle": "Practice: List Management",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "15 phút",
+    "tasks": [
+      "Tạo danh sách người dùng.",
+      "Thêm phần tử vào danh sách.",
+      "Xoá người dùng theo ID.",
+      "Tìm kiếm phần tử trong danh sách."
+    ],
+    "createdAt": {
+      "$date": "2025-01-05T00:00:00Z"
     },
-    {
-        "_id": "DETAIL10701",
-        "lessonId": "LESSON007",
-        "name": "Giới thiệu DOM",
-        "videoTitle": "Introduction to DOM",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/dom1.mp4",
-        "time": "10 phút",
-        "tasks": [
-        "DOM là gì?",
-        "Cách JavaScript tương tác với DOM.",
-        "Hiểu cấu trúc cây DOM.",
-        "Thực hành truy cập phần tử."
+    "quizzes": [
+      {
+        "_id": "QUIZ10604_01",
+        "type": "single_choice",
+        "question": "Để tìm chỉ mục (index) của một phần tử trong mảng, ta dùng phương thức nào?",
+        "options": [
+          {
+            "option": "contains()",
+            "correct": false
+          },
+          {
+            "option": "find()",
+            "correct": false
+          },
+          {
+            "option": "indexOf()",
+            "correct": true
+          },
+          {
+            "option": "includes()"
+          }
         ],
-        "createdAt": { "$date": "2025-01-06T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-05T00:06:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10604_02",
+        "type": "single_choice",
+        "question": "Để xóa một hoặc nhiều phần tử tại một vị trí cụ thể trong mảng và có thể thêm phần tử mới, ta dùng phương thức nào?",
+        "options": [
+          {
+            "option": "delete()",
+            "correct": false
+          },
+          {
+            "option": "slice()",
+            "correct": false
+          },
+          {
+            "option": "splice()",
+            "correct": true
+          },
+          {
+            "option": "pop()",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-05T00:07:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10701",
+    "lessonId": "LESSON007",
+    "name": "Giới thiệu DOM",
+    "videoTitle": "Introduction to DOM",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "10 phút",
+    "tasks": [
+      "DOM là gì?",
+      "Cách JavaScript tương tác với DOM.",
+      "Hiểu cấu trúc cây DOM.",
+      "Thực hành truy cập phần tử."
+    ],
+    "createdAt": {
+      "$date": "2025-01-06T00:00:00Z"
     },
-    {
-        "_id": "DETAIL10702",
-        "lessonId": "LESSON007",
-        "name": "Thao tác nội dung và phần tử",
-        "videoTitle": "Manipulating Elements",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/dom2.mp4",
-        "time": "15 phút",
-        "tasks": [
-        "Thay đổi textContent.",
-        "Thêm/xoá phần tử trong DOM.",
-        "Thêm CSS bằng JS.",
-        "Ứng dụng vào UI."
+    "quizzes": [
+      {
+        "_id": "QUIZ10701_01",
+        "type": "single_choice",
+        "question": "DOM là viết tắt của cụm từ gì?",
+        "options": [
+          {
+            "option": "Document Order Model",
+            "correct": false
+          },
+          {
+            "option": "Data Object Module",
+            "correct": false
+          },
+          {
+            "option": "Document Object Model",
+            "correct": true
+          },
+          {
+            "option": "Dynamic Output Manager",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-06T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-06T00:00:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10701_02",
+        "type": "single_choice",
+        "question": "Phương thức nào dùng để truy cập phần tử HTML dựa trên thuộc tính `id` của nó?",
+        "options": [
+          {
+            "option": "getElementsByClassName()",
+            "correct": false
+          },
+          {
+            "option": "querySelector()",
+            "correct": false
+          },
+          {
+            "option": "getElementById()",
+            "correct": true
+          },
+          {
+            "option": "getElementByTag()",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-06T00:01:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10702",
+    "lessonId": "LESSON007",
+    "name": "Thao tác nội dung và phần tử",
+    "videoTitle": "Manipulating Elements",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "15 phút",
+    "tasks": [
+      "Thay đổi textContent.",
+      "Thêm/xoá phần tử trong DOM.",
+      "Thêm CSS bằng JS.",
+      "Ứng dụng vào UI."
+    ],
+    "createdAt": {
+      "$date": "2025-01-06T00:00:00Z"
     },
-    {
-        "_id": "DETAIL10703",
-        "lessonId": "LESSON007",
-        "name": "Quản lý sự kiện",
-        "videoTitle": "Handling Events",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/dom3.mp4",
-        "time": "15 phút",
-        "tasks": [
-        "Lắng nghe sự kiện click.",
-        "Sử dụng addEventListener.",
-        "Xử lý input từ người dùng.",
-        "Thực hành với bài toán thực tế."
+    "quizzes": [
+      {
+        "_id": "QUIZ10702_01",
+        "type": "single_choice",
+        "question": "Thuộc tính nào dùng để thay đổi nội dung văn bản (text content) bên trong một phần tử HTML?",
+        "options": [
+          {
+            "option": "innerHTML",
+            "correct": false
+          },
+          {
+            "option": "textContent",
+            "correct": true
+          },
+          {
+            "option": "style",
+            "correct": false
+          },
+          {
+            "option": "id",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-06T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-06T00:02:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10702_02",
+        "type": "single_choice",
+        "question": "Phương thức nào được dùng để tạo một phần tử HTML mới trong bộ nhớ?",
+        "options": [
+          {
+            "option": "document.createElement()",
+            "correct": true
+          },
+          {
+            "option": "document.createNode()",
+            "correct": false
+          },
+          {
+            "option": "document.append()",
+            "correct": false
+          },
+          {
+            "option": "document.innerHTML()",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-06T00:03:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10703",
+    "lessonId": "LESSON007",
+    "name": "Quản lý sự kiện",
+    "videoTitle": "Handling Events",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "15 phút",
+    "tasks": [
+      "Lắng nghe sự kiện click.",
+      "Sử dụng addEventListener.",
+      "Xử lý input từ người dùng.",
+      "Thực hành với bài toán thực tế."
+    ],
+    "createdAt": {
+      "$date": "2025-01-06T00:00:00Z"
     },
-    {
-        "_id": "DETAIL10704",
-        "lessonId": "LESSON007",
-        "name": "Thực hành: Tạo ứng dụng To-Do",
-        "videoTitle": "Practice: To-Do App",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/dom-todo.mp4",
-        "time": "15 phút",
-        "tasks": [
-        "Tạo giao diện To-Do.",
-        "Thêm nhiệm vụ mới.",
-        "Xoá nhiệm vụ.",
-        "Lưu dữ liệu trong LocalStorage."
+    "quizzes": [
+      {
+        "_id": "QUIZ10703_01",
+        "type": "single_choice",
+        "question": "Phương thức nào được khuyến nghị sử dụng để gán nhiều hàm xử lý cho cùng một sự kiện trên một phần tử?",
+        "options": [
+          {
+            "option": "onclick",
+            "correct": false
+          },
+          {
+            "option": "onchange",
+            "correct": false
+          },
+          {
+            "option": "addEventListener()",
+            "correct": true
+          },
+          {
+            "option": "handleEvent()",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-06T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-06T00:04:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10703_02",
+        "type": "single_choice",
+        "question": "Để ngăn chặn hành vi mặc định của một sự kiện (ví dụ: ngăn form submit), ta gọi phương thức nào trên đối tượng Event?",
+        "options": [
+          {
+            "option": "stopPropogation()",
+            "correct": false
+          },
+          {
+            "option": "preventDefault()",
+            "correct": true
+          },
+          {
+            "option": "stopPropagation()",
+            "correct": false
+          },
+          {
+            "option": "stopEvent()",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-06T00:05:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10704",
+    "lessonId": "LESSON007",
+    "name": "Thực hành: Tạo ứng dụng To-Do",
+    "videoTitle": "Practice: To-Do App",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "15 phút",
+    "tasks": [
+      "Tạo giao diện To-Do.",
+      "Thêm nhiệm vụ mới.",
+      "Xoá nhiệm vụ.",
+      "Lưu dữ liệu trong LocalStorage."
+    ],
+    "createdAt": {
+      "$date": "2025-01-06T00:00:00Z"
     },
-    {
-        "_id": "DETAIL10801",
-        "lessonId": "LESSON008",
-        "name": "Sự kiện cơ bản",
-        "videoTitle": "Basic Events",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/events1.mp4",
-        "time": "15 phút",
-        "tasks": [
-        "Khái niệm event trong JS.",
-        "Các loại sự kiện phổ biến.",
-        "Event object.",
-        "Thực hành xử lý sự kiện đơn giản."
+    "quizzes": [
+      {
+        "_id": "QUIZ10704_01",
+        "type": "single_choice",
+        "question": "Cơ chế nào được sử dụng để lưu trữ dữ liệu cục bộ trên trình duyệt của người dùng (có thể truy cập sau khi đóng/mở lại tab)?",
+        "options": [
+          {
+            "option": "Cookies",
+            "correct": false
+          },
+          {
+            "option": "Session Storage",
+            "correct": false
+          },
+          {
+            "option": "Local Storage",
+            "correct": true
+          },
+          {
+            "option": "Global Variable",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-07T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-06T00:06:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10704_02",
+        "type": "single_choice",
+        "question": "Khi làm việc với Local Storage, hàm nào dùng để lưu trữ dữ liệu (dạng chuỗi JSON) vào bộ nhớ trình duyệt?",
+        "options": [
+          {
+            "option": "localStorage.get()",
+            "correct": false
+          },
+          {
+            "option": "localStorage.save()",
+            "correct": false
+          },
+          {
+            "option": "localStorage.setItem()",
+            "correct": true
+          },
+          {
+            "option": "localStorage.retrieve()",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-06T00:07:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10801",
+    "lessonId": "LESSON008",
+    "name": "Sự kiện cơ bản",
+    "videoTitle": "Basic Events",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "15 phút",
+    "tasks": [
+      "Khái niệm event trong JS.",
+      "Các loại sự kiện phổ biến.",
+      "Event object.",
+      "Thực hành xử lý sự kiện đơn giản."
+    ],
+    "createdAt": {
+      "$date": "2025-01-07T00:00:00Z"
     },
-    {
-        "_id": "DETAIL10802",
-        "lessonId": "LESSON008",
-        "name": "Event Listeners",
-        "videoTitle": "Using Event Listeners",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/events2.mp4",
-        "time": "15 phút",
-        "tasks": [
-        "Thêm event listener.",
-        "Gỡ event listener.",
-        "Event bubbling và capturing.",
-        "Ứng dụng trong UI."
+    "quizzes": [
+      {
+        "_id": "QUIZ10801_01",
+        "type": "single_choice",
+        "question": "Sự kiện nào xảy ra khi con trỏ chuột di chuyển vào một phần tử HTML?",
+        "options": [
+          {
+            "option": "onclick",
+            "correct": false
+          },
+          {
+            "option": "onkeydown",
+            "correct": false
+          },
+          {
+            "option": "onmouseenter",
+            "correct": true
+          },
+          {
+            "option": "onchange",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-07T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-07T00:00:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10801_02",
+        "type": "single_choice",
+        "question": "Đối tượng nào chứa thông tin chi tiết về sự kiện xảy ra (ví dụ: tọa độ chuột, phím được nhấn...)?",
+        "options": [
+          {
+            "option": "Element Object",
+            "correct": false
+          },
+          {
+            "option": "DOM Object",
+            "correct": false
+          },
+          {
+            "option": "Event Object",
+            "correct": true
+          },
+          {
+            "option": "Window Object",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-07T00:01:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10802",
+    "lessonId": "LESSON008",
+    "name": "Event Listeners",
+    "videoTitle": "Using Event Listeners",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "15 phút",
+    "tasks": [
+      "Thêm event listener.",
+      "Gỡ event listener.",
+      "Event bubbling và capturing.",
+      "Ứng dụng trong UI."
+    ],
+    "createdAt": {
+      "$date": "2025-01-07T00:00:00Z"
     },
-    {
-        "_id": "DETAIL10803",
-        "lessonId": "LESSON008",
-        "name": "Thực hành: Bắt sự kiện click",
-        "videoTitle": "Practice: Click Events",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/events-click.mp4",
-        "time": "20 phút",
-        "tasks": [
-        "Tạo button và bắt sự kiện click.",
-        "Đổi màu nền khi click.",
-        "Đếm số lần người dùng click.",
-        "Ứng dụng thực tế."
+    "quizzes": [
+      {
+        "_id": "QUIZ10802_01",
+        "type": "single_choice",
+        "question": "Trong cơ chế **Event Bubbling**, sự kiện được xử lý theo thứ tự nào?",
+        "options": [
+          {
+            "option": "Từ phần tử con đến phần tử cha (lên trên DOM Tree).",
+            "correct": true
+          },
+          {
+            "option": "Từ phần tử cha đến phần tử con (xuống dưới DOM Tree).",
+            "correct": false
+          },
+          {
+            "option": "Ngẫu nhiên.",
+            "correct": false
+          },
+          {
+            "option": "Chỉ ở phần tử được click.",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-07T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-07T00:02:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10802_02",
+        "type": "single_choice",
+        "question": "Phương thức nào dùng để loại bỏ một event listener đã được thêm vào trước đó?",
+        "options": [
+          {
+            "option": "removeEvent()",
+            "correct": false
+          },
+          {
+            "option": "deleteEventListener()",
+            "correct": false
+          },
+          {
+            "option": "removeEventListener()",
+            "correct": true
+          },
+          {
+            "option": "detachEvent()",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-07T00:03:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10803",
+    "lessonId": "LESSON008",
+    "name": "Thực hành: Bắt sự kiện click",
+    "videoTitle": "Practice: Click Events",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "20 phút",
+    "tasks": [
+      "Tạo button và bắt sự kiện click.",
+      "Đổi màu nền khi click.",
+      "Đếm số lần người dùng click.",
+      "Ứng dụng thực tế."
+    ],
+    "createdAt": {
+      "$date": "2025-01-07T00:00:00Z"
     },
-    {
-        "_id": "DETAIL10901",
-        "lessonId": "LESSON009",
-        "name": "Callback Functions",
-        "videoTitle": "Understanding Callbacks",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/callbacks.mp4",
-        "time": "15 phút",
-        "tasks": [
-        "Callback là gì?",
-        "Truyền hàm vào hàm.",
-        "Lỗi callback hell.",
-        "Thực hành callback."
+    "quizzes": [
+      {
+        "_id": "QUIZ10803_01",
+        "type": "single_choice",
+        "question": "Đâu là cách gán Event Listener được khuyến nghị trong JavaScript hiện đại?",
+        "options": [
+          {
+            "option": "Sử dụng thuộc tính `onclick` trực tiếp trong HTML.",
+            "correct": false
+          },
+          {
+            "option": "Sử dụng `element.onclick = function() {}`.",
+            "correct": false
+          },
+          {
+            "option": "Sử dụng `element.addEventListener('click', handler)`.",
+            "correct": true
+          },
+          {
+            "option": "Sử dụng `element.handle('click', handler)`.",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-08T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-07T00:04:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10803_02",
+        "type": "single_choice",
+        "question": "Làm thế nào để thay đổi màu nền của một phần tử bằng JavaScript?",
+        "options": [
+          {
+            "option": "element.background = 'red';",
+            "correct": false
+          },
+          {
+            "option": "element.style.color = 'red';",
+            "correct": false
+          },
+          {
+            "option": "element.style.backgroundColor = 'red';",
+            "correct": true
+          },
+          {
+            "option": "element.color.background = 'red';",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-07T00:05:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10901",
+    "lessonId": "LESSON009",
+    "name": "Callback Functions",
+    "videoTitle": "Understanding Callbacks",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "15 phút",
+    "tasks": [
+      "Callback là gì?",
+      "Truyền hàm vào hàm.",
+      "Lỗi callback hell.",
+      "Thực hành callback."
+    ],
+    "createdAt": {
+      "$date": "2025-01-08T00:00:00Z"
     },
-    {
-        "_id": "DETAIL10902",
-        "lessonId": "LESSON009",
-        "name": "Arrow Functions",
-        "videoTitle": "Arrow Functions Explained",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/arrow-functions.mp4",
-        "time": "15 phút",
-        "tasks": [
-        "Cú pháp arrow function.",
-        "So sánh arrow và function truyền thống.",
-        "Tính chất không có this.",
-        "Thực hành với ví dụ thực tế."
+    "quizzes": [
+      {
+        "_id": "QUIZ10901_01",
+        "type": "single_choice",
+        "question": "Callback Function là gì?",
+        "options": [
+          {
+            "option": "Hàm tự động gọi chính nó.",
+            "correct": false
+          },
+          {
+            "option": "Hàm được truyền dưới dạng đối số cho một hàm khác và được gọi sau.",
+            "correct": true
+          },
+          {
+            "option": "Hàm được gọi ngay lập tức khi chương trình khởi động.",
+            "correct": false
+          },
+          {
+            "option": "Hàm không bao giờ trả về giá trị.",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-08T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-08T00:00:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10901_02",
+        "type": "single_choice",
+        "question": "Thuật ngữ **Callback Hell** mô tả tình trạng nào?",
+        "options": [
+          {
+            "option": "Quá nhiều hàm được gọi đồng bộ.",
+            "correct": false
+          },
+          {
+            "option": "Cấu trúc code lồng ghép nhiều hàm callback, khó đọc và khó bảo trì.",
+            "correct": true
+          },
+          {
+            "option": "Sử dụng hàm không đồng bộ quá nhiều.",
+            "correct": false
+          },
+          {
+            "option": "Hàm có quá nhiều tham số.",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-08T00:01:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10902",
+    "lessonId": "LESSON009",
+    "name": "Arrow Functions",
+    "videoTitle": "Arrow Functions Explained",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "15 phút",
+    "tasks": [
+      "Cú pháp arrow function.",
+      "So sánh arrow và function truyền thống.",
+      "Tính chất không có this.",
+      "Thực hành với ví dụ thực tế."
+    ],
+    "createdAt": {
+      "$date": "2025-01-08T00:00:00Z"
     },
-    {
-        "_id": "DETAIL10903",
-        "lessonId": "LESSON009",
-        "name": "Closures",
-        "videoTitle": "Mastering Closures",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/closures.mp4",
-        "time": "15 phút",
-        "tasks": [
-        "Closure là gì?",
-        "Ứng dụng closure.",
-        "Lưu trạng thái với closure.",
-        "Thực hành với ví dụ."
+    "quizzes": [
+      {
+        "_id": "QUIZ10902_01",
+        "type": "single_choice",
+        "question": "Tính năng chính của Arrow Function khác với Function truyền thống là gì?",
+        "options": [
+          {
+            "option": "Arrow function nhanh hơn.",
+            "correct": false
+          },
+          {
+            "option": "Arrow function không có đối tượng `arguments` và không tự định nghĩa `this` (sử dụng `this` từ phạm vi cha).",
+            "correct": true
+          },
+          {
+            "option": "Arrow function có hoisting.",
+            "correct": false
+          },
+          {
+            "option": "Arrow function không thể nhận tham số.",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-08T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-08T00:02:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10902_02",
+        "type": "single_choice",
+        "question": "Cú pháp ngắn gọn để viết một Arrow Function có một tham số và chỉ có một biểu thức trả về là gì?",
+        "options": [
+          {
+            "option": "`(param) => { return expression; }`",
+            "correct": false
+          },
+          {
+            "option": "`param => expression`",
+            "correct": true
+          },
+          {
+            "option": "`param: expression`",
+            "correct": false
+          },
+          {
+            "option": "`function(param) => expression`",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-08T00:03:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10903",
+    "lessonId": "LESSON009",
+    "name": "Closures",
+    "videoTitle": "Mastering Closures",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "15 phút",
+    "tasks": [
+      "Closure là gì?",
+      "Ứng dụng closure.",
+      "Lưu trạng thái với closure.",
+      "Thực hành với ví dụ."
+    ],
+    "createdAt": {
+      "$date": "2025-01-08T00:00:00Z"
     },
-    {
-        "_id": "DETAIL10904",
-        "lessonId": "LESSON009",
-        "name": "Thực hành nâng cao",
-        "videoTitle": "Advanced Function Practice",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/functions-advanced.mp4",
-        "time": "15 phút",
-        "tasks": [
-        "Kết hợp callback và closure.",
-        "Viết factory function.",
-        "Tạo module đơn giản.",
-        "Ứng dụng vào dự án thực tế."
+    "quizzes": [
+      {
+        "_id": "QUIZ10903_01",
+        "type": "single_choice",
+        "question": "Closure trong JavaScript là gì?",
+        "options": [
+          {
+            "option": "Một hàm có thể được gọi trước khi khai báo.",
+            "correct": false
+          },
+          {
+            "option": "Một hàm có thể truy cập các biến trong phạm vi của hàm ngoài đã tạo ra nó, ngay cả khi hàm ngoài đã kết thúc.",
+            "correct": true
+          },
+          {
+            "option": "Một hàm chỉ có thể truy cập các biến toàn cục.",
+            "correct": false
+          },
+          {
+            "option": "Một hàm ẩn danh.",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-08T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-08T00:04:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10903_02",
+        "type": "single_choice",
+        "question": "Ứng dụng phổ biến nhất của Closure là gì?",
+        "options": [
+          {
+            "option": "Thao tác DOM.",
+            "correct": false
+          },
+          {
+            "option": "Tạo ra các biến toàn cục.",
+            "correct": false
+          },
+          {
+            "option": "Đảm bảo tính riêng tư (Private variables) và duy trì trạng thái (State) của biến.",
+            "correct": true
+          },
+          {
+            "option": "Tạo vòng lặp.",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-08T00:05:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL10904",
+    "lessonId": "LESSON009",
+    "name": "Thực hành nâng cao",
+    "videoTitle": "Advanced Function Practice",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "15 phút",
+    "tasks": [
+      "Kết hợp callback và closure.",
+      "Viết factory function.",
+      "Tạo module đơn giản.",
+      "Ứng dụng vào dự án thực tế."
+    ],
+    "createdAt": {
+      "$date": "2025-01-08T00:00:00Z"
     },
-    {
-        "_id": "DETAIL11001",
-        "lessonId": "LESSON010",
-        "name": "Promises",
-        "videoTitle": "Understanding Promises",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/promises.mp4",
-        "time": "15 phút",
-        "tasks": [
-        "Promise là gì?",
-        "Trạng thái của Promise.",
-        "then(), catch(), finally().",
-        "Thực hành tạo promise."
+    "quizzes": [
+      {
+        "_id": "QUIZ10904_01",
+        "type": "single_choice",
+        "question": "Factory Function là gì?",
+        "options": [
+          {
+            "option": "Hàm dùng để khởi tạo một Class.",
+            "correct": false
+          },
+          {
+            "option": "Hàm dùng để tạo ra và trả về một Object mới mà không cần dùng `new`.",
+            "correct": true
+          },
+          {
+            "option": "Hàm chỉ chấp nhận Callback Function.",
+            "correct": false
+          },
+          {
+            "option": "Hàm được định nghĩa trong Object.",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-09T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-08T00:06:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ10904_02",
+        "type": "single_choice",
+        "question": "Khái niệm **Higher-Order Function** (Hàm bậc cao) mô tả hàm nào?",
+        "options": [
+          {
+            "option": "Hàm chạy nhanh hơn hàm thông thường.",
+            "correct": false
+          },
+          {
+            "option": "Hàm có nhiều hơn 10 tham số.",
+            "correct": false
+          },
+          {
+            "option": "Hàm nhận một hoặc nhiều hàm khác làm đối số, hoặc trả về một hàm.",
+            "correct": true
+          },
+          {
+            "option": "Hàm chỉ dùng trong framework.",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-08T00:07:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL11001",
+    "lessonId": "LESSON010",
+    "name": "Promises",
+    "videoTitle": "Understanding Promises",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "15 phút",
+    "tasks": [
+      "Promise là gì?",
+      "Trạng thái của Promise.",
+      "then(), catch(), finally().",
+      "Thực hành tạo promise."
+    ],
+    "createdAt": {
+      "$date": "2025-01-09T00:00:00Z"
     },
-    {
-        "_id": "DETAIL11002",
-        "lessonId": "LESSON010",
-        "name": "Async/Await",
-        "videoTitle": "Async & Await Explained",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/async-await.mp4",
-        "time": "20 phút",
-        "tasks": [
-        "Async function là gì?",
-        "Cách dùng await.",
-        "Xử lý lỗi với try-catch.",
-        "Chuyển Promise sang async/await."
+    "quizzes": [
+      {
+        "_id": "QUIZ11001_01",
+        "type": "single_choice",
+        "question": "Có bao nhiêu trạng thái (state) chính của một Promise?",
+        "options": [
+          {
+            "option": "1",
+            "correct": false
+          },
+          {
+            "option": "2",
+            "correct": false
+          },
+          {
+            "option": "3",
+            "correct": true
+          },
+          {
+            "option": "4",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-09T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-09T00:00:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ11001_02",
+        "type": "single_choice",
+        "question": "Phương thức nào được sử dụng để xử lý kết quả thành công (resolved) của một Promise?",
+        "options": [
+          {
+            "option": "resolve()",
+            "correct": false
+          },
+          {
+            "option": "catch()",
+            "correct": false
+          },
+          {
+            "option": "then()",
+            "correct": true
+          },
+          {
+            "option": "finally()",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-09T00:01:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL11002",
+    "lessonId": "LESSON010",
+    "name": "Async/Await",
+    "videoTitle": "Async & Await Explained",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "20 phút",
+    "tasks": [
+      "Async function là gì?",
+      "Cách dùng await.",
+      "Xử lý lỗi với try-catch.",
+      "Chuyển Promise sang async/await."
+    ],
+    "createdAt": {
+      "$date": "2025-01-09T00:00:00Z"
     },
-    {
-        "_id": "DETAIL11003",
-        "lessonId": "LESSON010",
-        "name": "Fetch API",
-        "videoTitle": "Fetch API Overview",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/fetch-api.mp4",
-        "time": "15 phút",
-        "tasks": [
-        "Giới thiệu Fetch API.",
-        "GET request.",
-        "POST request.",
-        "Xử lý JSON."
+    "quizzes": [
+      {
+        "_id": "QUIZ11002_01",
+        "type": "single_choice",
+        "question": "Từ khóa nào được đặt trước một hàm để cho phép sử dụng `await` bên trong nó?",
+        "options": [
+          {
+            "option": "promise",
+            "correct": false
+          },
+          {
+            "option": "await",
+            "correct": false
+          },
+          {
+            "option": "async",
+            "correct": true
+          },
+          {
+            "option": "function",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-09T00:00:00Z" }
+        "createdAt": {
+          "$date": "2025-01-09T00:02:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ11002_02",
+        "type": "single_choice",
+        "question": "Mục đích của từ khóa `await` là gì?",
+        "options": [
+          {
+            "option": "Chạy nhiều tác vụ đồng thời.",
+            "correct": false
+          },
+          {
+            "option": "Đồng bộ hóa các tác vụ đồng bộ.",
+            "correct": false
+          },
+          {
+            "option": "Tạm dừng việc thực thi hàm `async` cho đến khi Promise được xử lý (resolved hoặc rejected).",
+            "correct": true
+          },
+          {
+            "option": "Buộc Promise thất bại.",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-09T00:03:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL11003",
+    "lessonId": "LESSON010",
+    "name": "Fetch API",
+    "videoTitle": "Fetch API Overview",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "15 phút",
+    "tasks": [
+      "Giới thiệu Fetch API.",
+      "GET request.",
+      "POST request.",
+      "Xử lý JSON."
+    ],
+    "createdAt": {
+      "$date": "2025-01-09T00:00:00Z"
     },
-    {
-        "_id": "DETAIL11004",
-        "lessonId": "LESSON010",
-        "name": "Thực hành: Gọi API",
-        "videoTitle": "Practice: API Requests",
-        "videoUrl": "https://res.cloudinary.com/db8tb8tzi/video/upload/fetch-practice.mp4",
-        "time": "15 phút",
-        "tasks": [
-        "Gọi API thật từ server.",
-        "Hiển thị dữ liệu ra UI.",
-        "Xử lý lỗi khi gọi API.",
-        "Tối ưu cách gọi API."
+    "quizzes": [
+      {
+        "_id": "QUIZ11003_01",
+        "type": "single_choice",
+        "question": "Hàm `fetch()` trả về đối tượng gì?",
+        "options": [
+          {
+            "option": "Object",
+            "correct": false
+          },
+          {
+            "option": "Promise",
+            "correct": true
+          },
+          {
+            "option": "Array",
+            "correct": false
+          },
+          {
+            "option": "String",
+            "correct": false
+          }
         ],
-        "createdAt": { "$date": "2025-01-09T00:00:00Z" }
-    }
+        "createdAt": {
+          "$date": "2025-01-09T00:04:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ11003_02",
+        "type": "single_choice",
+        "question": "Để chuyển đổi Response body nhận được từ Fetch API thành đối tượng JavaScript, ta sử dụng phương thức nào?",
+        "options": [
+          {
+            "option": "response.text()",
+            "correct": false
+          },
+          {
+            "option": "response.object()",
+            "correct": false
+          },
+          {
+            "option": "response.json()",
+            "correct": true
+          },
+          {
+            "option": "response.stringify()",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-09T00:05:00Z"
+        }
+      }
+    ]
+  },
+  {
+    "_id": "DETAIL11004",
+    "lessonId": "LESSON010",
+    "name": "Thực hành: Gọi API",
+    "videoTitle": "Practice: API Requests",
+    "videoUrl": "https://rr4---sn-8pxuuxa-q5qee.googlevideo.com/videoplayback?expire=1763571542&ei=9qIdaZHSAsnOkucP97OA4Q4&ip=146.103.44.144&id=o-AIsHOx4Onb7tWQ2Ix7HgySJ6d_F76kqPl9aV9f3jA2kG&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&rms=au%2Cau&bui=AdEuB5TIVDii6Hzl4z8D53t4QKqIrBtXjXzStLjzXURyESpuBaoQieRcGlcgOvQvk8Nyi_mWHQyWJEu9&spc=6b0G_BJ6zw4IkeC5caJ42GR0iv6e7ojFYA9j8gBV5Cjvdg5Nt_JX_x1D9k-gjYnp4TU&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=107.879&lmt=1660989536678519&fexp=51552689,51565116,51565682,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRQIhAIOo9KgZf8D0D_cAdyKM4MOpskLCEKQ4QlQ7fGDHrQ4BAiAQXrDEa_m1vQvh0jpLbZiVDteQUQZB7QpbV75e6pLIHw%3D%3D&redirect_counter=1&rm=sn-p5qees7z&rrc=104&req_id=341282be6012a3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763549953,&mh=lL&mip=27.78.113.138&mm=31&mn=sn-8pxuuxa-q5qee&ms=au&mt=1763548910&mv=u&mvi=4&pcm2cms=yes&pl=17&lsparams=ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pcm2cms,pl,rms&lsig=APaTxxMwRQIgdTe32rGPaNZHZ7N4_K-3P2WIk8mitTSboP_odw5iw1YCIQDY0-DqsgDxSxy4e5epcv-bwr4GayN0LBUbeFqpbvKMHg%3D%3D",
+    "time": "15 phút",
+    "tasks": [
+      "Gọi API thật từ server.",
+      "Hiển thị dữ liệu ra UI.",
+      "Xử lý lỗi khi gọi API.",
+      "Tối ưu cách gọi API."
+    ],
+    "createdAt": {
+      "$date": "2025-01-09T00:00:00Z"
+    },
+    "quizzes": [
+      {
+        "_id": "QUIZ11004_01",
+        "type": "single_choice",
+        "question": "Làm thế nào để xử lý các lỗi mạng hoặc lỗi phản hồi không thành công (ví dụ: mã trạng thái 404, 500) khi sử dụng `fetch` và `async/await`?",
+        "options": [
+          {
+            "option": "Sử dụng `try...catch`",
+            "correct": true
+          },
+          {
+            "option": "Sử dụng `if/else`",
+            "correct": false
+          },
+          {
+            "option": "Sử dụng `switch`",
+            "correct": false
+          },
+          {
+            "option": "Sử dụng `finally`",
+            "correct": false
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-09T00:06:00Z"
+        }
+      },
+      {
+        "_id": "QUIZ11004_02",
+        "type": "single_choice",
+        "question": "Phương thức HTTP nào được dùng để gửi dữ liệu từ client đến server để tạo tài nguyên mới?",
+        "options": [
+          {
+            "option": "GET",
+            "correct": false
+          },
+          {
+            "option": "PUT",
+            "correct": false
+          },
+          {
+            "option": "DELETE",
+            "correct": false
+          },
+          {
+            "option": "POST",
+            "correct": true
+          }
+        ],
+        "createdAt": {
+          "$date": "2025-01-09T00:07:00Z"
+        }
+      }
+    ]
+  }
 ]
