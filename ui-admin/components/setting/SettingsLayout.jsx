@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FiUser, FiLock, FiBell, FiGlobe, FiUploadCloud } from 'react-icons/fi';
-import { motion } from 'framer-motion';
-import { NavLink } from 'react-router-dom';
+import { apiClient, endpoints } from '../../src/api';
+import { motion as Motion } from 'framer-motion';
+
 
 const ProfileSettings = ({ user, setUser, handleImageChange, handleSaveProfile }) => (
   <div className="p-6">
@@ -33,10 +34,11 @@ const ProfileSettings = ({ user, setUser, handleImageChange, handleSaveProfile }
         />
         <input
           type="email"
-          className="border border-gray-300 p-3 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="border border-gray-300 p-3 rounded-lg w-full bg-gray-100 cursor-not-allowed focus:outline-none"
           value={user.email}
-          onChange={(e) => setUser({ ...user, email: e.target.value })}
-          placeholder="Email"
+          readOnly
+          aria-readonly="true"
+          title="Email không thể thay đổi"
         />
         <button
           className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-medium w-36"
@@ -110,7 +112,7 @@ const AppearanceSettings = ({ darkMode, setDarkMode }) => (
     <h3 className="text-xl font-semibold mb-6 border-b border-gray-400 pb-3 text-gray-800">Giao diện & Ngôn ngữ</h3>
     <div className="flex flex-col gap-4 md:w-1/2">
       <ToggleSwitch label="Chế độ tối (Dark Mode)" enabled={darkMode} onChange={() => setDarkMode(!darkMode)} />
-      <ToggleSwitch label="Ngôn ngữ tiếng Việt" enabled={true} onChange={() => {}} />
+      <ToggleSwitch label="Ngôn ngữ tiếng Việt" enabled={true} onChange={() => { }} />
     </div>
   </div>
 );
@@ -121,7 +123,7 @@ const SidebarItem = ({ item, activeTab, setActiveTab }) => {
   const Icon = item.icon;
   const isActive = activeTab === item.id;
   return (
-    <motion.div variants={itemVariants}>
+    <Motion.div variants={itemVariants}>
       <button
         onClick={() => setActiveTab(item.id)}
         className={`flex items-center gap-3 p-3 rounded-lg text-sm transition-all duration-200 w-full
@@ -133,7 +135,7 @@ const SidebarItem = ({ item, activeTab, setActiveTab }) => {
         <Icon size={18} />
         <span>{item.label}</span>
       </button>
-    </motion.div>
+    </Motion.div>
   );
 };
 
@@ -146,22 +148,108 @@ const settingsMenu = [
 
 const SettingsLayout = () => {
   const [activeTab, setActiveTab] = useState('profile');
-  const [user, setUser] = useState({ name: "Nguyen Van A", email: "a@gmail.com", avatarUrl: "https://i.ibb.co/L5B7n2t/apple-watch.png" });
+  const [user, setUser] = useState({
+    name: localStorage.getItem('userName') || "",
+    email: localStorage.getItem('userEmail') || "",
+    avatarUrl: localStorage.getItem('userAvatar') || "",
+  });
   const [passwords, setPasswords] = useState({ current: "", new: "", confirm: "" });
   const [notifications, setNotifications] = useState({ email: true, sms: false });
   const [darkMode, setDarkMode] = useState(false);
 
+  const accountId = localStorage.getItem("userId");   
+
+  useEffect(() => {
+    const stored = localStorage.getItem('darkMode');
+    if (stored !== null) {
+      setDarkMode(stored === 'true');
+    } else {
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setDarkMode(prefersDark);
+      localStorage.setItem('darkMode', prefersDark ? 'true' : 'false');
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      const root = document.documentElement;
+      if (darkMode) {
+        root.classList.add('dark');
+      } else {
+        root.classList.remove('dark');
+      }
+      localStorage.setItem('darkMode', darkMode ? 'true' : 'false');
+    } catch (e) {
+      console.error('Failed to apply dark mode class', e);
+    }
+  }, [darkMode]);
+
+  
+  useEffect(() => {
+    if (!accountId) return;
+
+    const fetchProfile = async () => {
+      try {
+        const res = await apiClient.get(`${endpoints.accounts}/profile/${accountId}`);
+        const fetchedUser = {
+          name: res.data.user?.name || res.data.account?.name || user.name,
+          email: res.data.account?.email || res.data.user?.email || user.email,
+          avatarUrl: res.data.user?.avatarUrl || user.avatarUrl,
+        };
+        setUser(fetchedUser);
+        
+        if (fetchedUser.name) localStorage.setItem('userName', fetchedUser.name);
+        if (fetchedUser.email) localStorage.setItem('userEmail', fetchedUser.email);
+        if (fetchedUser.avatarUrl) localStorage.setItem('userAvatar', fetchedUser.avatarUrl);
+      } catch (err) {
+        console.error("Load profile failed:", err);
+      }
+    };
+
+    fetchProfile();
+  }, [accountId]);
+
+
+  
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    if(file){
+    if (file) {
       const reader = new FileReader();
-      reader.onload = (ev) => setUser({ ...user, avatarUrl: ev.target.result });
+      reader.onload = (ev) => {
+        const avatar = ev.target.result;
+        setUser({ ...user, avatarUrl: avatar });
+        localStorage.setItem('userAvatar', avatar);
+      };
       reader.readAsDataURL(file);
     }
   };
-  const handleSaveProfile = () => console.log("Saved profile", user);
-  const handleChangePassword = () => console.log("Change password", passwords);
-  const handleNotificationChange = (type) => setNotifications({ ...notifications, [type]: !notifications[type] });
+
+  const handleSaveProfile = async () => {
+    await apiClient.put(`${endpoints.accounts}/update-profile/${accountId}`, {
+      name: user.name,
+      email: user.email,
+      avatarUrl: user.avatarUrl
+    });
+    
+    if (user.name) localStorage.setItem('userName', user.name);
+    if (user.email) localStorage.setItem('userEmail', user.email);
+    if (user.avatarUrl) localStorage.setItem('userAvatar', user.avatarUrl);
+
+    alert("Cập nhật thành công!");
+  };
+
+  const handleChangePassword = async () => {
+    await apiClient.post(`${endpoints.accounts}/change-password/${accountId}`, {
+      currentPassword: passwords.current,
+      newPassword: passwords.new
+    });
+
+    alert("Đổi mật khẩu thành công!");
+  };
+
+  const handleNotificationChange = (type) =>
+    setNotifications({ ...notifications, [type]: !notifications[type] });
 
   const ActiveComponent = settingsMenu.find(item => item.id === activeTab)?.component;
 
@@ -170,8 +258,7 @@ const SettingsLayout = () => {
       <div className="w-full bg-white rounded-xl shadow-md p-6">
         <h2 className="text-3xl font-bold mb-8 text-gray-800">Cài đặt Tài khoản</h2>
         <div className="flex flex-col md:flex-row gap-6">
-          {/* Sidebar */}
-          <nav className="w-full md:w-64 ">
+          <nav className="w-full md:w-64">
             <ul className="space-y-2">
               {settingsMenu.map((item) => (
                 <SidebarItem key={item.id} item={item} activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -180,12 +267,20 @@ const SettingsLayout = () => {
           </nav>
 
           <div className="flex-1 bg-gray-50 rounded-xl overflow-hidden shadow-inner">
-            {ActiveComponent && <ActiveComponent 
-              user={user} setUser={setUser} handleImageChange={handleImageChange} handleSaveProfile={handleSaveProfile}
-              passwords={passwords} setPasswords={setPasswords} handleChangePassword={handleChangePassword}
-              notifications={notifications} handleNotificationChange={handleNotificationChange}
-              darkMode={darkMode} setDarkMode={setDarkMode}
-            />}
+            {ActiveComponent && (
+              <ActiveComponent
+                user={user} setUser={setUser}
+                handleImageChange={handleImageChange}
+                handleSaveProfile={handleSaveProfile}
+                passwords={passwords}
+                setPasswords={setPasswords}
+                handleChangePassword={handleChangePassword}
+                notifications={notifications}
+                handleNotificationChange={handleNotificationChange}
+                darkMode={darkMode}
+                setDarkMode={setDarkMode}
+              />
+            )}
           </div>
         </div>
       </div>

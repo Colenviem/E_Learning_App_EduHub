@@ -1,9 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { motion } from 'framer-motion';
-import axios from 'axios';
+import { motion as Motion } from 'framer-motion';
+import { apiClient, endpoints } from '../../src/api';
 import Spinner from '../spinner/Spinner';
-
-const API = "http://localhost:5000/orders";
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -28,7 +26,7 @@ function RecentDealsTable() {
     const fetchOrders = useCallback(async () => {
         setLoading(true);
         try {
-            const res = await axios.get(API);
+            const res = await apiClient.get(endpoints.orders);
             setOrders(res.data);
         } catch (err) {
             console.error("Lỗi khi lấy dữ liệu đơn hàng:", err);
@@ -56,7 +54,7 @@ function RecentDealsTable() {
             <table className="min-w-full text-sm text-left border-collapse">
                 <thead className="text-gray-500 uppercase text-xs border-b border-gray-200">
                     <tr>
-                        <th className="py-3 px-4">Mã đơn hàng</th> {/* THÊM CỘT MỚI */}
+                        <th className="py-3 px-4">Mã đơn hàng</th>
                         <th className="py-3 px-4">Khóa học</th>
                         <th className="py-3 px-4">User ID</th>
                         <th className="py-3 px-4">Ngày</th>
@@ -65,14 +63,14 @@ function RecentDealsTable() {
                     </tr>
                 </thead>
 
-                <motion.tbody variants={containerVariants} initial="hidden" animate="visible">
-                    {orders.slice(0, 4).map((order) => ( // Bỏ index i
-                        <motion.tr
-                            key={order._id} // SỬ DỤNG order._id LÀM KEY
+                <Motion.tbody variants={containerVariants} initial="hidden" animate="visible">
+                    {orders.slice(0, 4).map((order) => (
+                        <Motion.tr
+                            key={order._id}
                             variants={rowVariants}
                             className="border-t border-gray-100 hover:bg-gray-50 transition-colors"
                         >
-                            <td className="py-3 px-4 text-gray-800">{order._id}</td> {/* HIỂN THỊ MÃ ĐƠN HÀNG */}
+                            <td className="py-3 px-4 text-gray-800">{order._id}</td>
                             <td className="py-3 px-4 font-medium text-gray-800">{order.courseId}</td>
                             <td className="py-3 px-4 text-gray-600">{order.userId}</td>
                             <td className="py-3 px-4 text-gray-600 whitespace-nowrap">
@@ -86,9 +84,9 @@ function RecentDealsTable() {
                                     {order.status}
                                 </span>
                             </td>
-                        </motion.tr>
+                        </Motion.tr>
                     ))}
-                </motion.tbody>
+                </Motion.tbody>
             </table>
         </div>
     );

@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion';
 import CountUp from 'react-countup';
 import { FiUsers, FiShoppingBag, FiTrendingUp, FiClock } from 'react-icons/fi';
-import axios from 'axios';
+import { apiClient, endpoints } from '../../src/api';
 import Spinner from '../spinner/Spinner';
 
-const API = "http://localhost:5000/orders";
+// orders endpoint centralized in src/api
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -24,7 +24,7 @@ function StatCards() {
     const fetchOrders = useCallback(async () => {
         try {
             setLoading(true);
-            const res = await axios.get(API);
+            const res = await apiClient.get(endpoints.orders);
             setOrders(res.data);
         } catch (err) { 
         console.error("Lỗi khi lấy dữ liệu đơn hàng:", err);
@@ -55,9 +55,9 @@ function StatCards() {
     }
 
     return (
-        <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" variants={containerVariants} initial="hidden" animate="visible">
+        <Motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" variants={containerVariants} initial="hidden" animate="visible">
         {statData.map((card, i) => (
-            <motion.div key={i} variants={itemVariants} whileHover={{ y: -5, boxShadow: '0 10px 20px rgba(0,0,0,0.1)' }} transition={{ type: "spring", stiffness: 300 }} className="bg-white p-5 rounded-xl shadow-lg border border-gray-100 cursor-pointer">
+            <Motion.div key={i} variants={itemVariants} whileHover={{ y: -5, boxShadow: '0 10px 20px rgba(0,0,0,0.1)' }} transition={{ type: "spring", stiffness: 300 }} className="bg-white p-5 rounded-xl shadow-lg border border-gray-100 cursor-pointer">
             <div className="flex items-center justify-between">
                 <div>
                 <h3 className="text-gray-500 text-sm font-medium">{card.title}</h3>
@@ -73,9 +73,9 @@ function StatCards() {
                 <span className="font-bold">{card.changeIcon}</span>
                 {card.change}
             </p>
-            </motion.div>
+            </Motion.div>
         ))}
-        </motion.div>
+        </Motion.div>
     );
 }
 

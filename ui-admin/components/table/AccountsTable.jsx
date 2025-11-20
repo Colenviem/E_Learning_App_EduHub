@@ -1,11 +1,10 @@
-// AccountsTable.jsx
 import React, { useState, useEffect, useCallback } from 'react';
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion';
 import { FiEdit, FiSearch } from 'react-icons/fi';
-import axios from 'axios';
+import { apiClient, endpoints } from '../../src/api';
 import Spinner from '../spinner/Spinner';
 
-const API = "http://localhost:5000/accounts";
+// accounts endpoint centralised in src/api
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -53,7 +52,7 @@ const AccountsTable = () => {
     const fetchAccounts = useCallback(async () => {
         try {
             setLoading(true);
-            const res = await axios.get(API);
+            const res = await apiClient.get(endpoints.accounts);
             setAccountsData(res.data);
         } catch (err) {
             console.error("Lỗi khi fetch users:", err);
@@ -79,7 +78,7 @@ const AccountsTable = () => {
         if (!editingAccount || !editingAccount._id) return;
         try {
             setLoading(true);
-            await axios.put(`${API}/${editingAccount._id}`, editingAccount);
+            await apiClient.put(`${endpoints.accounts}/${editingAccount._id}`, editingAccount);
             await fetchAccounts();
             setIsModalOpen(false);
             setEditingAccount(null);
@@ -113,7 +112,7 @@ const AccountsTable = () => {
             setEmailForOtp(email.trim());
 
             // call backend to send OTP to that email
-            await axios.post(`${API}/send-otp`, { email: email.trim() });
+            await apiClient.post(`${endpoints.accounts}/send-otp`, { email: email.trim() });
 
             // open OTP modal and close add modal
             setIsModalOpenAdd(false);
@@ -140,7 +139,7 @@ const AccountsTable = () => {
         setLoading(true);
 
         // 1. verify OTP
-        const verifyRes = await axios.post(`${API}/verify-otp`, {
+        const verifyRes = await apiClient.post(`${endpoints.accounts}/verify-otp`, {
             email: emailForOtp,
             otp: otp.trim()
         });
@@ -151,7 +150,7 @@ const AccountsTable = () => {
         }
 
         // 2. create account
-        const createRes = await axios.post(`${API}/register-admin`, {
+        const createRes = await apiClient.post(`${endpoints.accounts}/register-admin`, {
             email: emailForOtp,
             password,
             role
@@ -185,7 +184,7 @@ const AccountsTable = () => {
         if (!emailForOtp) return;
         try {
             setLoading(true);
-            await axios.post(`${API}/send-otp`, { email: emailForOtp });
+            await apiClient.post(`${endpoints.accounts}/send-otp`, { email: emailForOtp });
             window.alert("OTP đã được gửi lại");
         } catch (err) {
             console.error("Lỗi resend OTP:", err);
@@ -216,7 +215,7 @@ const AccountsTable = () => {
                             className="bg-indigo-600 w-24 text-center cursor-pointer text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-700 transition-colors flex items-center gap-2"
                             onClick={() => {
                                 setSearchQuery("");
-                                fetchAccounts(); // ← LOAD LẠI FULL LIST
+                                fetchAccounts();
                         }}
                         >
                             <FiSearch size={16} />
@@ -253,9 +252,9 @@ const AccountsTable = () => {
                             <th className="py-3 px-4 text-center">Hành động</th>
                         </tr>
                         </thead>
-                        <motion.tbody variants={containerVariants} initial="hidden" animate="visible">
+                        <Motion.tbody variants={containerVariants} initial="hidden" animate="visible">
                         {filteredAccounts.map(acc => (
-                            <motion.tr
+                                <Motion.tr
                             key={acc._id}
                             variants={rowVariants}
                             className="border-t border-gray-100 hover:bg-gray-50 transition-colors"
@@ -277,9 +276,9 @@ const AccountsTable = () => {
                                 <FiEdit className="w-4 h-4" />
                                 </button>
                             </td>
-                            </motion.tr>
+                            </Motion.tr>
                         ))}
-                        </motion.tbody>
+                        </Motion.tbody>
                     </table>
                 </div>
             </div>
