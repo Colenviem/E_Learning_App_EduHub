@@ -1,16 +1,16 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useRef, useState } from 'react';
 import {
-    Animated,
-    Modal,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-    Alert
+  Alert,
+  Animated,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
 } from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import axios from 'axios';
 
@@ -25,16 +25,15 @@ export const COLORS = {
   success: '#4CAF50',
 };
 
-// 1. Update Props Definition
 type paymentMethodProps = {
   visible: boolean;
   onClose: () => void;
-  onContinue: () => void; // Changed signature to simple void, used on success
-  amount: number;          // Received from parent
-  courseId: string;        // Received from parent
+  onContinue: () => void; 
+  amount: number;        
+  courseId: string;       
 };
 
-const API = "http://192.168.2.6:5000/orders";
+const API = "http://192.168.0.102:5000/orders";
 
 export default function PaymentModal({ 
   visible, 
@@ -58,7 +57,6 @@ export default function PaymentModal({
 
   const fetchUser = async () => {
     const id = await AsyncStorage.getItem('userId');
-    // Fallback for testing if no user logged in
     setUserId(id || 'USER002');
   };
 
@@ -75,13 +73,12 @@ export default function PaymentModal({
       const res = await axios.post(API, { userId, courseId, amount: Number(amount), paymentMethod: selected });
 
       if (res.status === 200 || res.status === 201) {
-        // Thông báo thành công
         Alert.alert('Thành công', 'Thanh toán thành công!', [
           {
             text: 'OK',
             onPress: () => {
-              onClose();      // Ẩn PaymentModal
-              onContinue();   // Thực hiện xử lý tiếp theo (nếu cần)
+              onClose();  
+              onContinue();  
             },
           },
         ]);
@@ -93,7 +90,6 @@ export default function PaymentModal({
     }
   };
 
-  // Format currency for display
   const formattedAmount = amount ? amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) : '0₫';
 
   return (

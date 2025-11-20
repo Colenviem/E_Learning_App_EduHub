@@ -3,7 +3,7 @@ import * as Permissions from "expo-permissions";
 import { Stack } from "expo-router";
 import React, { useState } from "react";
 import { Alert, Platform, ScrollView, StyleSheet, Switch, Text, View } from "react-native";
-import { useTheme } from '../../../_layout'; // hook global theme
+import { useTheme } from '../../../_layout';
 
 const NotificationsScreen = () => {
   const { isDarkMode } = useTheme(); 

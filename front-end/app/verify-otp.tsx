@@ -54,7 +54,7 @@ export default function VerifyOtpScreen() {
         setResendLoading(true);
         try {
             await axios.post(`${API_ACCOUNT}/send-otp`, { email, type: 'register' });
-            setCountdown(30); 
+            setCountdown(30);
         } catch (err: any) {
             Alert.alert('Lỗi', err.response?.data?.message || 'Không thể gửi OTP');
         } finally {
@@ -92,11 +92,7 @@ export default function VerifyOtpScreen() {
 
                 <TouchableOpacity
                     style={[styles.button, styles.primaryButton]}
-                    onPress={() => {
-                        handleVerifyOtp();
-                        setLoading(true);
-                        setTimeout(() => setLoading(false), 2000);
-                    }}
+                    onPress={handleVerifyOtp}
                     disabled={loading || otp.length !== 6}
                 >
                     {loading ? (
@@ -105,6 +101,10 @@ export default function VerifyOtpScreen() {
                         <Text style={styles.buttonText}>Xác nhận OTP</Text>
                     )}
                 </TouchableOpacity>
+
+                {otpError !== '' && (
+                    <Text style={styles.errorText}>{otpError}</Text>
+                )}
 
                 <TouchableOpacity
                     style={[
@@ -149,6 +149,12 @@ const styles = StyleSheet.create({
         shadowColor: '#000',
 
         elevation: 15,
+    },
+    errorText: {
+        color: '#FF4B4B',
+        marginTop: 8,
+        fontSize: 14,
+        textAlign: 'center',
     },
     title: {
         color: '#fff',

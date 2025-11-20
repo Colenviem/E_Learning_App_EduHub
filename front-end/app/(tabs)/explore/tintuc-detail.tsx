@@ -57,7 +57,7 @@ export default function TintucDetail() {
   useEffect(() => {
     const fetchNewsById = async () => {
       try {
-        const res = await fetch(`http://${API_BASE_URL}/news/${newsId}`);
+        const res = await fetch(`${API_BASE_URL}/news/${newsId}`);
         if (!res.ok) throw new Error('Không tìm thấy tin tức');
         const data: NewsItem = await res.json();
         setNewsItem(data);

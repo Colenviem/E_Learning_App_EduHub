@@ -14,7 +14,6 @@ export default function ExploreStack() {
     >
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="chat-with-ai" options={{ title: 'Trò chuyện với AI' }} />
-      <Stack.Screen name="tutor-ai" options={{ title: 'Gia sư AI' }} />
       <Stack.Screen name="discussion" options={{ title: 'Thảo luận' }} />
       <Stack.Screen name="tintuc" options={{ title: 'Tin tức' }} />
       

@@ -28,7 +28,7 @@ if (Platform.OS === 'android') {
     UIManager.setLayoutAnimationEnabledExperimental?.(true);
 }
 
-const API_BASE_URL = 'http://192.168.2.6:5000';
+const API_BASE_URL = 'http://192.168.0.102:5000';
 const API_COURSES = `${API_BASE_URL}/courses`;
 const API_LESSONS = `${API_BASE_URL}/lessons`;
 const API_ORDERS = `${API_BASE_URL}/orders`;
@@ -52,7 +52,7 @@ const COLORS = {
 
 export default function SourceLesson() {
     const { courseId } = useLocalSearchParams();
-    
+
     const [userId, setUserId] = useState<string | null>(null);
     const [courses, setCourses] = useState<any[]>([]);
     const [lessons, setLessons] = useState<any[]>([]);
@@ -65,10 +65,12 @@ export default function SourceLesson() {
     const [isPaymentModalVisible, setPaymentModalVisible] = useState(false);
     const [selectedPackage, setSelectedPackage] = useState('premium');
     const [selectedPackagePrice, setSelectedPackagePrice] = useState(0);
+    const [refreshFlag, setRefreshFlag] = useState(false);
 
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const tabAnim = useRef(new Animated.Value(0)).current;
     const { isDarkMode } = useTheme();
+    const [isSaved, setIsSaved] = useState(false);
 
     const colors = useMemo(() => ({
         background: isDarkMode ? '#121212' : '#FFFFFF',
@@ -84,13 +86,48 @@ export default function SourceLesson() {
         dotColor: '#F59E0B',
     }), [isDarkMode]);
 
+
     useEffect(() => {
-        const fetchUser = async () => {
-            const id = await AsyncStorage.getItem('userId');
-            setUserId(id || 'USER002');
+        const loadSaved = async () => {
+            const saved = await AsyncStorage.getItem("savedCourses");
+            const savedList = saved ? JSON.parse(saved) : [];
+            setIsSaved(savedList.includes(courseId));
         };
-        fetchUser();
+        loadSaved();
+    }, [courseId]);
+
+    useEffect(() => {
+        const loadUserId = async () => {
+            const id = await AsyncStorage.getItem("userId");
+            setUserId(id);
+
+        };
+        loadUserId();
     }, []);
+
+
+    useEffect(() => {
+        const checkSaved = async () => {
+            try {
+                if (!userId || !courseId) return;
+
+                const res = await axios.get(`${API_BASE_URL}/users/byAccount/${userId}`);
+                const user = res.data;
+
+                const exist = user.coursesInProgress?.find((c: any) =>
+                    String(c.courseId) === String(courseId)
+                );
+
+                setIsSaved(exist ? !!exist.isFavorite : false);
+            } catch (err) {
+                console.log("Error checking saved:", err);
+            }
+        };
+
+        checkSaved();
+    }, [userId, courseId]);
+
+
 
     const fetchCourses = useCallback(async () => {
         const res = await axios.get(API_COURSES);
@@ -111,6 +148,29 @@ export default function SourceLesson() {
         }
     }, []);
 
+    const fetchUserByIdOrAccount = useCallback(async (id: string | null) => {
+        if (!id) throw new Error('No userId provided');
+        const candidates = [
+            `${API_BASE_URL}/users/byAccount/${id}`,
+            `${API_BASE_URL}/users/byAccount?account=${id}`,
+            `${API_BASE_URL}/users/${id}`,
+        ];
+
+        for (const url of candidates) {
+            try {
+                console.log('Trying user fetch URL:', url);
+                const res = await axios.get(url);
+                return res.data;
+            } catch (err: any) {
+                const status = err?.response?.status;
+                console.warn(`Request to ${url} failed with status`, status);
+                if (status && status !== 404) throw err;
+            }
+        }
+
+        throw new Error('User not found on any tested endpoints');
+    }, []);
+
     useEffect(() => {
         const loadData = async () => {
             try {
@@ -125,10 +185,18 @@ export default function SourceLesson() {
     }, [fetchCourses, fetchLessons, fetchOrders]);
 
     useEffect(() => {
+        const reload = async () => {
+            await Promise.all([fetchOrders(), fetchCourses(), fetchLessons()]);
+        };
+        reload();
+    }, [refreshFlag]);
+
+
+    useEffect(() => {
         if (userId && courseId && orders.length > 0) {
-            const hasPurchased = orders.some(order => 
-                order.userId === userId && 
-                order.courseId === courseId && 
+            const hasPurchased = orders.some(order =>
+                order.userId === userId &&
+                order.courseId === courseId &&
                 order.status === 'completed'
             );
             setIsPurchased(hasPurchased);
@@ -157,7 +225,7 @@ export default function SourceLesson() {
         });
     };
 
-    const handleGoBack = () => router.push('/(tabs)/home');
+    const handleGoBack = () => router.back();
     const handleRegisterPress = () => setEnrollmentModalVisible(true);
     const handleConfirmEnrollment = (pkgKey: string, price: number) => {
         setSelectedPackage(pkgKey);
@@ -165,10 +233,80 @@ export default function SourceLesson() {
         setEnrollmentModalVisible(false);
         setTimeout(() => setPaymentModalVisible(true), 300);
     };
-    const handlePaymentSuccess = () => {
-        setIsPurchased(true);
-        fetchOrders();
+
+    const handlePaymentSuccess = async () => {
+        try {
+            const user = await fetchUserByIdOrAccount(userId);
+            console.log('Fetched user for payment success:', user?._id || user);
+
+            let list = user.coursesInProgress || [];
+
+            const exist = list.find((c: any) => c.courseId === courseId);
+
+            if (!exist) {
+                list.push({
+                    courseId: courseId,
+                    image: currentCourse.image,
+                    progress: 0,
+                    completedLessons: 0,
+                    totalLessons: currentCourse.numberOfLessons,
+                    lastAccessed: new Date().toISOString(),
+                    isFavorite: true
+                });
+            }
+
+            const patchUrl = `${API_BASE_URL}/users/byAccount/${user._id || userId}`;
+            await axios.patch(patchUrl, {
+                coursesInProgress: list
+            });
+
+            setIsSaved(true);
+            setIsPurchased(true);
+            fetchOrders();
+
+            setRefreshFlag(prev => !prev);
+
+        } catch (err) {
+            console.log(err);
+        }
     };
+
+
+    const toggleSaveCourse = async () => {
+        try {
+            const user = await fetchUserByIdOrAccount(userId);
+
+            let list = user.coursesInProgress || [];
+
+            let existing = list.find((item: any) => item.courseId === courseId);
+
+            if (existing) {
+                if (existing.isFavorite === undefined) {
+                    existing.isFavorite = false;
+                }
+                existing.isFavorite = !existing.isFavorite;
+            } else {
+                list.push({
+                    courseId: courseId,
+                    image: currentCourse.image,
+                    progress: 0,
+                    completedLessons: 0,
+                    totalLessons: currentCourse.numberOfLessons,
+                    lastAccessed: new Date().toISOString(),
+                    isFavorite: true,
+                });
+            }
+
+            await axios.patch(`${API_BASE_URL}/users/${user._id}`, {
+                coursesInProgress: list,
+            });
+
+            setIsSaved((prev) => !prev);
+        } catch (error) {
+            console.error("Error saving course:", error);
+        }
+    };
+
 
     const formatTime = (totalMinutes: number) => {
         const hours = Math.floor(totalMinutes / 60);
@@ -252,7 +390,7 @@ export default function SourceLesson() {
                                 <Text style={[styles.subLessonTitle, { color: colors.textPrimary }]} numberOfLines={1}>{detail.name}</Text>
                             </View>
                             <Text style={[styles.subLessonDuration, { color: colors.textSecondary }]}>{detail.time}</Text>
-                            {!isPurchased && <FeatherIcon name="lock" size={14} color={COLORS.textSecondary} style={{marginRight: 8}} />}
+                            {!isPurchased && <FeatherIcon name="lock" size={14} color={COLORS.textSecondary} style={{ marginRight: 8 }} />}
                         </TouchableOpacity>
                     );
                 })}
@@ -268,9 +406,20 @@ export default function SourceLesson() {
                     <TouchableOpacity onPress={handleGoBack} style={styles.backButton}>
                         <FeatherIcon name="arrow-left" size={26} color={colors.background} />
                     </TouchableOpacity>
-                    <Text style={[styles.headerTitle, { color: colors.background }]} numberOfLines={1}>{currentCourse.title}</Text>
-                    <View style={{ width: 40 }} />
+
+                    <Text style={[styles.headerTitle, { color: colors.background }]} numberOfLines={1}>
+                        {currentCourse.title}
+                    </Text>
+
+                    <TouchableOpacity onPress={toggleSaveCourse} style={styles.saveButton}>
+                        <IonIcon
+                            name={isSaved ? "bookmark" : "bookmark-outline"}
+                            size={26}
+                            color="#fff"
+                        />
+                    </TouchableOpacity>
                 </View>
+
 
                 <FlatList
                     data={activeTab === 'lessons' ? courseSections : []}
@@ -416,4 +565,9 @@ const styles = StyleSheet.create({
     startLearningText: { color: '#fff', fontSize: 18, fontWeight: '700' },
     discountBadge: { backgroundColor: '#FF6B6B', paddingHorizontal: 8, paddingVertical: 2, borderRadius: 6 },
     discountText: { color: '#fff', fontSize: 13, fontWeight: '700' },
+    saveButton: {
+        padding: 8,
+        marginLeft: 4,
+    },
+
 });

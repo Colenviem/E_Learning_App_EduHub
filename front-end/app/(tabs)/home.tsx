@@ -13,9 +13,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { spacing, colors as themeColors } from '../../src/constants/theme';
 import { useTheme } from '../_layout';
 
-const API_COURSES = "http://192.168.2.6:5000/courses";
-const API_CATEGORIES = "http://192.168.2.6:5000/categories";
-const API_USERS = "http://192.168.2.6:5000/users";
+const API_COURSES = "http://192.168.0.102:5000/courses";
+const API_CATEGORIES = "http://192.168.0.102:5000/categories";
+const API_USERS = "http://192.168.0.102:5000/users";
 
 const BANNERS = [
   "https://res.cloudinary.com/dixzxzdrd/image/upload/v1762585754/banner2_tlhzfa.jpg",
@@ -87,11 +87,17 @@ function Home() {
     fetchUsers();
   }, [fetchCourses, fetchCategories, fetchUsers]);
 
-  useEffect(() => {
-    if (categories.length > 0 && selectedCategory === 'CAT001') {
-      setSelectedCategory(categories[0]._id);
+ useEffect(() => {
+  if (categories.length > 0) {
+    const programming = categories.find(
+      c => c.name?.toLowerCase() === "programming"
+    );
+
+    if (programming) {
+      setSelectedCategory(programming._id);
     }
-  }, [categories]);
+  }
+}, [categories]);
 
   const filteredCourses = useMemo(() => {
     return courses.filter(course => {

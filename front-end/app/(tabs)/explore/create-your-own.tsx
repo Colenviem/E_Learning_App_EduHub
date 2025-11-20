@@ -2,7 +2,6 @@ import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from "expo-image-picker";
 import { Stack, router } from "expo-router";
 import React, { useState } from "react";
-
 import {
   Alert,
   Image,
@@ -22,16 +21,29 @@ export default function CreateYourOwn() {
 
   const SERVER_URL = "http://192.168.0.102:5000/posts";
 
+  const CLOUD_NAME = "CLOUD_NAME";
+  const UPLOAD_PRESET = "UPLOAD_PRESET";
+
+  const uploadToCloudinary = async () => {
+    if (!image) return null;
+    const data = new FormData();
+    data.append("file", { uri: image, type: "image/jpeg", name: "photo.jpg" } as any);
+    data.append("upload_preset", UPLOAD_PRESET);
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+      method: "POST",
+      body: data,
+    });
+    const json = await res.json();
+    return json.secure_url;
+  };
+
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       quality: 0.7,
     });
-
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    }
+    if (!result.canceled) setImage(result.assets[0].uri);
   };
 
   const takePhoto = async () => {
@@ -40,17 +52,12 @@ export default function CreateYourOwn() {
       Alert.alert("Không có quyền truy cập camera");
       return;
     }
-
     const result = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
       quality: 0.7,
     });
-
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    }
+    if (!result.canceled) setImage(result.assets[0].uri);
   };
-
 
   const handleCreate = async () => {
     if (!topic.trim() || !content.trim()) {
@@ -60,24 +67,22 @@ export default function CreateYourOwn() {
 
     setLoading(true);
 
-    const formData = new FormData();
-    formData.append("topic", topic);
-    formData.append("content", content);
-    if (image) {
-      formData.append("image", {
-        uri: image,
-        type: "image/jpeg",
-        name: "upload.jpg",
-      } as any);
-    }
-
     try {
+      let imageUrl = null;
+      if (image) imageUrl = await uploadToCloudinary();
+
       const res = await fetch(SERVER_URL, {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          topic,
+          content,
+          image: imageUrl,
+        }),
       });
 
       if (!res.ok) throw new Error("Không thể tạo bài viết");
+
       setTopic("");
       setContent("");
       setImage(null);
@@ -85,7 +90,6 @@ export default function CreateYourOwn() {
       Alert.alert("Thành công", "Bài viết đã được tạo!");
       router.push("/explore/discussion");
     } catch (err: any) {
-      console.error(err);
       Alert.alert("Lỗi", err.message);
     } finally {
       setLoading(false);
@@ -117,12 +121,12 @@ export default function CreateYourOwn() {
 
       <View style={styles.buttonRow}>
         <TouchableOpacity style={styles.imageButton} onPress={pickImage}>
-          <Ionicons name="image-outline" size={20} color="#5B21B6" style={{ marginRight: 6 }} />
+          <Ionicons name="image-outline" size={20} color="#5B21B6" />
           <Text style={styles.imageButtonText}>Chọn ảnh</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.imageButton} onPress={takePhoto}>
-          <Ionicons name="camera-outline" size={20} color="#5B21B6" style={{ marginRight: 6 }} />
+          <Ionicons name="camera-outline" size={20} color="#5B21B6" />
           <Text style={styles.imageButtonText}>Chụp ảnh</Text>
         </TouchableOpacity>
       </View>
@@ -139,15 +143,8 @@ export default function CreateYourOwn() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    backgroundColor: "#fff",
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: "600",
-    marginBottom: 6,
-  },
+  container: { padding: 20, backgroundColor: "#fff" },
+  label: { fontSize: 16, fontWeight: "600", marginBottom: 6 },
   input: {
     borderWidth: 1,
     borderColor: "#ddd",
@@ -156,17 +153,8 @@ const styles = StyleSheet.create({
     marginBottom: 14,
     fontSize: 15,
   },
-  preview: {
-    width: "100%",
-    height: 200,
-    borderRadius: 12,
-    marginBottom: 12,
-  },
-  buttonRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 20,
-  },
+  preview: { width: "100%", height: 200, borderRadius: 12, marginBottom: 12 },
+  buttonRow: { flexDirection: "row", justifyContent: "space-between", marginBottom: 20 },
   imageButton: {
     flex: 1,
     backgroundColor: "#EDE9FE",
@@ -174,21 +162,16 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginHorizontal: 5,
     alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: 6,
   },
-  imageButtonText: {
-    color: "#5B21B6",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
+  imageButtonText: { color: "#5B21B6", fontWeight: "bold" },
   createButton: {
     backgroundColor: "#8B5CF6",
     padding: 14,
     borderRadius: 12,
     alignItems: "center",
   },
-  createText: {
-    color: "#fff",
-    fontWeight: "bold",
-    fontSize: 16,
-  },
+  createText: { color: "#fff", fontWeight: "bold", fontSize: 16 },
 });

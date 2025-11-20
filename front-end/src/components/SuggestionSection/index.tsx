@@ -81,7 +81,7 @@ const SuggestionSection: React.FC<{ colors?: SuggestionCardProps['colors'] }> = 
           <SuggestionCard
             key={course._id}
             {...course}
-            onPress={() => router.push(`../course-lessons/?id=${course._id}`)}
+            onPress={() => router.push(`../course-lessons/?courseId=${course._id}`)}
             colors={colors}
           />
         ))}

@@ -71,14 +71,6 @@ export default function ExploreScreen() {
             textColor={colors.text}
           />
           <FeatureCard
-            title="Trò chuyện với gia sư AI"
-            subtitle="Hỏi câu hỏi, nhận câu trả lời"
-            iconName="graduation-cap"
-            onPress={() => router.push('/explore/tutor-ai')}
-            cardBg={colors.cardBg}
-            textColor={colors.text}
-          />
-          <FeatureCard
             title="Tạo của riêng bạn"
             subtitle="Luyện tập tình huống thực tế"
             iconName="magic"

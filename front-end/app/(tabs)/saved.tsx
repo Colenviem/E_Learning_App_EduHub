@@ -49,8 +49,15 @@ const CourseCard: React.FC<CourseCardProps> = ({ item, isGridMode, onLongPress, 
         style={{ width: '100%', height: '100%', borderRadius: isGridMode ? 14 : 10 }}
         resizeMode="cover"
       />
-      <TouchableOpacity onPress={() => toggleFavorite(item)} style={styles.bookmarkIcon}>
-        <Ionicons name="bookmark" size={24} color={item.isFavorite ? colors.primary : colors.placeholder} />
+      <TouchableOpacity
+        onPress={() => {
+          toggleFavorite(item);
+          onPress && onPress(item);
+        }}
+        style={styles.bookmarkIcon}
+      >
+
+        <Ionicons name="bookmark" size={24} color={item.isFavorite ? '#FFFFFF' : colors.placeholder} />
       </TouchableOpacity>
     </View>
 
@@ -118,33 +125,47 @@ export default function SavedScreen() {
 
   const handleRemoveCourse = useCallback((course: Course) => {
     Alert.alert(
-      'Xác nhận Xóa',
-      `Bạn có muốn xóa khóa học "${course.name}" khỏi danh sách đã lưu?`,
+      "Xác nhận",
+      `Bạn có chắc muốn xóa khóa học "${course.name}" khỏi danh sách đã lưu?`,
       [
-        { text: 'Hủy', style: 'cancel' },
-        {
-          text: 'Xóa',
-          style: 'destructive',
-          onPress: async () => {
-            const updated = savedCourses.map(c => c.id === course.id ? { ...c, isFavorite: false } : c);
-            setSavedCourses(updated.filter(c => c.isFavorite));
+        { text: "Hủy", style: "cancel" },
 
+        {
+          text: "Xóa",
+          style: "destructive",
+          onPress: async () => {
             try {
-              const userId = await AsyncStorage.getItem('userId');
+              const userId = await AsyncStorage.getItem("userId");
               if (!userId) return;
-              await fetch(`${API_BASE_URL}/users/byAccount/${userId}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ coursesInProgress: updated }),
+
+              const res = await fetch(`${API_BASE_URL}/users/${userId}`);
+              const user = await res.json();
+
+              let list = user.coursesInProgress || [];
+
+              const existing = list.find((c: any) => c.courseId === course.id);
+              if (existing) {
+                existing.isFavorite = false;
+              }
+
+              await fetch(`${API_BASE_URL}/users/${user._id}`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ coursesInProgress: list }),
               });
+
+
+              setSavedCourses(prev => prev.filter(c => c.id !== course.id));
+
             } catch (err) {
-              console.log('Lỗi update server:', err);
+              console.log("Lỗi xóa khóa học:", err);
             }
           },
         },
       ]
     );
-  }, [savedCourses]);
+  }, []);
+
 
   const toggleFavorite = useCallback(async (course: Course) => {
     const updated = savedCourses.map(c => c.id === course.id ? { ...c, isFavorite: !c.isFavorite } : c);
@@ -213,7 +234,7 @@ export default function SavedScreen() {
               item={item}
               isGridMode={isGridMode}
               onLongPress={handleRemoveCourse}
-              onPress={course => router.push({ pathname: '../course-lessons', params: { id: course.id } })}
+              onPress={course => router.push({ pathname: '../course-lessons', params: { courseId: course.id } })}
               toggleFavorite={toggleFavorite}
               colors={colors}
             />
