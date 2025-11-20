@@ -212,4 +212,34 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+// ==================== REGISTER FOR ADMIN ====================
+router.post("/register-admin", async (req, res) => {
+  try {
+    const { email, password, role } = req.body;
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Tạo accountId
+    const accountSeq = await getNextSequence('accountId');
+    const accountId = `ACC${accountSeq.toString().padStart(3, "0")}`;
+
+    // Lưu Account
+    const account = new Account({
+      _id: accountId,
+      email,
+      password: hashedPassword,
+      role: role,
+      status: true,
+      createdAt: new Date(),
+    });
+    await account.save();
+
+    res.status(201).json({ message: "Đăng ký thành công", account, success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Lỗi server" });
+  }
+});
+
 module.exports = router;
