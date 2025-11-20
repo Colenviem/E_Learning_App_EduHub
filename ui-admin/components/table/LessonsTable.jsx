@@ -105,7 +105,7 @@ const LessonsTable = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [lessonsData, setLessonsData] = useState([]);
     const [editingLesson, setEditingLesson] = useState(null);
-    const [lessonDetails, setLessonDetails] = useState([]);
+    const [editLessonDetails, setEditLessonDetails] = useState([]);
     const [coursesData, setCoursesData] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -147,7 +147,7 @@ const LessonsTable = () => {
         setEditingLesson(lesson);
         try {
             const res = await axios.get(`${API_LESSON_DETAILS}/${lesson._id}`);
-            setLessonDetails(res.data);
+            setEditLessonDetails(res.data);
         } catch (err) {
             console.error("Không thể load lesson details", err);
         }
@@ -155,31 +155,31 @@ const LessonsTable = () => {
     };
 
     const handleRemoveTask = (detailIdx, taskIdx) => {
-        const newDetails = [...lessonDetails];
+        const newDetails = [...editLessonDetails];
         newDetails[detailIdx].tasks.splice(taskIdx, 1);
-        setLessonDetails(newDetails);
+        setEditLessonDetails(newDetails);
     };
 
     const handleRemoveQuiz = (detailIdx, quizId) => {
-        const newDetails = [...lessonDetails];
+        const newDetails = [...editLessonDetails];
         const updatedQuizzes = newDetails[detailIdx].quizzes.filter(q => q._id !== quizId);
         newDetails[detailIdx].quizzes = updatedQuizzes;
-        setLessonDetails(newDetails);
+        setEditLessonDetails(newDetails);
     };
 
     const handleSave = async () => {
         setLoading(true); // Thêm loading state để người dùng biết đang xử lý
         try {
             // Bước 1: Gửi request PUT
-            // Backend nhận editingLesson (bao gồm courseId, title, content) và lessonDetails
-            const res = await axios.put(`${API_LESSONS}/${editingLesson._id}`, {
+            // Backend nhận editingLesson (bao gồm courseId, title, content) và editLessonDetails
+            const res = await axios.put(`${API_LESSON_DETAILS}/${editingLesson._id}`, {
                 ...editingLesson,
-                lessonDetails,
+                lessonDetails: editLessonDetails,
             });
 
             // Bước 2: Trích xuất dữ liệu đã cập nhật từ phản hồi của server
-            // Dựa trên code backend, server trả về { lesson, lessonDetails }
-            const { lesson: updatedLesson, lessonDetails: updatedLessonDetails } = res.data;
+            // Dựa trên code backend, server trả về { lesson, editLessonDetails }
+            const { lesson: updatedLesson, editLessonDetails: updatedLessonDetails } = res.data;
             
             // ❗ Sửa lỗi: Đảm bảo có updatedLesson và nó có _id
             if (!updatedLesson || !updatedLesson._id) {
@@ -192,8 +192,8 @@ const LessonsTable = () => {
             );
             setLessonsData(updatedLessons);
 
-            // Cập nhật lessonDetails (cho state hiện tại, nếu cần)
-            setLessonDetails(updatedLessonDetails);
+            // Cập nhật editLessonDetails (cho state hiện tại, nếu cần)
+            setEditLessonDetails(updatedLessonDetails);
             
             // Bước 4: Đóng modal và kết thúc
             setIsModalOpen(false);
@@ -313,7 +313,7 @@ const LessonsTable = () => {
                 <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-start justify-center z-50 overflow-y-auto py-10">
                     <div className="bg-white rounded-2xl shadow-2xl w-full max-w-5xl p-8 relative transform transition-all duration-300">
                         <h3 className="text-2xl font-bold mb-6 text-gray-800 border-b pb-3 text-center">
-                            🛠️ Chỉnh sửa Bài học: {editingLesson.title}
+                            Chỉnh sửa Bài học: {editingLesson.title}
                         </h3>
 
                         {/* MAIN GRID: Lesson Details (Left) and Quizzes/Tasks (Right) */}
@@ -367,13 +367,25 @@ const LessonsTable = () => {
                                 {/* Scrollable Container */}
                                 <div className="bg-gray-50 p-4 rounded-xl max-h-[60vh] overflow-y-auto space-y-6">
                                     {/* Duyệt qua các Lesson Details (mỗi detail là một phần nội dung/quiz) */}
-                                    {lessonDetails && lessonDetails.map((detail, idx) => (
+                                    {editLessonDetails && editLessonDetails.map((detail, idx) => (
                                         <div key={idx} className="p-5 border border-gray-200 rounded-xl bg-white shadow-md">
 
                                             <h5 className="font-extrabold text-base text-gray-900 mb-4 border-b pb-2 flex justify-between items-center">
                                                 <span>Chi Tiết Nội Dung #{idx + 1}</span>
                                                 {/* Thêm nút xóa chi tiết ở đây nếu cần */}
                                             </h5>
+
+                                            <label className="text-sm font-semibold text-gray-700">Tên phần nội dung</label>
+                                            <input
+                                                type="text"
+                                                className="w-full border border-gray-300 rounded-xl p-2.5 text-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 mb-4"
+                                                value={detail.name}
+                                                onChange={(e) => {
+                                                    const newDetails = [...editLessonDetails];
+                                                    newDetails[idx].name = e.target.value;
+                                                    setEditLessonDetails(newDetails);
+                                                }}
+                                            />
 
                                             {/* 📹 Video Preview & URL Input */}
                                             <div className="mb-4">
@@ -384,9 +396,10 @@ const LessonsTable = () => {
                                                     placeholder="Link video MP4/URL..."
                                                     className="w-full border border-gray-300 rounded-xl p-2.5 text-sm focus:border-indigo-500 transition duration-150 mb-2"
                                                     onChange={(e) => {
-                                                        const newDetails = [...lessonDetails];
+                                                        const newDetails = [...editLessonDetails];
                                                         newDetails[idx].videoUrl = e.target.value;
-                                                        setLessonDetails(newDetails);
+                                                        newDetails[idx].videoTitle = e.target.value.split('/').pop(); // Lấy tên file từ URL
+                                                        setEditLessonDetails(newDetails);
                                                     }}
                                                 />
                                                 {detail.videoUrl && (
@@ -409,9 +422,9 @@ const LessonsTable = () => {
                                                             className="border border-gray-200 rounded-lg p-2 text-sm flex-1 focus:border-indigo-500"
                                                             value={task}
                                                             onChange={(e) => {
-                                                                const newDetails = [...lessonDetails];
+                                                                const newDetails = [...editLessonDetails];
                                                                 newDetails[idx].tasks[tIdx] = e.target.value;
-                                                                setLessonDetails(newDetails);
+                                                                setEditLessonDetails(newDetails);
                                                             }}
                                                         />
                                                         <button
@@ -437,9 +450,9 @@ const LessonsTable = () => {
                                                     onChange={(updatedQuiz) => {
                                                         const newQuizzes = [...detail.quizzes];
                                                         newQuizzes[qIdx] = updatedQuiz;
-                                                        const newDetails = [...lessonDetails];
+                                                        const newDetails = [...editLessonDetails];
                                                         newDetails[idx].quizzes = newQuizzes;
-                                                        setLessonDetails(newDetails);
+                                                        setEditLessonDetails(newDetails);
                                                     }}
                                                 />
                                             ))}
@@ -448,7 +461,7 @@ const LessonsTable = () => {
                                             <button
                                                 className="mt-4 px-4 py-2 text-sm bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-colors shadow-sm font-medium flex items-center gap-2"
                                                 onClick={() => {
-                                                    const newDetails = [...lessonDetails];
+                                                    const newDetails = [...editLessonDetails];
                                                     newDetails[idx].quizzes.push({
                                                         _id: `QUIZ_${Date.now()}`,
                                                         question: "Câu hỏi mới",
@@ -459,7 +472,7 @@ const LessonsTable = () => {
                                                             { option: "Đáp án D", correct: true }, // Mặc định 1 đáp án đúng
                                                         ],
                                                     });
-                                                    setLessonDetails(newDetails);
+                                                    setEditLessonDetails(newDetails);
                                                 }}
                                             >
                                                 + Thêm Quiz mới

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Category = require("../models/Category");
+const { getNextSequence } = require('../utils/sequenceGenerator');
 
 // ✅ GET all categories
 router.get("/", async (req, res) => {
@@ -15,9 +16,21 @@ router.get("/", async (req, res) => {
 // ✅ CREATE category
 router.post("/", async (req, res) => {
     try {
-        const newCategory = new Category(req.body);
+        const { name, icon } = req.body;
+
+        const catSeq = await getNextSequence("catId"); 
+        const catId = `CAT${catSeq.toString().padStart(3, "0")}`;
+
+        const newCategory = new Category({
+            _id: catId,
+            name,
+            icon,
+            createdAt: new Date(),
+        });
+
         await newCategory.save();
         res.status(201).json(newCategory);
+
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
