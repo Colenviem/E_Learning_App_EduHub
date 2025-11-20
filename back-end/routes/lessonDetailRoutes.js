@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const Lesson = require("../models/Lesson");
 const LessonDetail = require("../models/Lesson_detail");
 
 // ===================================
@@ -14,21 +15,62 @@ router.get("/", async (req, res) => {
     }
 });
 
-// ===================================
-// 2️⃣ Lấy lesson_detail theo _id
-// ===================================
-router.get("/:id", async (req, res) => {
+router.get("/:lessonId", async (req, res) => {
     try {
-        const { id } = req.params;
+        const { lessonId } = req.params;
 
-        const detail = await LessonDetail.findById(id);
+        const detail = await LessonDetail.find({ lessonId });
 
-        if (!detail)
-            return res.status(404).json({ message: "Detail not found with this _id" });
+        if (!detail || detail.length === 0)
+            return res.status(404).json({ message: "Detail not found with this lessonId" });
 
         res.json(detail);
     } catch (error) {
         res.status(500).json({ error: error.message });
+    }
+});
+
+router.put('/:id', async (req, res) => {
+    try {
+        const lessonId = req.params.id;
+        const { title, content, courseId, lessonDetails } = req.body;
+
+
+
+        // 1. Cập nhật Lesson chính
+        const lesson = await Lesson.findByIdAndUpdate(
+            lessonId,
+            { title, content, courseId, numberOfLessons: lessonDetails.length },
+            { new: true, runValidators: true } // Quan trọng: { new: true } để trả về đối tượng đã cập nhật
+        );
+
+        if (!lesson) {
+            return res.status(404).json({ message: 'Lesson không tồn tại' });
+        }
+
+        // 2. Xóa TẤT CẢ Lesson Details cũ liên quan đến LessonId này
+        await LessonDetail.deleteMany({ lessonId: lessonId });
+
+        // 3. Tạo lại TẤT CẢ Lesson Details mới
+        if (lessonDetails && lessonDetails.length > 0) {
+            const newDetailsData = lessonDetails.map(detail => ({
+                _id: detail._id, // Giữ nguyên ID nếu có
+                lessonId, // Liên kết với Lesson chính
+                videoUrl: detail.videoUrl,
+                time: detail.time || "N/A", // Cần đảm bảo trường time được xử lý
+                tasks: detail.tasks || [],
+                quizzes: detail.quizzes || []
+            }));
+            await LessonDetail.insertMany(newDetailsData);
+        }
+
+        // 4. Trả về dữ liệu cập nhật
+        const updatedDetails = await LessonDetail.find({ lessonId });
+
+        res.json({ lesson, lessonDetails: updatedDetails });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Lỗi server', error: error.message });
     }
 });
 

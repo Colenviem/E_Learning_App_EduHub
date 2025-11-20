@@ -4,7 +4,8 @@ import { FiEdit, FiSearch } from 'react-icons/fi';
 import axios from 'axios';
 import Spinner from '../spinner/Spinner';
 
-const API = "http://localhost:5000/courses";
+const API_COURSES = "http://localhost:5000/courses";
+const API_CATEGORIES = "http://localhost:5000/categories";
 const IMAGE_DEFAULT = "https://i.pinimg.com/736x/57/89/d9/5789d95d55ce358b93a99bbab84e3df7.jpg";
 
 const containerVariants = {
@@ -24,14 +25,27 @@ const formatDate = (dateString) => new Date(dateString).toLocaleDateString('vi-V
 const CoursesTable = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [coursesData, setCoursesData] = useState([]);
+    const [categoriesData, setCategoriesData] = useState([]);
     const [editingCourse, setEditingCourse] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [loading, setLoading] = useState(true);
 
-    const fetchAccounts = useCallback(async () => {
+    const fetchCategories = useCallback(async () => {
         try {
             setLoading(true);
-            const res = await axios.get(API);
+            const res = await axios.get(API_CATEGORIES);
+            setCategoriesData(res.data);
+        } catch (err) {
+            console.error("Lỗi khi fetch categories:", err);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    const fetchCourses = useCallback(async () => {
+        try {
+            setLoading(true);
+            const res = await axios.get(API_COURSES);
             setCoursesData(res.data);
         } catch (err) {
             console.error("Lỗi khi fetch users:", err);
@@ -41,19 +55,34 @@ const CoursesTable = () => {
     }, []);
 
     useEffect(() => {
-        fetchAccounts();
-    }, [fetchAccounts]);
+        fetchCourses();
+        fetchCategories();
+    }, [fetchCourses, fetchCategories]);
 
-    const filteredCourses = coursesData.filter(c =>
-        c._id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        c.title.toLowerCase().includes(searchQuery.toLowerCase())
+    const filteredCourses = searchQuery == ""
+        ? coursesData
+        : coursesData.filter(course =>
+            course._id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            course.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
+
+    const formatCurrency = (amount) => {
+        // Chuyển đổi sang số nguyên nếu cần thiết (vì price và discount là string/number)
+        const numericAmount = Number(amount); 
+        if (isNaN(numericAmount)) return 'N/A';
+        
+        return new Intl.NumberFormat('vi-VN', { 
+            style: 'currency', 
+            currency: 'VND',
+            minimumFractionDigits: 0 // Không hiển thị số thập phân
+        }).format(numericAmount);
+    };
 
     const handleSave = async () => {
         try {
             setLoading(true);
-            await axios.put(`${API}/${editingCourse._id}`, editingCourse);
-            fetchAccounts(); 
+            await axios.put(`${API_COURSES}/${editingCourse._id}`, editingCourse);
+            fetchCourses(); 
             setIsModalOpen(false);
         } catch (err) {
             console.error("Lỗi khi update account:", err);
@@ -65,9 +94,9 @@ const CoursesTable = () => {
     const handleThumbnailChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-        const reader = new FileReader();
-        reader.onload = (ev) => setEditingCourse({...editingCourse, thumbnailUrl: ev.target.result});
-        reader.readAsDataURL(file);
+            const reader = new FileReader();
+            reader.onload = (ev) => setEditingCourse({...editingCourse, thumbnailUrl: ev.target.result});
+            reader.readAsDataURL(file);
         }
     }
 
@@ -88,59 +117,105 @@ const CoursesTable = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <button className="bg-indigo-600 w-24 text-center cursor-pointer text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-700 transition-colors flex items-center gap-2">
-                <FiSearch size={16} />
-                Tìm
+                <button 
+                    className="bg-indigo-600 w-24 text-center cursor-pointer text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-700 transition-colors flex items-center gap-2"
+                    onClick={() => {
+                        setSearchQuery("")
+                        fetchCourses(); // ← LOAD LẠI FULL LIST
+                    }}    
+                >
+                    <FiSearch size={16} />
+                    {searchQuery ? "Xóa" : "Tìm"}
                 </button>
             </div>
             </div>
 
             <div className="overflow-x-auto">
-            <table className="w-full table-auto text-sm text-left border-collapse">
-                <thead className="bg-gray-50 text-gray-500 uppercase text-xs border-b border-gray-200">
-                <tr>
-                    <th className="py-3 px-4">Mã khóa học</th>
-                    <th className="py-3 px-4">Thumbnail</th>
-                    <th className="py-3 px-4">Tiêu đề</th>
-                    <th className="py-3 px-4">Danh mục</th>
-                    <th className="py-3 px-4 text-center">Bài học</th>
-                    <th className="py-3 px-4 text-center">Trạng thái</th>
-                    <th className="py-3 px-4">Ngày tạo</th>
-                    <th className="py-3 px-4 text-center">Hành động</th>
-                </tr>
-                </thead>
-                <motion.tbody variants={containerVariants} initial="hidden" animate="visible">
-                {filteredCourses.map(course => (
-                    <motion.tr key={course._id} variants={rowVariants} className="border-t border-gray-100 hover:bg-gray-50 transition-colors">
-                    <td className="py-3 px-4 text-gray-800">{course._id}</td>
-                    <td className="py-3 px-4">
-                        <img
-  src={course.thumbnailUrl || IMAGE_DEFAULT}
-  alt={course.title}
-  className="w-12 h-12 object-cover rounded-full"
-/>
-                    </td>
-                    <td className="py-3 px-4 text-gray-800">{course.title}</td>
-                    <td className="py-3 px-4">{course.categoryId}</td>
-                    <td className="py-3 px-4 text-center">{course.lessons.length}</td>
-                    <td className="py-3 px-4 text-center">
-                        <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusClasses(course.status)}`}>
-                        {course.status ? "Active" : "Inactive"}
-                        </span>
-                    </td>
-                    <td className="py-3 px-4 text-gray-600 whitespace-nowrap">{formatDate(course.createdAt)}</td>
-                    <td className="py-3 px-4 text-center">
-                        <button
-                        className="p-2 text-indigo-600 hover:text-indigo-800 rounded-full hover:bg-indigo-100 transition-colors cursor-pointer"
-                        onClick={() => { setEditingCourse(course); setIsModalOpen(true); }}
-                        >
-                        <FiEdit className="w-4 h-4" />
-                        </button>
-                    </td>
-                    </motion.tr>
-                ))}
-                </motion.tbody>
-            </table>
+                <table className="w-full table-auto text-sm text-left border-collapse rounded-xl overflow-hidden shadow-sm">
+                    <thead className="bg-gray-100 text-gray-600 uppercase text-xs font-semibold border-b border-gray-200">
+                        <tr>
+                            <th className="py-3 px-4 w-32">Mã khóa học</th>
+                            <th className="py-3 px-4">Tiêu đề</th>
+                            <th className="py-3 px-4 text-center">Người tham gia</th>
+                            <th className="py-3 px-4 text-center">Số bài học</th>
+                            <th className="py-3 px-4 text-center">Thời gian</th>
+                            <th className="py-3 px-4 text-center">Trạng thái</th>
+                            <th className="py-3 px-4 text-center">Giá tiền</th>
+                            <th className="py-3 px-4 whitespace-nowrap">Ngày tạo</th>
+                            <th className="py-3 px-4 text-center w-20">Hành động</th>
+                        </tr>
+                    </thead>
+
+                    <motion.tbody variants={containerVariants} initial="hidden" animate="visible">
+                        {filteredCourses.map(course => (
+                            <motion.tr 
+                                key={course._id} 
+                                variants={rowVariants}
+                                className="border-b border-gray-100 hover:bg-indigo-50/40 transition-colors duration-200"
+                            >
+                                <td className="py-3 px-4 text-gray-800 font-medium">{course._id}</td>
+
+                                {/* TIÊU ĐỀ + ẢNH đẹp hơn */}
+                                <td className="py-3 px-4">
+                                    <div className="flex items-center gap-3">
+                                        <img
+                                            src={course.image || IMAGE_DEFAULT}
+                                            alt={course.title}
+                                            className="w-12 h-12 object-cover rounded-lg shadow-sm border border-gray-200"
+                                        />
+                                        <span className="font-semibold text-gray-800">{course.title}</span>
+                                    </div>
+                                </td>
+
+                                <td className="py-3 px-4 text-center text-gray-700">{course.numberOfParticipants}</td>
+                                <td className="py-3 px-4 text-center text-gray-700">{course.numberOfLessons}</td>
+                                <td className="py-3 px-4 text-center text-gray-700">{course.time}</td>
+
+                                <td className="py-3 px-4 text-center">
+                                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusClasses(course.status)}`}>
+                                        {course.status ? "Active" : "Inactive"}
+                                    </span>
+                                </td>
+
+                                <td className="py-3 px-4 text-center text-gray-700">
+                                    {/* Kiểm tra nếu có giảm giá (discount > 0) */}
+                                    {course.discount > 0 ? (
+                                        <div className="flex flex-col items-center">
+                                            {/* Giá sau giảm giá (in đậm, màu xanh) */}
+                                            <span className="font-bold text-sm text-indigo-600 whitespace-nowrap">
+                                                {formatCurrency(course.price * (1 - course.discount / 100))}
+                                            </span>
+                                            {/* Giá gốc (gạch ngang, cỡ chữ nhỏ hơn, màu xám) */}
+                                            <span className="text-xs text-gray-400 line-through">
+                                                {formatCurrency(course.price)}
+                                            </span>
+                                            {/* ✨ ĐÃ SỬA: Giảm kích thước và padding của badge */}
+                                            <span className="mt-1 px-1.5 py-0 rounded-md text-[10px] font-bold bg-red-100 text-red-600 tracking-tight">
+                                                GIẢM {course.discount}%
+                                            </span>
+                                        </div>
+                                    ) : (
+                                        // Trường hợp không giảm giá
+                                        <span className="font-medium text-gray-800 whitespace-nowrap">
+                                            {formatCurrency(course.price)}
+                                        </span>
+                                    )}
+                                </td>
+
+                                <td className="py-3 px-4 text-gray-600">{formatDate(course.createdAt)}</td>
+
+                                <td className="py-3 px-4 text-center">
+                                    <button
+                                        className="p-2 text-indigo-600 hover:text-indigo-800 rounded-full hover:bg-indigo-100 transition-colors"
+                                        onClick={() => { setEditingCourse(course); setIsModalOpen(true); }}
+                                    >
+                                        <FiEdit className="w-4 h-4" />
+                                    </button>
+                                </td>
+                            </motion.tr>
+                        ))}
+                    </motion.tbody>
+                </table>
             </div>
         </div>
 
@@ -152,10 +227,10 @@ const CoursesTable = () => {
                 <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-4">
                     <img
-  src={editingCourse.thumbnailUrl}
-  alt="Thumbnail"
-  className="w-16 h-16 object-cover rounded-full border border-gray-50"
-/>
+                        src={editingCourse.image || IMAGE_DEFAULT}
+                        alt="Thumbnail"
+                        className="w-16 h-16 object-cover rounded-full border border-gray-50"
+                    />
                     <input type="file" accept="image/*" onChange={handleThumbnailChange} className="text-sm"/>
                 </div>
 
@@ -167,6 +242,18 @@ const CoursesTable = () => {
                     onChange={(e) => setEditingCourse({...editingCourse, title: e.target.value})}
                 />
 
+                <label className="text-sm font-medium">Danh mục</label>
+                <select
+                    className="border border-gray-300 rounded-lg p-2 text-sm"
+                    value={editingCourse.categoryId || ""}
+                    onChange={(e) => setEditingCourse({...editingCourse, categoryId: e.target.value})}
+                >
+                    <option value="">Chọn danh mục</option>
+                    {categoriesData.map(category => (
+                        <option key={category._id} value={category._id}>{category.name}</option>
+                    ))}
+                </select>
+                
                 <label className="text-sm font-medium">Mô tả</label>
                 <textarea
                     className="border border-gray-300 rounded-lg p-2 text-sm"
@@ -184,6 +271,22 @@ const CoursesTable = () => {
                     <option>Inactive</option>
                 </select>
                 </div>
+
+                <label className="text-sm font-medium">Giá tiền</label>
+                <input
+                    type="number"
+                    className="border border-gray-300 rounded-lg p-2 text-sm w-full"
+                    value={editingCourse.price}
+                    onChange={(e) => setEditingCourse({...editingCourse, price: e.target.value})}
+                />
+
+                <label className="text-sm font-medium">Giảm giá</label>
+                <input
+                    type="number"
+                    className="border border-gray-300 rounded-lg p-2 text-sm w-full"
+                    value={editingCourse.discount}
+                    onChange={(e) => setEditingCourse({...editingCourse, discount: e.target.value})}
+                />
 
                 <div className="mt-6 flex justify-end gap-3">
                 <button

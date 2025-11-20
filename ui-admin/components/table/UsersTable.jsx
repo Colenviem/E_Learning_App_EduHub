@@ -106,6 +106,9 @@ const UsersTable = () => {
                             <tr>
                                 <th className="py-3 px-4">Người dùng</th>
                                 <th className="py-3 px-4">Mã người dùng</th>
+                                <th className="py-3 px-4">Tổng số phút hoạt động</th>
+                                <th className="py-3 px-4">Level</th>
+                                <th className="py-3 px-4">Account_type</th>
                                 <th className="py-3 px-4">Ngày tham gia</th>
                                 <th className="py-3 px-4 text-center">Hành động</th>
                             </tr>
@@ -128,6 +131,9 @@ const UsersTable = () => {
                                     </td>
 
                                     <td className="py-3 px-4 text-gray-800">{user._id}</td>
+                                    <td className="py-3 px-4 text-gray-800">{user.totalActiveMinutes} phút</td>
+                                    <td className="py-3 px-4 text-gray-800">{user.level ? user.level : 0}</td>
+                                    <td className="py-3 px-4 text-gray-800">{user.account_type ? user.account_type : "Cơ bản"}</td>
                                     <td className="py-3 px-4 text-gray-800">{formatDate(user.createdAt)}</td>
 
                                     <td className="py-3 px-4 text-center">
