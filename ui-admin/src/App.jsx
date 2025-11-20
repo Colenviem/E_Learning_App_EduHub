@@ -1,8 +1,6 @@
-// App.jsx
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-// Trang
 import AdminPage from '../page/AdminPage';
 import LoginPage from '../components/login/Login';
 import ProtectedRoute from '../routes/ProtectedRoute';
@@ -12,7 +10,6 @@ function App() {
     <Routes>
       <Route path="/login" element={<LoginPage />} />
 
-      {/* Route bảo vệ Admin */}
       <Route
         path="/admin/*"
         element={
@@ -22,7 +19,6 @@ function App() {
         }
       />
 
-      {/* Root "/" redirect về login */}
       <Route path="/" element={<Navigate to="/login" replace />} />
     </Routes>
   );

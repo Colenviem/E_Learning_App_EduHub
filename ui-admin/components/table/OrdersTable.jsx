@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion';
 import { FiEdit, FiSearch } from 'react-icons/fi';
-import axios from 'axios';
+import { apiClient, endpoints } from '../../src/api';
 import Spinner from '../spinner/Spinner';
 
-const API = "http://localhost:5000/orders";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -38,7 +37,7 @@ const OrdersTable = () => {
   const fetchOrders = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await axios.get(API);
+      const res = await apiClient.get(endpoints.orders);
       setOrders(res.data);
     } catch (err) {
       console.error("Error fetching orders:", err);
@@ -59,7 +58,7 @@ const OrdersTable = () => {
   const handleSave = async () => {
     try {
       setLoading(true);
-      await axios.put(`${API}/${editingOrder._id}`, editingOrder);
+      await apiClient.put(`${endpoints.orders}/${editingOrder._id}`, editingOrder);
       fetchOrders();
       setIsModalOpen(false);
     } catch (err) {
@@ -108,9 +107,9 @@ const OrdersTable = () => {
                 <th className="py-3 px-4 text-center">Hành động</th>
               </tr>
             </thead>
-            <motion.tbody variants={containerVariants} initial="hidden" animate="visible">
+            <Motion.tbody variants={containerVariants} initial="hidden" animate="visible">
               {filteredOrders.map(order => (
-                <motion.tr key={order._id} variants={rowVariants} className="border-t border-gray-100 hover:bg-gray-50 transition-colors">
+                <Motion.tr key={order._id} variants={rowVariants} className="border-t border-gray-100 hover:bg-gray-50 transition-colors">
                   <td className="py-3 px-4">{order._id}</td>
                   <td className="py-3 px-4">{order.userId}</td>
                   <td className="py-3 px-4">{order.courseId}</td>
@@ -130,9 +129,9 @@ const OrdersTable = () => {
                       <FiEdit className="w-4 h-4" />
                     </button>
                   </td>
-                </motion.tr>
+                </Motion.tr>
               ))}
-            </motion.tbody>
+            </Motion.tbody>
           </table>
         </div>
       </div>

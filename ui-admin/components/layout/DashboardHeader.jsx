@@ -1,18 +1,29 @@
-import axios from 'axios';
+import { apiClient, endpoints } from '../../src/api';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 
-const API = "http://localhost:5000/accounts";
-
 const DashboardHeader = () => {
-    const [account, setAccount] = useState(null);
+    const [profile, setProfile] = useState({
+        email: "",
+        role: "",
+        name: "",
+        avatarUrl: ""
+    });
 
     const fetchAccountInfo = useCallback(async () => {
-        const userId = localStorage.getItem('userId');
-        if (!userId) return;    
+        const accountId = localStorage.getItem('userId'); 
+        if (!accountId) return;
+
         try {
-            const res = await axios.get(`${API}/${userId}`);
-            setAccount(res.data);
+            const res = await apiClient.get(`${endpoints.accounts}/profile/${accountId}`);
+
+            setProfile({
+                email: res.data.account?.email || "",
+                role: res.data.account?.role || "",
+                name: res.data.user?.name || "",
+                avatarUrl: res.data.user?.avatarUrl
+            });
+
         } catch (err) {
             console.error("Lỗi khi lấy thông tin tài khoản:", err);
         }
@@ -30,24 +41,15 @@ const DashboardHeader = () => {
             <h1 className="text-2xl font-semibold text-gray-800">Dashboard</h1>
 
             <div className="flex items-center gap-6">
-                <div className="relative hidden md:block">
-                    <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg" />
-                    <input
-                        type="text"
-                        placeholder="Search..."
-                        className="pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 w-64"
-                    />
-                </div>
-
                 <div className="flex items-center gap-3">
                     <img
-                        src="https://i.pravatar.cc/40"
+                        src={profile.avatarUrl}
                         alt="avatar"
                         className="rounded-full w-10 h-10 ring-2 ring-indigo-400 p-0.5 object-cover"
                     />
                     <div className="leading-tight">
-                        <p className="font-medium text-gray-800">{account?.email || ""}</p>
-                        <p className="text-sm text-gray-500">{account?.role || ""}</p>
+                        <p className="font-medium text-gray-800">{profile.email}</p>
+                        <p className="text-sm text-gray-500">{profile.role}</p>
                     </div>
                 </div>
             </div>
