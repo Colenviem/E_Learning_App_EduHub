@@ -1,12 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion';
 import { FiEdit, FiSearch } from 'react-icons/fi';
-import axios from 'axios';
+import { apiClient, endpoints } from '../../src/api';
 import Spinner from '../spinner/Spinner';
-
-const API_COURSES = "http://localhost:5000/courses";
-const API_CATEGORIES = "http://localhost:5000/categories";
-const IMAGE_DEFAULT = "https://i.pinimg.com/736x/57/89/d9/5789d95d55ce358b93a99bbab84e3df7.jpg";
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -19,6 +15,8 @@ const rowVariants = {
 };
 
 const getStatusClasses = (status) => status ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700";
+
+const IMAGE_DEFAULT = "https://i.pinimg.com/736x/57/89/d9/5789d95d55ce358b93a99bbab84e3df7.jpg";
 
 const formatDate = (dateString) => new Date(dateString).toLocaleDateString('vi-VN', { year: 'numeric', month: 'short', day: 'numeric' });
 
@@ -33,7 +31,7 @@ const CoursesTable = () => {
     const fetchCategories = useCallback(async () => {
         try {
             setLoading(true);
-            const res = await axios.get(API_CATEGORIES);
+            const res = await apiClient.get(endpoints.categories);
             setCategoriesData(res.data);
         } catch (err) {
             console.error("Lỗi khi fetch categories:", err);
@@ -45,7 +43,7 @@ const CoursesTable = () => {
     const fetchCourses = useCallback(async () => {
         try {
             setLoading(true);
-            const res = await axios.get(API_COURSES);
+            const res = await apiClient.get(endpoints.courses);
             setCoursesData(res.data);
         } catch (err) {
             console.error("Lỗi khi fetch users:", err);
@@ -67,21 +65,20 @@ const CoursesTable = () => {
     );
 
     const formatCurrency = (amount) => {
-        // Chuyển đổi sang số nguyên nếu cần thiết (vì price và discount là string/number)
         const numericAmount = Number(amount); 
         if (isNaN(numericAmount)) return 'N/A';
         
         return new Intl.NumberFormat('vi-VN', { 
             style: 'currency', 
             currency: 'VND',
-            minimumFractionDigits: 0 // Không hiển thị số thập phân
+            minimumFractionDigits: 0
         }).format(numericAmount);
     };
 
     const handleSave = async () => {
         try {
             setLoading(true);
-            await axios.put(`${API_COURSES}/${editingCourse._id}`, editingCourse);
+            await apiClient.put(`${endpoints.courses}/${editingCourse._id}`, editingCourse);
             fetchCourses(); 
             setIsModalOpen(false);
         } catch (err) {
@@ -146,16 +143,16 @@ const CoursesTable = () => {
                         </tr>
                     </thead>
 
-                    <motion.tbody variants={containerVariants} initial="hidden" animate="visible">
+                    <Motion.tbody variants={containerVariants} initial="hidden" animate="visible">
                         {filteredCourses.map(course => (
-                            <motion.tr 
+                            <Motion.tr 
                                 key={course._id} 
                                 variants={rowVariants}
                                 className="border-b border-gray-100 hover:bg-indigo-50/40 transition-colors duration-200"
                             >
                                 <td className="py-3 px-4 text-gray-800 font-medium">{course._id}</td>
 
-                                {/* TIÊU ĐỀ + ẢNH đẹp hơn */}
+                                
                                 <td className="py-3 px-4">
                                     <div className="flex items-center gap-3">
                                         <img
@@ -178,24 +175,23 @@ const CoursesTable = () => {
                                 </td>
 
                                 <td className="py-3 px-4 text-center text-gray-700">
-                                    {/* Kiểm tra nếu có giảm giá (discount > 0) */}
+                                    
                                     {course.discount > 0 ? (
                                         <div className="flex flex-col items-center">
-                                            {/* Giá sau giảm giá (in đậm, màu xanh) */}
+                                            
                                             <span className="font-bold text-sm text-indigo-600 whitespace-nowrap">
                                                 {formatCurrency(course.price * (1 - course.discount / 100))}
                                             </span>
-                                            {/* Giá gốc (gạch ngang, cỡ chữ nhỏ hơn, màu xám) */}
+                                            
                                             <span className="text-xs text-gray-400 line-through">
                                                 {formatCurrency(course.price)}
                                             </span>
-                                            {/* ✨ ĐÃ SỬA: Giảm kích thước và padding của badge */}
+                                            
                                             <span className="mt-1 px-1.5 py-0 rounded-md text-[10px] font-bold bg-red-100 text-red-600 tracking-tight">
                                                 GIẢM {course.discount}%
                                             </span>
                                         </div>
                                     ) : (
-                                        // Trường hợp không giảm giá
                                         <span className="font-medium text-gray-800 whitespace-nowrap">
                                             {formatCurrency(course.price)}
                                         </span>
@@ -212,14 +208,14 @@ const CoursesTable = () => {
                                         <FiEdit className="w-4 h-4" />
                                     </button>
                                 </td>
-                            </motion.tr>
+                            </Motion.tr>
                         ))}
-                    </motion.tbody>
+                    </Motion.tbody>
                 </table>
             </div>
         </div>
 
-        {/* Modal Edit */}
+        
         {isModalOpen && editingCourse && (
             <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
             <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-6 relative">

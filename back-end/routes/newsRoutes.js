@@ -12,6 +12,7 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
   try {
