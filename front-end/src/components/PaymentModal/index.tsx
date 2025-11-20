@@ -72,6 +72,8 @@ export default function PaymentModal({
     try {
       if (!userId) return Alert.alert('Lỗi', 'Bạn cần đăng nhập');
 
+      console.log({ userId, courseId, amount: Number(amount), paymentMethod: selected });
+
       const res = await axios.post(API, { userId, courseId, amount: Number(amount), paymentMethod: selected });
 
       if (res.status === 200 || res.status === 201) {

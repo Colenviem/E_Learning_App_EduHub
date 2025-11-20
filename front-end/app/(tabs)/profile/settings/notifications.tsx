@@ -1,4 +1,6 @@
-import * as Notifications from "expo-notifications";
+// import * as Notifications from "expo-notifications";
+// NOTE: expo-notifications removed from Expo Go SDK 53
+// Use Development Build instead for push notifications
 import * as Permissions from "expo-permissions";
 import { Stack } from "expo-router";
 import React, { useState } from "react";
@@ -20,12 +22,12 @@ const NotificationsScreen = () => {
 
   const registerForPushNotifications = async () => {
     try {
-      if (Platform.OS === 'android') {
-        await Notifications.setNotificationChannelAsync('default', {
-          name: 'default',
-          importance: Notifications.AndroidImportance.MAX,
-        });
-      }
+      // if (Platform.OS === 'android') {
+      //   await Notifications.setNotificationChannelAsync('default', {
+      //     name: 'default',
+      //     importance: Notifications.AndroidImportance.MAX,
+      //   });
+      // }
 
       const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
       let finalStatus = existingStatus;
@@ -51,10 +53,11 @@ const NotificationsScreen = () => {
     if (value) {
       const granted = await registerForPushNotifications();
       if (granted) {
-        await Notifications.scheduleNotificationAsync({
-          content: { title: "Thông báo thử", body: "Bạn đã bật thông báo thành công!" },
-          trigger: { type: 'timeInterval', seconds: 1, repeats: false } as Notifications.TimeIntervalTriggerInput,
-        });
+        // await Notifications.scheduleNotificationAsync({
+        //   content: { title: "Thông báo thử", body: "Bạn đã bật thông báo thành công!" },
+        //   trigger: { type: 'timeInterval', seconds: 1, repeats: false } as Notifications.TimeIntervalTriggerInput,
+        // });
+        Alert.alert("Thông báo", "Bạn đã bật thông báo thành công!");
       }
     } else {
       Alert.alert("Thông báo", "Bạn đã tắt thông báo.");

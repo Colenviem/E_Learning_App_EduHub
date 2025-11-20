@@ -8,6 +8,15 @@ const streamifier = require("streamifier");
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
+router.get("/", async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 router.get("/byAccount/:accountId", async (req, res) => {
   try {
     const user = await User.findOne({ accountId: req.params.accountId });
@@ -67,6 +76,42 @@ router.patch("/byAccount/:accountId/courses", async (req, res) => {
   }
 });
 
+// ✅ Update course progress
+router.patch("/byAccount/:accountId/progress", async (req, res) => {
+  try {
+    const { courseId, completedLessons, totalLessons } = req.body;
+
+    if (!courseId || totalLessons === undefined || completedLessons === undefined) {
+      return res.status(400).json({ 
+        message: "Missing required fields: courseId, completedLessons, totalLessons" 
+      });
+    }
+
+    const user = await User.findOne({ accountId: req.params.accountId });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    // Tính progress: completedLessons / totalLessons
+    const progress = totalLessons > 0 ? completedLessons / totalLessons : 0;
+
+    // Tìm course trong coursesInProgress
+    const courseIndex = user.coursesInProgress.findIndex(c => c.courseId === courseId);
+    if (courseIndex === -1) {
+      return res.status(404).json({ message: "Course not enrolled" });
+    }
+
+    // Cập nhật progress
+    user.coursesInProgress[courseIndex].progress = progress;
+    await user.save();
+
+    res.json({ 
+      message: "Progress updated successfully", 
+      progress,
+      user 
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 router.post("/byAccount/:accountId/avatar", upload.single("avatar"), async (req, res) => {
   try {

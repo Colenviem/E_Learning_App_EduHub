@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const Order = require("../models/Order");
+const User = require("../models/User");
+const Course = require("../models/Course");
 const { getNextSequence } = require('../utils/sequenceGenerator');
 
 // ✅ GET all orders
@@ -36,6 +38,34 @@ router.post('/', async (req, res) => {
         });
 
         await order.save();
+
+        // Cập nhật coursesInProgress của user
+        try {
+            const course = await Course.findById(courseId);
+            if (course) {
+                const user = await User.findOne({ accountId: userId });
+                if (user) {
+                    // Kiểm tra xem course đã có trong coursesInProgress chưa
+                    const existingCourse = user.coursesInProgress.find(
+                        c => c.courseId === courseId
+                    );
+
+                    if (!existingCourse) {
+                        user.coursesInProgress.push({
+                            courseId: courseId,
+                            image: course.image,
+                            progress: 0,
+                            isFavorite: false
+                        });
+                        await user.save();
+                    }
+                }
+            }
+        } catch (updateErr) {
+            console.error('Error updating user coursesInProgress:', updateErr);
+            // Không fail request nếu update user thất bại
+        }
+
         res.status(201).json(order);
     } catch (err) {
         console.error(err);

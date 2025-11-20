@@ -16,7 +16,6 @@ import { useTheme } from '../_layout';
 
 const API_COURSES = `${API_BASE_URL}/courses`;
 const API_CATEGORIES = `${API_BASE_URL}/categories`;
-const API_USERS = `${API_BASE_URL}/users`;
 
 const BANNERS = [
   "https://res.cloudinary.com/dixzxzdrd/image/upload/v1762585754/banner2_tlhzfa.jpg",
@@ -27,7 +26,7 @@ function Home() {
   const { isDarkMode } = useTheme();
   const [courses, setCourses] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
-  const [users, setUsers] = useState<any[]>([]);
+  const [currentUser, setCurrentUser] = useState<any>(null);
   const [inputValue, setInputValue] = useState('');
   const [selectedCategory, setSelectedCategory] = useState("CAT001");
   const [userId, setUserId] = useState<string | null>(null);
@@ -47,9 +46,14 @@ function Home() {
     const getUserId = async () => {
       try {
         const storedUserId = await AsyncStorage.getItem('userId');
-        if (storedUserId) setUserId(storedUserId);
+        if (storedUserId) {
+          setUserId(storedUserId);
+          // Fetch the specific user data if needed
+          const userResponse = await axios.get(`${API_BASE_URL}/users/byAccount/${storedUserId}`);
+          setCurrentUser(userResponse.data);
+        }
       } catch (error) {
-        console.error('Error fetching userId from AsyncStorage:', error);
+        console.error('Error fetching userId or user data from AsyncStorage:', error);
       }
     };
     getUserId();
@@ -73,20 +77,10 @@ function Home() {
     }
   }, []);
 
-  const fetchUsers = useCallback(async () => {
-    try {
-      const response = await axios.get(API_USERS);
-      setUsers(response.data);
-    } catch (error) {
-      console.error('Error fetching users:', error);
-    }
-  }, []);
-
   useEffect(() => {
     fetchCourses();
     fetchCategories();
-    fetchUsers();
-  }, [fetchCourses, fetchCategories, fetchUsers]);
+  }, [fetchCourses, fetchCategories]);
 
  useEffect(() => {
   if (categories.length > 0) {
@@ -107,8 +101,6 @@ function Home() {
       return matchCategory && matchSearch;
     });
   }, [courses, inputValue, selectedCategory]);
-
-  const currentUser = users.find(u => u._id === userId);
 
   return (
     <>

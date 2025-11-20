@@ -225,6 +225,19 @@ export default function SourceLesson() {
     };
 
     const handleGoBack = () => router.back();
+    
+    const handleStartLearning = () => {
+        if (courseSections.length > 0) {
+            const firstSection = courseSections[0];
+            if (firstSection.lesson_details && firstSection.lesson_details.length > 0) {
+                const firstLesson = firstSection.lesson_details[0];
+                router.push({ 
+                    pathname: "/lesson-details", 
+                    params: { id: firstLesson._id, courseId } 
+                });
+            }
+        }
+    };
     const handleRegisterPress = () => setEnrollmentModalVisible(true);
     const handleConfirmEnrollment = (pkgKey: string, price: number) => {
         setSelectedPackage(pkgKey);
@@ -235,38 +248,20 @@ export default function SourceLesson() {
 
     const handlePaymentSuccess = async () => {
         try {
-            const user = await fetchUserByIdOrAccount(userId);
-            console.log('Fetched user for payment success:', user?._id || user);
-
-            let list = user.coursesInProgress || [];
-
-            const exist = list.find((c: any) => c.courseId === courseId);
-
-            if (!exist) {
-                list.push({
-                    courseId: courseId,
-                    image: currentCourse.image,
-                    progress: 0,
-                    completedLessons: 0,
-                    totalLessons: currentCourse.numberOfLessons,
-                    lastAccessed: new Date().toISOString(),
-                    isFavorite: true
-                });
-            }
-
-            const patchUrl = `${API_BASE_URL}/users/byAccount/${user._id || userId}`;
-            await axios.patch(patchUrl, {
-                coursesInProgress: list
-            });
-
+            // Close payment modal first
+            setPaymentModalVisible(false);
+            
+            // Update state immediately to show "Vào học ngay" button
             setIsSaved(true);
             setIsPurchased(true);
-            fetchOrders();
-
+            
+            // Fetch latest orders in background (backend already updated coursesInProgress)
+            await fetchOrders();
             setRefreshFlag(prev => !prev);
 
         } catch (err) {
             console.log(err);
+            Alert.alert("Lỗi", "Có lỗi xảy ra khi mua khóa học. Vui lòng thử lại.");
         }
     };
 
@@ -377,7 +372,7 @@ export default function SourceLesson() {
                             style={[styles.subLessonItem, { backgroundColor: colors.background }]}
                             onPress={() => {
                                 if (isPurchased) {
-                                    router.push({ pathname: "/lesson-details", params: { id: detail._id, courseId: currentCourse._id } });
+                                    router.push({ pathname: "/lesson-details", params: { id: detail._id, courseId } });
                                 } else {
                                     Alert.alert("Khóa học", "Bạn cần đăng ký khóa học để xem bài này.");
                                 }
@@ -475,7 +470,10 @@ export default function SourceLesson() {
 
                 <View style={[styles.footer, { backgroundColor: colors.background, borderTopColor: colors.border }]}>
                     {isPurchased ? (
-                        <TouchableOpacity style={styles.startLearningBtn}>
+                        <TouchableOpacity 
+                            style={styles.startLearningBtn}
+                            onPress={handleStartLearning}
+                        >
                             <Text style={styles.startLearningText}>Vào học ngay</Text>
                             <FeatherIcon name="play-circle" size={20} color="#fff" />
                         </TouchableOpacity>
@@ -567,5 +565,4 @@ const styles = StyleSheet.create({
         padding: 8,
         marginLeft: 4,
     },
-
 });
