@@ -63,7 +63,7 @@ const SettingsItem: React.FC<SettingsItemProps> = ({ item, onPress, accountType,
   </TouchableOpacity>
 );
 
-const API_BASE_URL = 'http://192.168.0.102:5000';
+import { API_BASE_URL } from '@/src/api';
 
 const SettingsScreen = () => {
   const router = useRouter();

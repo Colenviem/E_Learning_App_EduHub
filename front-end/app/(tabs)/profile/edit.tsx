@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '@/src/api';
 import { Feather } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ImagePicker from 'expo-image-picker';
@@ -16,8 +17,6 @@ import {
   View
 } from 'react-native';
 import { useTheme } from '../../_layout';
-
-const API_BASE_URL = 'http://192.168.0.102:5000';
 
 const DUCK_AVATARS = [
   { id: '1', source: { uri: 'https://res.cloudinary.com/dibguk5n6/image/upload/v1763627294/logo_ugxfdv.jpg' }},

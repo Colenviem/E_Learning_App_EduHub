@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '@/src/api';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -41,7 +42,7 @@ export default function ExploreScreen() {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const res = await fetch('http://192.168.0.102:5000/news');
+        const res = await fetch(`${API_BASE_URL}/news`);
         const data = await res.json();
         setNewsList(data);
       } catch (err) {

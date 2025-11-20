@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '@/src/api';
 import { FontAwesome } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -16,7 +17,7 @@ import {
   TouchableOpacity, View
 } from 'react-native';
 
-const API = "http://192.168.0.102:5000/accounts";
+const API = `${API_BASE_URL}/accounts`;
 
 export default function Login() {
   const [email, setEmail] = useState('');

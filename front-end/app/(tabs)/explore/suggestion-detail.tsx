@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '@/src/api';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRouter } from 'expo-router';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
@@ -62,7 +63,7 @@ const SuggestionDetailList: React.FC = () => {
   useEffect(() => {
     const fetchAllCourses = async () => {
       try {
-        const res = await fetch('http://192.168.0.102:5000/courses/top-rated'); 
+        const res = await fetch(`${API_BASE_URL}/courses/top-rated`);
         const data: Course[] = await res.json();
         setCourses(data);
       } catch (err) {

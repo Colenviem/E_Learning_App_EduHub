@@ -8,23 +8,29 @@ const streamifier = require("streamifier");
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-// GET user by accountId
 router.get("/byAccount/:accountId", async (req, res) => {
   try {
     const user = await User.findOne({ accountId: req.params.accountId });
     if (!user) return res.status(404).json({ message: "User not found" });
-
     res.json(user);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-// UPDATE profile (no file upload)
+router.get("/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 router.put("/byAccount/:accountId", async (req, res) => {
   try {
     const { name, backgroundColor, avatarUrl } = req.body;
-
     const user = await User.findOne({ accountId: req.params.accountId });
     if (!user) return res.status(404).json({ message: "User not found" });
 
@@ -32,11 +38,8 @@ router.put("/byAccount/:accountId", async (req, res) => {
     if (backgroundColor) user.backgroundColor = backgroundColor;
 
     if (avatarUrl) {
-      if (avatarUrl.startsWith("http")) {
-        user.avatarUrl = avatarUrl;
-      } else {
-        return res.status(400).json({ message: "Invalid avatarUrl" });
-      }
+      if (avatarUrl.startsWith("http")) user.avatarUrl = avatarUrl;
+      else return res.status(400).json({ message: "Invalid avatarUrl" });
     }
 
     await user.save();
@@ -46,7 +49,25 @@ router.put("/byAccount/:accountId", async (req, res) => {
   }
 });
 
-// UPLOAD AVATAR (file upload)
+router.patch("/byAccount/:accountId/courses", async (req, res) => {
+  try {
+    const { coursesInProgress } = req.body;
+
+    const user = await User.findOne({ accountId: req.params.accountId });
+
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    user.coursesInProgress = coursesInProgress;
+
+    await user.save();
+
+    res.json({ message: "Courses updated successfully", user });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
 router.post("/byAccount/:accountId/avatar", upload.single("avatar"), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ message: "No file uploaded" });
@@ -71,10 +92,7 @@ router.post("/byAccount/:accountId/avatar", upload.single("avatar"), async (req,
 
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    res.json({
-      message: "Avatar uploaded successfully",
-      user,
-    });
+    res.json({ message: "Avatar uploaded successfully", user });
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
   }

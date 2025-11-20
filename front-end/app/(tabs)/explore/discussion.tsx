@@ -31,7 +31,8 @@ export const TAB_BAR_STYLE = {
     elevation: 5,
 };
 
-const SERVER_URL = "http://192.168.0.102:5000";
+import { API_BASE_URL } from '@/src/api';
+const SERVER_URL = API_BASE_URL;
 
 interface CommentType {
     text: string;

@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '@/src/api';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -70,7 +71,7 @@ const NewsSection: React.FC<{ colors?: { cardBg?: string; titleColor?: string; d
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const res = await fetch('http://192.168.0.102:5000/news'); 
+        const res = await fetch(`${API_BASE_URL}/news`);
         const data = await res.json();
         setNewsList(data);
       } catch (err) {
