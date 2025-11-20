@@ -15,14 +15,28 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.get("/:lessonId", async (req, res) => {
+router.get("/detail/:id", async (req, res) => {
+    try {
+        const detail = await LessonDetail.findById(req.params.id);
+
+        if (!detail)
+        return res.status(404).json({ message: "Detail not found" });
+
+        res.json(detail);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Lấy danh sách detail theo lessonId
+router.get("/lesson/:lessonId", async (req, res) => {
     try {
         const { lessonId } = req.params;
 
         const detail = await LessonDetail.find({ lessonId });
 
         if (!detail || detail.length === 0)
-            return res.status(404).json({ message: "Detail not found with this lessonId" });
+        return res.status(404).json({ message: "Details not found for lessonId" });
 
         res.json(detail);
     } catch (error) {

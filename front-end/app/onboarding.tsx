@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useChat } from '../hooks/useChat';
 import ChatUI from '../src/components/ChatUI';
 import { StartButton } from '../src/components/StartButton';

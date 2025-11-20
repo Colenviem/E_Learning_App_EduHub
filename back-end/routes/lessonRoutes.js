@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
 });
 
 // GET lessons by courseId
-router.get("/:courseId", async (req, res) => {
+router.get("/course/:courseId", async (req, res) => {
     const { courseId } = req.params; // Lấy từ params, không phải query
     try {
         const lessons = await Lesson.find({ courseId });

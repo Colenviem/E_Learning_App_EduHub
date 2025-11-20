@@ -8,7 +8,6 @@ import {
   Image,
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -16,6 +15,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const API_ACCOUNT = `${API_BASE_URL}/accounts`;
 
@@ -99,10 +99,16 @@ export default function Register() {
   };
 
   const checkEmailExists = async () => {
-    const response = await axios.get(`${API_ACCOUNT}/check-email`, {
-      params: { email }
-    });
-    return response.data.exists;
+    try {
+      const response = await axios.get(`${API_ACCOUNT}/check-email`, {
+        params: { email }
+      });
+      return response.data.exists;
+    } catch (error: any) {
+      // If 404 or other errors, assume email doesn't exist or server issue
+      console.error('Error checking email:', error.message);
+      return false;
+    }
   };
 
 

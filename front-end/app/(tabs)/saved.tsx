@@ -7,13 +7,13 @@ import {
   Alert,
   FlatList,
   Image,
-  SafeAreaView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { spacing } from '../../src/constants/theme';
 import { useTheme } from '../_layout';
 
