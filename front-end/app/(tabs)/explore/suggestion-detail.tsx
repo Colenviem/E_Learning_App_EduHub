@@ -88,7 +88,7 @@ const SuggestionDetailList: React.FC = () => {
     return (
       <Pressable
         style={styles.card}
-        onPress={() => router.push(`../../course-lessons?id=${item._id}`)}
+        onPress={() => router.push(`../../course-lessons?courseId=${item._id}`)}
       >
         <Image source={{ uri: item.image }} style={styles.image} />
         <Text style={styles.title}>{item.title}</Text>

@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useTheme } from '../../_layout'; // giả sử bạn có context theme
+import { useTheme } from '../../_layout';
 
 const API_BASE_URL = 'http://192.168.0.102:5000';
 
@@ -223,7 +223,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingVertical: 16,
+    paddingTop: 30,
+    paddingBottom: 16,
     borderBottomWidth: 1,
   },
   greeting: { fontSize: 15 },

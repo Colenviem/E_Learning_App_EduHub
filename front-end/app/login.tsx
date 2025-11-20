@@ -5,7 +5,6 @@ import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
   ActivityIndicator,
-  Alert,
   Image,
   KeyboardAvoidingView,
   Platform,
@@ -17,7 +16,7 @@ import {
   TouchableOpacity, View
 } from 'react-native';
 
-const API = "http://192.168.2.6:5000/accounts";
+const API = "http://192.168.0.102:5000/accounts";
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -55,7 +54,7 @@ export default function Login() {
     setLoading(true);
     try {
       const res = await axios.post(`${API}/login`, { email, password });
-      const { token, user } = res.data; 
+      const { token, user } = res.data;
 
       await saveAuthData(token, user._id);
 
@@ -64,7 +63,7 @@ export default function Login() {
         params: { userId: user._id }
       });
     } catch (err: any) {
-      Alert.alert('Đăng nhập thất bại', err.response?.data?.message || 'Lỗi server');
+      setLoginError(err.response?.data?.message || 'Tài khoản hoặc mật khẩu không đúng');
     } finally {
       setLoading(false);
     }

@@ -34,21 +34,53 @@ export default function Register() {
   const [sending, setSending] = useState(false);
 
   const sendOtp = async () => {
+    setNameError('');
     setEmailError('');
-    if (!email) { setEmailError('Nhập email'); return; }
+    setPasswordError('');
+    setConfirmPasswordError('');
+    setServerError('');
 
-    if (!name || !password || !confirmPassword) {
-      Alert.alert('Vui lòng nhập đầy đủ thông tin trước khi gửi OTP');
+    let hasError = false;
+
+    if (!name.trim()) {
+      setNameError('Vui lòng nhập họ tên');
+      hasError = true;
+    }
+
+    if (!email.trim()) {
+      setEmailError('Vui lòng nhập email');
+      hasError = true;
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      setEmailError('Email không hợp lệ');
+      hasError = true;
+    }
+    const exists = await checkEmailExists();
+    if (exists) {
+      setEmailError("Email đã tồn tại");
       return;
     }
-    if (password !== confirmPassword) {
+    if (!password) {
+      setPasswordError('Vui lòng nhập mật khẩu');
+      hasError = true;
+    } else if (password.length < 6) {
+      setPasswordError('Mật khẩu phải ít nhất 6 ký tự');
+      hasError = true;
+    }
+
+    if (!confirmPassword) {
+      setConfirmPasswordError('Vui lòng xác nhận mật khẩu');
+      hasError = true;
+    } else if (password !== confirmPassword) {
       setConfirmPasswordError('Mật khẩu không khớp');
-      return;
+      hasError = true;
     }
+
+    if (hasError) return;
 
     setSending(true);
     try {
       const res = await axios.post(`${API_ACCOUNT}/send-otp`, { email, type: 'register' });
+
       if (res.data.success) {
         Alert.alert('Đã gửi OTP', 'Kiểm tra email để nhận mã OTP');
         router.push({
@@ -64,6 +96,15 @@ export default function Register() {
       setSending(false);
     }
   };
+
+  const checkEmailExists = async () => {
+    const response = await axios.get(`${API_ACCOUNT}/check-email`, {
+      params: { email }
+    });
+    return response.data.exists;
+  };
+
+
 
   return (
     <SafeAreaView style={styles.container}>

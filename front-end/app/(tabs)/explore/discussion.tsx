@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useRouter } from "expo-router";
 import React, { useEffect, useLayoutEffect, useState } from "react";
@@ -55,7 +56,22 @@ export default function Discussion() {
     const [textInputs, setTextInputs] = useState<{ [key: string]: string }>({});
     const [loading, setLoading] = useState(false);
 
+    const [user, setUser] = useState<any>(null);
 
+    const fetchUser = async () => {
+        try {
+            const userId = await AsyncStorage.getItem("userId");
+            if (!userId) return;
+            const res = await fetch(`${SERVER_URL}/users/byAccount/${userId}`);
+            const data = await res.json();
+
+            setUser(data);
+        } catch (err) {
+            console.log("Fetch user error:", err);
+        }
+    };
+
+   
     useLayoutEffect(() => {
         const parent = navigation.getParent();
         parent?.setOptions({ tabBarStyle: { ...TAB_BAR_STYLE, display: 'none' } });
@@ -83,6 +99,7 @@ export default function Discussion() {
     };
 
     useEffect(() => {
+        fetchUser();  
         fetchPosts();
     }, []);
 
@@ -94,6 +111,7 @@ export default function Discussion() {
             console.error("Like error:", err);
         }
     };
+
 
     const handleComment = async (postId: string) => {
         const text = textInputs[postId]?.trim();
@@ -129,7 +147,7 @@ export default function Discussion() {
             <View style={styles.postStatusContainer}>
                 <View style={styles.avatarWrapper}>
                     <Image
-                        source={{ uri: "https://picsum.photos/id/1005/40/40" }}
+                        source={{ uri: user?.avatarUrl || "https://picsum.photos/40" }}
                         style={styles.avatar}
                     />
                     <View style={styles.onlineIndicator} />
@@ -197,6 +215,9 @@ export default function Discussion() {
     );
 }
 
+/** ─────────────────────────────────────────
+ *  STYLES
+ *  ─────────────────────────────────────────*/
 const styles = StyleSheet.create({
     imageButton: {
         flexDirection: "row",
@@ -224,8 +245,6 @@ const styles = StyleSheet.create({
     onlineIndicator: { position: 'absolute', bottom: 0, right: 0, width: 10, height: 10, borderRadius: 5, backgroundColor: 'green', borderWidth: 2, borderColor: '#fff' },
     statusInput: { flex: 1, height: 40, borderRadius: 20, paddingHorizontal: 15, backgroundColor: "#f0f2f5", justifyContent: 'center', marginRight: 10 },
     statusInputText: { color: "#606770", fontSize: 14 },
-    photoIcon: { justifyContent: 'center', alignItems: 'center', width: 40 },
-    photoText: { color: "#42b72a", fontSize: 12, fontWeight: 'bold' },
     postContainer: { marginBottom: 24 },
     category: { fontSize: 12, color: "#666", marginBottom: 4 },
     topic: { fontSize: 16, fontWeight: "bold", marginBottom: 6 },

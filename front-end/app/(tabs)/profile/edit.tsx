@@ -4,6 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { Stack, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
+  ActivityIndicator,
   FlatList,
   Image,
   ListRenderItem,
@@ -19,10 +20,10 @@ import { useTheme } from '../../_layout';
 const API_BASE_URL = 'http://192.168.0.102:5000';
 
 const DUCK_AVATARS = [
-  { id: '1', source: require('../../../assets/images/logo.jpg') },
-  { id: '2', source: require('../../../assets/images/avt1.png') },
-  { id: '3', source: require('../../../assets/images/avt2.png') },
-  { id: '4', source: require('../../../assets/images/avt3.png') },
+  { id: '1', source: { uri: 'https://res.cloudinary.com/dibguk5n6/image/upload/v1763627294/logo_ugxfdv.jpg' }},
+  { id: '2', source: { uri: 'https://res.cloudinary.com/dibguk5n6/image/upload/v1763627294/avt2_pmv17a.avif' }},
+  { id: '3', source: { uri: 'https://res.cloudinary.com/dibguk5n6/image/upload/v1763627294/avt1_wzcklx.avif' }},
+  { id: '4', source: { uri: 'https://res.cloudinary.com/dibguk5n6/image/upload/v1763627294/avt3_j7pdtv.png' }},
 ];
 
 type Avatar = { id: string; source: any };
@@ -30,9 +31,8 @@ const BACKGROUND_COLORS = ['#B3EBC8', '#E0E0FF', '#FFD6D6', '#FFE8B3', '#C0F7FF'
 
 const EditProfileScreen = () => {
   const router = useRouter();
-  const { isDarkMode } = useTheme();   // <<< lấy từ Theme context
+  const { isDarkMode } = useTheme();
 
-  // màu theo dark/light mode
   const colors = {
     background: isDarkMode ? '#121212' : '#FFFFFF',
     text: isDarkMode ? '#FFFFFF' : '#333333',
@@ -49,6 +49,9 @@ const EditProfileScreen = () => {
   const [selectedBg, setSelectedBg] = useState(BACKGROUND_COLORS[0]);
   const [name, setName] = useState('');
   const [userId, setUserId] = useState<string | null>(null);
+
+  const [pendingImageUri, setPendingImageUri] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
 
   const selectedAvatarItem = avatars.find(a => a.id === selectedAvatar);
 
@@ -70,8 +73,8 @@ const EditProfileScreen = () => {
         let data;
         try {
           data = JSON.parse(raw);
-        } catch {
-          console.error("Server không trả JSON:", raw);
+        } catch (err) {
+          alert("Upload thất bại: server trả về không phải JSON.\n\n" + raw);
           return;
         }
 
@@ -94,6 +97,7 @@ const EditProfileScreen = () => {
     fetchUser();
   }, [userId]);
 
+  // Chọn ảnh nhưng KHÔNG upload ngay
   const pickImage = async () => {
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!permission.granted) return alert("Cần cấp quyền thư viện ảnh");
@@ -106,8 +110,20 @@ const EditProfileScreen = () => {
     });
 
     if (result.canceled) return;
+
     const fileUri = result.assets[0].uri;
 
+    // Lưu URI tạm thời
+    setPendingImageUri(fileUri);
+
+    // Tạo avatar tạm để hiển thị preview
+    const tempAvatar = { id: 'temp_avatar', source: { uri: fileUri } };
+    setAvatars([...DUCK_AVATARS, tempAvatar]);
+    setSelectedAvatar('temp_avatar');
+  };
+
+  // Hàm upload ảnh lên server
+  const uploadAvatar = async (fileUri: string) => {
     try {
       const formData = new FormData();
       formData.append("avatar", {
@@ -123,50 +139,66 @@ const EditProfileScreen = () => {
 
       const raw = await res.text();
       let data;
-      try { data = JSON.parse(raw); }
-      catch { return alert("Upload thất bại, server không trả JSON"); }
+      try {
+        data = JSON.parse(raw);
+      } catch {
+        throw new Error("Server không trả JSON");
+      }
 
-      const cloudUrl = data.user.avatarUrl;
-      const newAvatar = { id: 'server_avatar', source: { uri: cloudUrl } };
-      setAvatars([...DUCK_AVATARS, newAvatar]);
-      setSelectedAvatar('server_avatar');
-      alert("Upload thành công!");
+      return data.user.avatarUrl;
     } catch (err: any) {
-      alert("Upload lỗi: " + err.message);
+      throw new Error("Upload ảnh thất bại: " + err.message);
     }
   };
 
   const updateUserProfile = async () => {
-    if (!selectedAvatarItem || !userId) return;
+    if (!userId) return;
 
-    const avatarUrl =
-      typeof selectedAvatarItem.source === "object" &&
-        selectedAvatarItem.source.uri
-        ? selectedAvatarItem.source.uri
-        : selectedAvatarItem.source;
+    setIsSaving(true);
 
     try {
+      if (pendingImageUri) {
+        await uploadAvatar(pendingImageUri);
+        setPendingImageUri(null);
+      }
+
+      const payload: any = {
+        name,
+        backgroundColor: selectedBg
+      };
+
+      if (!pendingImageUri) {
+        const selected = avatars.find(a => a.id === selectedAvatar);
+        if (selected && selected.source) {
+          if (selected.source.uri) payload.avatarUrl = selected.source.uri;
+        }
+      }
+
       const res = await fetch(`${API_BASE_URL}/users/byAccount/${userId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          avatarUrl,
-          backgroundColor: selectedBg
-        })
+        body: JSON.stringify(payload)
       });
 
       const raw = await res.text();
       let data;
-      try { data = JSON.parse(raw); }
-      catch { return alert("Cập nhật thất bại, server không trả JSON"); }
+      try {
+        data = JSON.parse(raw);
+      } catch {
+        throw new Error("Server không trả JSON");
+      }
 
       if (!res.ok) throw new Error(data.message || "Cập nhật lỗi");
 
-      alert("Cập nhật thành công!");
-      router.push("/profile");
+      alert("Lưu thành công!");
+
+      // Quay lại trang profile
+      router.push('/profile');
+
     } catch (err: any) {
-      alert("Lỗi cập nhật: " + err.message);
+      alert("Lỗi: " + err.message);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -175,7 +207,10 @@ const EditProfileScreen = () => {
       style={[
         editStyles.avatarItem,
         { backgroundColor: colors.cardBg },
-        selectedAvatar === item.id && { borderColor: '#6C63FF', backgroundColor: isDarkMode ? "#2a2550" : "#F0F0FF" }
+        selectedAvatar === item.id && {
+          borderColor: '#6C63FF',
+          backgroundColor: isDarkMode ? "#2a2550" : "#F0F0FF"
+        }
       ]}
       onPress={() => setSelectedAvatar(item.id)}
     >
@@ -239,19 +274,17 @@ const EditProfileScreen = () => {
                     editStyles.tabText,
                     {
                       color: activeTab === tab
-                        ? (isDarkMode ? '#A78BFA' : '#6C63FF') 
-                        : colors.subText 
+                        ? (isDarkMode ? '#A78BFA' : '#6C63FF')
+                        : colors.subText
                     }
                   ]}
                 >
                   {tab}
                 </Text>
-
               </TouchableOpacity>
             );
           })}
         </View>
-
 
         {/* Content */}
         <View style={editStyles.tabContent}>
@@ -287,13 +320,27 @@ const EditProfileScreen = () => {
         </View>
 
         {activeTab === 'Icon' && (
-          <TouchableOpacity style={editStyles.pickImageButton} onPress={pickImage}>
-            <Text style={editStyles.pickImageButtonText}>Chọn ảnh từ thư viện</Text>
+          <TouchableOpacity
+            style={editStyles.pickImageButton}
+            onPress={pickImage}
+            disabled={isSaving}
+          >
+            <Text style={editStyles.pickImageButtonText}>
+              {pendingImageUri ? '✓ Đã chọn ảnh mới' : 'Chọn ảnh từ thư viện'}
+            </Text>
           </TouchableOpacity>
         )}
 
-        <TouchableOpacity style={editStyles.saveButton} onPress={updateUserProfile}>
-          <Text style={editStyles.saveButtonText}>Lưu</Text>
+        <TouchableOpacity
+          style={[editStyles.saveButton, isSaving && { opacity: 0.6 }]}
+          onPress={updateUserProfile}
+          disabled={isSaving}
+        >
+          {isSaving ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text style={editStyles.saveButtonText}>Lưu</Text>
+          )}
         </TouchableOpacity>
       </ScrollView>
     </View>
@@ -308,9 +355,9 @@ const editStyles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 15,
-    paddingVertical: 10,
     borderBottomWidth: 1,
-    paddingTop: 30
+    paddingTop: 50,
+    paddingBottom: 16
   },
   headerTitle: { fontSize: 22, fontWeight: 'bold' },
 
@@ -383,8 +430,10 @@ const editStyles = StyleSheet.create({
     backgroundColor: '#6C63FF',
     paddingVertical: 15,
     borderRadius: 10,
-    marginHorizontal: 20,
-    marginVertical: 20
+    width: '90%',
+    alignSelf: 'center',
+    marginTop: 20,
+    marginBottom: 60,
   },
   saveButtonText: { color: '#fff', fontSize: 18, fontWeight: 'bold', textAlign: 'center' }
 });

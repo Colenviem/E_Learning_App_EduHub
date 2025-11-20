@@ -1,11 +1,10 @@
 import axios from 'axios';
+import { ResizeMode, Video } from 'expo-av';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Video, ResizeMode } from 'expo-av';
-
 import { QuizComponent } from '../src/components/Quiz/QuizComponent';
 
 const placeholderVideo = require('../assets/images/tets.jpg');
@@ -20,78 +19,37 @@ const COLORS = {
   buttonBg: '#EAF4FF',
 };
 
-interface ILesson {
-  _id: string;
-  courseId: string;
-  title: string;
-  lesson_details: { _id: string; name: string; time: string }[];
-}
-
-interface IOption {
-  option: string;
-  correct: boolean;
-}
-
-interface IQuiz {
-  _id: string;
-  type: 'single_choice' | 'multiple_choice' | 'true_false';
-  question: string;
-  options: IOption[];
-  createdAt: string;
-}
-
-interface ILessonDetail {
-  _id: string;
-  lessonId: string;
-  name: string;
-  videoTitle: string;
-  videoUrl: string;
-  time: string;
-  tasks: string[];
-  quizzes?: IQuiz[];
-}
-
-const LESSON_API = "http://192.168.2.6:5000/lessons";
-const LESSON_DETAIL_API = "http://192.168.2.6:5000/lesson-details";
+const LESSON_API = "http://192.168.0.102:5000/lessons";
+const LESSON_DETAIL_API = "http://192.168.0.102:5000/lesson-details";
 
 export default function ExerciseDetails() {
   const { id, courseId } = useLocalSearchParams();
   const [allLessonSummaries, setAllLessonSummaries] = useState<{ _id: string; name: string; time: string }[]>([]);
-  const [lessonDetail, setLessonDetail] = useState<ILessonDetail | null>(null);
+  const [lessonDetail, setLessonDetail] = useState<any>(null);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const router = useRouter();
 
-  // Load chi tiết bài học
   const fetchLessonDetail = useCallback(async () => {
     if (!id) return;
-    try {
-      const res = await axios.get(`${LESSON_DETAIL_API}/${id}`);
-      setLessonDetail(res.data);
-    } catch (error) {
-      console.error(error);
-      Alert.alert('Lỗi', 'Không tải được chi tiết bài học');
-    }
+    const res = await axios.get(`${LESSON_DETAIL_API}/${id}`);
+    setLessonDetail(res.data);
   }, [id]);
 
-  // Load danh sách tất cả lesson details trong course
   const fetchLessonSummaries = useCallback(async () => {
     if (!courseId) return;
-    try {
-      // Đảm bảo bạn đang gọi đến route '/by-course/'
-      const res = await axios.get(`${LESSON_API}/${courseId}`);
 
-      const lessons: ILesson[] = Array.isArray(res.data) ? res.data : [res.data];
+    const res = await axios.get(`${LESSON_API}/${courseId}`);
 
-      const details = lessons.flatMap(l => l.lesson_details);
-      setAllLessonSummaries(details);
+    const lessons = Array.isArray(res.data) ? res.data : [res.data];
+    const details = lessons.flatMap(l => l.lesson_details);
 
-      const index = details.findIndex(d => d._id === id);
-      setCurrentIndex(index >= 0 ? index : 0);
-    } catch (error) {
-      console.error(error);
-      Alert.alert('Lỗi', 'Không tải được danh sách bài học');
-    }
+    setAllLessonSummaries(details);
+
+    const index = details.findIndex(d => d._id === id);
+
+    setCurrentIndex(index >= 0 ? index : 0);
   }, [courseId, id]);
+
 
   useEffect(() => {
     fetchLessonDetail();
@@ -100,37 +58,19 @@ export default function ExerciseDetails() {
 
   const handleGoBack = useCallback(() => router.back(), []);
 
-  const handleGoPrevious = () => {
+  const handleGoPrevious = async () => {
     if (currentIndex > 0) {
-      const prevId = allLessonSummaries[currentIndex - 1]._id;
-      // KHÔNG CẦN: setCurrentIndex(currentIndex - 1);
-      
-      // Dùng 'replace' để có trải nghiệm back tốt hơn
-      router.replace({
-        pathname: "/lesson-details", 
-        params: { 
-          id: prevId, 
-          courseId: courseId
-        }
-      });
+      const prevDetailId = allLessonSummaries[currentIndex - 1]._id;
+      router.replace({ pathname: "/lesson-details", params: { id: prevDetailId, courseId } });
     } else {
       Alert.alert('Thông báo', 'Đây là bài đầu tiên.');
     }
   };
 
-  const handleGoNext = () => {
+  const handleGoNext = async () => {
     if (currentIndex < allLessonSummaries.length - 1) {
-      const nextId = allLessonSummaries[currentIndex + 1]._id;
-      // KHÔNG CẦN: setCurrentIndex(currentIndex + 1);
-
-      // Dùng 'replace' để có trải nghiệm back tốt hơn
-      router.replace({
-        pathname: "/lesson-details", 
-        params: { 
-          id: nextId, 
-          courseId: courseId
-        }
-      });
+      const nextDetailId = allLessonSummaries[currentIndex + 1]._id;
+      router.replace({ pathname: "/lesson-details", params: { id: nextDetailId, courseId } });
     } else {
       Alert.alert('Thông báo', 'Đây là bài cuối cùng.');
     }
@@ -149,15 +89,13 @@ export default function ExerciseDetails() {
     <>
       <Stack.Screen options={{ headerShown: false }} />
       <View style={styles.container}>
-        {/* Header */}
+
         <View style={styles.headerContainer}>
           <View style={styles.header}>
             <TouchableOpacity onPress={handleGoBack} style={styles.headerButton}>
               <FeatherIcon size={24} color={COLORS.background} name="arrow-left" />
             </TouchableOpacity>
-
             <Text style={styles.courseTitle} numberOfLines={1}>{lessonDetail.name}</Text>
-
             <View style={styles.headerRight}>
               <Text style={styles.progressText}>{lessonDetail.time}</Text>
               <MaterialIcon name="notebook-outline" size={24} color={COLORS.background} />
@@ -165,7 +103,6 @@ export default function ExerciseDetails() {
           </View>
         </View>
 
-        {/* Video */}
         <View style={styles.videoWrapper}>
           {lessonDetail.videoUrl ? (
             <Video
@@ -181,34 +118,29 @@ export default function ExerciseDetails() {
         </View>
 
         <ScrollView style={styles.contentScroll}>
-          {/* Tasks */}
           <View style={styles.contentContainer}>
-            <Text style={[styles.sectionTitle, { color: COLORS.textPrimary }]}>Nội dung bài học:</Text>
-            {lessonDetail.tasks.map((task, i) => (
+            <Text style={styles.sectionTitle}>Nội dung bài học:</Text>
+            {lessonDetail.tasks.map((task: string, i: number) => (
               <View key={i} style={styles.taskItem}>
-                <Text style={[styles.taskIndex, { color: COLORS.primary }]}>{i + 1}.</Text>
-                <Text style={[styles.taskText, { color: COLORS.textPrimary }]}>{task}</Text>
+                <Text style={styles.taskIndex}>{i + 1}.</Text>
+                <Text style={styles.taskText}>{task}</Text>
               </View>
             ))}
           </View>
 
-          {/* Quiz Section */}
           {lessonDetail.quizzes && lessonDetail.quizzes.length > 0 && (
             <View style={{ marginTop: 20, paddingHorizontal: 20 }}>
-              <Text style={{ fontSize: 18, fontWeight: '700', borderBottomWidth: 1, borderBottomColor: '#E0E0E0', paddingBottom: 8, marginBottom: 12, color: COLORS.textPrimary }}>
+              <Text style={{ fontSize: 18, fontWeight: '700', borderBottomWidth: 1, borderBottomColor: '#E0E0E0', paddingBottom: 8, marginBottom: 12 }}>
                 Bài kiểm tra nhanh ({lessonDetail.quizzes.length} câu)
               </Text>
-
-              {lessonDetail.quizzes.map((quiz, i) => (
+              {lessonDetail.quizzes.map((quiz: any, i: number) => (
                 <QuizComponent key={quiz._id} quiz={quiz} index={i} />
               ))}
             </View>
           )}
         </ScrollView>
 
-        {/* Footer */}
         <View style={styles.footer}>
-          {/* Nút BÀI TRƯỚC */}
           <TouchableOpacity
             style={[styles.footerButton, { opacity: currentIndex > 0 ? 1 : 0.5 }]}
             onPress={handleGoPrevious}
@@ -217,7 +149,6 @@ export default function ExerciseDetails() {
             <Text style={styles.footerButtonText}>BÀI TRƯỚC</Text>
           </TouchableOpacity>
 
-          {/* Nút BÀI TIẾP THEO / HOÀN THÀNH */}
           {currentIndex < allLessonSummaries.length - 1 ? (
             <TouchableOpacity style={styles.footerButton} onPress={handleGoNext}>
               <Text style={styles.footerButtonText}>BÀI TIẾP THEO</Text>
@@ -227,7 +158,7 @@ export default function ExerciseDetails() {
               style={styles.footerButton}
               onPress={() => {
                 Alert.alert('Hoàn thành', 'Bạn đã hoàn thành tất cả các bài học!');
-                router.back(); // hoặc router.push('/course-detail') tùy flow
+                router.back();
               }}
             >
               <Text style={styles.footerButtonText}>HOÀN THÀNH</Text>
@@ -241,34 +172,21 @@ export default function ExerciseDetails() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.background },
-
-  // Header
   headerContainer: { paddingTop: 50, backgroundColor: COLORS.primary, paddingBottom: 15 },
   header: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20 },
   headerButton: { padding: 5 },
   courseTitle: { fontSize: 16, fontWeight: '700', color: COLORS.background, flex: 1, textAlign: 'center' },
   headerRight: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-
   progressText: { fontSize: 12, fontWeight: '600', color: COLORS.background },
-
-  // Video
-  videoWrapper: { height: 220, backgroundColor: COLORS.border, justifyContent: 'center', alignItems: 'center', marginTop: 15, overflow: 'hidden' },
+  videoWrapper: { height: 220, backgroundColor: COLORS.border, justifyContent: 'center', alignItems: 'center', marginTop: 15 },
   video: { width: '100%', height: '100%' },
-
-  // Scroll Content
   contentScroll: { flex: 1, marginTop: 15, marginBottom: 80 },
   contentContainer: { paddingHorizontal: 20 },
-  sectionTitle: { fontSize: 18, fontWeight: '700', marginBottom: 12, color: COLORS.textPrimary },
-
-  taskItem: { flexDirection: 'row', marginBottom: 12, alignItems: 'flex-start', backgroundColor: '#F9F9F9', padding: 12, borderRadius: 10, shadowColor: '#000', shadowOpacity: 0.05, shadowOffset: { width: 0, height: 2 }, shadowRadius: 4, elevation: 2 },
-  taskIndex: { fontWeight: '700', marginRight: 10, color: COLORS.primary, fontSize: 16 },
-  taskText: { flex: 1, fontSize: 16, lineHeight: 22, color: COLORS.textPrimary },
-
-  // Footer
+  sectionTitle: { fontSize: 18, fontWeight: '700', marginBottom: 12 },
+  taskItem: { flexDirection: 'row', marginBottom: 12, alignItems: 'flex-start', backgroundColor: '#F9F9F9', padding: 12, borderRadius: 10 },
+  taskIndex: { fontWeight: '700', marginRight: 10, fontSize: 16 },
+  taskText: { flex: 1, fontSize: 16, lineHeight: 22 },
   footer: { flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20, paddingVertical: 15, position: 'absolute', bottom: 0, left: 0, right: 0, backgroundColor: COLORS.background, borderTopWidth: 1, borderTopColor: COLORS.border },
-  footerButton: { flex: 1, padding: 14, marginHorizontal: 5, borderRadius: 12, justifyContent: 'center', alignItems: 'center', backgroundColor: COLORS.primary, shadowColor: '#000', shadowOpacity: 0.1, shadowOffset: { width: 0, height: 2 }, shadowRadius: 6, elevation: 3 },
-  footerButtonText: { color: COLORS.background, fontWeight: '700', fontSize: 14 },
-
-  // Placeholder / Play Button (Optional)
-  playButton: { position: 'absolute', justifyContent: 'center', alignItems: 'center' },
+  footerButton: { flex: 1, padding: 14, marginHorizontal: 5, borderRadius: 12, justifyContent: 'center', alignItems: 'center', backgroundColor: COLORS.primary },
+  footerButtonText: { color: COLORS.background, fontWeight: '700', fontSize: 14 }
 });

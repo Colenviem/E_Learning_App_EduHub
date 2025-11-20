@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-// --- 1. Subschema cho Option ---
 const optionSchema = new mongoose.Schema(
     {
         option: { type: String, required: true },
@@ -9,10 +8,9 @@ const optionSchema = new mongoose.Schema(
     { _id: false }
 );
 
-// --- 2. Subschema cho Quiz ---
 const quizSchema = new mongoose.Schema(
     {
-        _id: { type: String, required: true }, // Sử dụng ID do bạn cung cấp (ví dụ: QUIZ10101_01)
+        _id: { type: String, required: true }, 
         type: {
             type: String,
             required: true,
@@ -25,7 +23,6 @@ const quizSchema = new mongoose.Schema(
     { _id: false }
 );
 
-// --- 3. Lesson Detail Schema Chính ---
 const lessonDetailSchema = new mongoose.Schema(
     {
         _id: { type: String, required: true },
@@ -39,7 +36,7 @@ const lessonDetailSchema = new mongoose.Schema(
         videoUrl: { type: String },
         time: { type: String, default: "0 phút" },
         tasks: { type: [String], default: [] },
-        quizzes: { type: [quizSchema], default: [] }, // <--- ĐÃ THÊM TRƯỜNG NÀY
+        quizzes: { type: [quizSchema], default: [] },
         createdAt: { type: Date, default: Date.now }
     },
     { versionKey: false }

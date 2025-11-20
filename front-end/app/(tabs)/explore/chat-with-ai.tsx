@@ -1,10 +1,10 @@
 import { Feather } from '@expo/vector-icons';
 import axios from 'axios';
 import { Stack, useNavigation } from 'expo-router';
-import React, { useLayoutEffect, useState, useRef } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import { FlatList, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-const API = "http://localhost:5000/api/ask-gemini";
+const API = "http://192.168.0.102:5000/api/ask-gemini";
 
 export default function ChatWithAI() {
   const navigation = useNavigation();

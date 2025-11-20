@@ -192,7 +192,7 @@ const AchievementsScreen = () => {
 const styles = StyleSheet.create({
     container: { flex: 1 },
     header: {
-        paddingVertical: 60,
+        paddingTop: 30,
         paddingBottom: 20,
         flexDirection: 'row',
         justifyContent: 'space-between',
