@@ -35,8 +35,6 @@ router.put('/:id', async (req, res) => {
         const lessonId = req.params.id;
         const { title, content, courseId, lessonDetails } = req.body;
 
-
-
         // 1. Cập nhật Lesson chính
         const lesson = await Lesson.findByIdAndUpdate(
             lessonId,
@@ -56,7 +54,9 @@ router.put('/:id', async (req, res) => {
             const newDetailsData = lessonDetails.map(detail => ({
                 _id: detail._id, // Giữ nguyên ID nếu có
                 lessonId, // Liên kết với Lesson chính
+                name: detail.name,
                 videoUrl: detail.videoUrl,
+                videoTitle: detail.videoTitle,
                 time: detail.time || "N/A", // Cần đảm bảo trường time được xử lý
                 tasks: detail.tasks || [],
                 quizzes: detail.quizzes || []
