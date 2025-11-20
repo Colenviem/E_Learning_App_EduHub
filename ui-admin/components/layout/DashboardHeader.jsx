@@ -1,7 +1,27 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 
+const API = "http://localhost:5000/accounts";
+
 const DashboardHeader = () => {
+    const [account, setAccount] = useState(null);
+
+    const fetchAccountInfo = useCallback(async () => {
+        const userId = localStorage.getItem('userId');
+        if (!userId) return;    
+        try {
+            const res = await axios.get(`${API}/${userId}`);
+            setAccount(res.data);
+        } catch (err) {
+            console.error("Lỗi khi lấy thông tin tài khoản:", err);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchAccountInfo();
+    }, [fetchAccountInfo]);
+
     return (
         <div 
             className="flex justify-between items-center bg-white px-6 py-4 border-b border-gray-200
@@ -23,16 +43,16 @@ const DashboardHeader = () => {
                     <img
                         src="https://i.pravatar.cc/40"
                         alt="avatar"
-                        className="rounded-full w-10 h-10 ring-2 ring-indigo-400 p-0.5 object-cover" // Thay đổi: Đổi màu ring và thêm p-0.5
+                        className="rounded-full w-10 h-10 ring-2 ring-indigo-400 p-0.5 object-cover"
                     />
                     <div className="leading-tight">
-                        <p className="font-medium text-gray-800">Moni Roy</p>
-                        <p className="text-sm text-gray-500">Admin</p>
+                        <p className="font-medium text-gray-800">{account?.email || ""}</p>
+                        <p className="text-sm text-gray-500">{account?.role || ""}</p>
                     </div>
                 </div>
             </div>
         </div>
     );
-}
+};
 
 export default DashboardHeader;

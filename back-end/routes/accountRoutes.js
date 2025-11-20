@@ -22,6 +22,20 @@ router.get("/", async (req, res) => {
     }
 });
 
+
+// Get account by ID
+router.get("/:id", async (req, res) => {
+  try {
+    const account = await Account.findById(req.params.id);
+    if (!account) {
+        return res.status(404).json({ message: "Account không tìm thấy" });
+    }
+    res.json(account);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  } 
+});
+
 // ==================== GỬI OTP ====================
 router.post("/send-otp", async (req, res) => {
   try {
@@ -186,7 +200,7 @@ router.post("/login", async (req, res) => {
 
   res.json({
     token,
-    user: { _id: matchedUser._id, email: matchedUser.email, username: matchedUser.username },
+    user: { _id: matchedUser._id, email: matchedUser.email, username: matchedUser.username, role: matchedUser.role },
   });
 });
 
