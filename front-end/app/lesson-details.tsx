@@ -138,11 +138,15 @@ router.replace({ pathname: "/lesson-details", params: { id: prevId, courseId } }
 
 const goNext = () => {
 if (currentIndex >= allLessonSummaries.length - 1) {
-  // Bài cuối cùng - cập nhật progress
-  updateProgress(currentIndex + 1, allLessonSummaries.length);
+  // Bài cuối cùng - cập nhật progress = 100%
+  updateProgress(allLessonSummaries.length, allLessonSummaries.length);
   return Alert.alert("Thông báo", "Bạn đã hoàn thành tất cả bài học!");
 }
-const nextId = allLessonSummaries[currentIndex + 1]._id;
+// Cập nhật progress: (bài hiện tại + 1) / tổng bài
+const nextIndex = currentIndex + 1;
+updateProgress(nextIndex, allLessonSummaries.length);
+
+const nextId = allLessonSummaries[nextIndex]._id;
 router.replace({ pathname: "/lesson-details", params: { id: nextId, courseId } });
 };
 

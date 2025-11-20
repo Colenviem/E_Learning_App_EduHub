@@ -1,7 +1,7 @@
 import { API_BASE_URL } from '@/src/api';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import axios from 'axios';
-import { Stack, useRouter } from 'expo-router';
+import { Stack, useRouter, useFocusEffect } from 'expo-router';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
@@ -58,6 +58,23 @@ function Home() {
     };
     getUserId();
   }, []);
+
+  // ✅ Refresh data khi quay lại home screen
+  useFocusEffect(
+    useCallback(() => {
+      const refreshUserData = async () => {
+        if (userId) {
+          try {
+            const userResponse = await axios.get(`${API_BASE_URL}/users/byAccount/${userId}`);
+            setCurrentUser(userResponse.data);
+          } catch (error) {
+            console.error('Error refreshing user data:', error);
+          }
+        }
+      };
+      refreshUserData();
+    }, [userId])
+  );
 
   const fetchCourses = useCallback(async () => {
     try {
