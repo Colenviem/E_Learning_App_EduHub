@@ -1,4 +1,6 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+// AdminPage.jsx
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 import DashboardSidebar from "../components/sidebar/DashboardSidebar";
 import DashboardHeader from "../components/layout/DashboardHeader";
@@ -21,14 +23,18 @@ const AdminPage = () => {
         <DashboardHeader />
 
         <Routes>
-            <Route path="/" element={<Dashboard/>} />
-            <Route path="/users" element={<UsersTable/>} />
-            <Route path="/accounts" element={<AccountsTable/>} />
-            <Route path="/courses" element={<CoursesTable/>} />
-            <Route path="/lessons" element={<LessonsTable/>} />
-            <Route path="/categories" element={<CategoriesTable/>} />
-            <Route path="/orders" element={<OrdersTable/>} />
-            <Route path="/setting" element={<SettingsLayout/>} />
+          {/* Nested routes relative to /admin */}
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="users" element={<UsersTable />} />
+          <Route path="accounts" element={<AccountsTable />} />
+          <Route path="courses" element={<CoursesTable />} />
+          <Route path="lessons" element={<LessonsTable />} />
+          <Route path="categories" element={<CategoriesTable />} />
+          <Route path="orders" element={<OrdersTable />} />
+          <Route path="setting" element={<SettingsLayout />} />
+
+          {/* Redirect /admin → /admin/dashboard */}
+          <Route path="" element={<Navigate to="dashboard" replace />} />
         </Routes>
       </main>
     </div>
