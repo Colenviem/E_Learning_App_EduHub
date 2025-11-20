@@ -21,6 +21,30 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/profile/:accountId", async (req, res) => {
+  try {
+    const { accountId } = req.params;
+
+    const account = await Account.findById(accountId);
+    if (!account)
+      return res.status(404).json({ message: "Account không tồn tại" });
+
+    const user = await User.findOne({ accountId });
+    if (!user)
+      return res.status(404).json({ message: "User không tồn tại" });
+
+    res.json({
+      success: true,
+      account,
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Lỗi server", error: error.message });
+  }
+});
+
+
+
 router.get("/:id", async (req, res) => {
   try {
     const account = await Account.findById(req.params.id);
@@ -30,6 +54,7 @@ router.get("/:id", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
 
 router.post("/send-otp", async (req, res) => {
   try {
@@ -175,6 +200,31 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.post("/change-password/:accountId", async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+
+    const account = await Account.findById(req.params.accountId);
+    if (!account) return res.status(404).json({ message: "Account not found" });
+
+    const isMatch = await bcrypt.compare(currentPassword, account.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Mật khẩu hiện tại không đúng" });
+    }
+
+    const hashed = await bcrypt.hash(newPassword, 10);
+    account.password = hashed;
+
+    await account.save();
+
+    res.json({ message: "Đổi mật khẩu thành công" });
+
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+});
+
+
 router.get("/me", authMiddleware, async (req, res) => {
   const user = await Account.findById(req.user.userId);
   res.json(user);
@@ -217,5 +267,38 @@ router.post("/register-admin", async (req, res) => {
     res.status(500).json({ message: "Lỗi server" });
   }
 });
+
+router.put("/update-profile/:accountId", async (req, res) => {
+  try {
+    const { accountId } = req.params;
+    const { name, email, avatarUrl } = req.body;
+
+    const account = await Account.findById(accountId);
+    if (!account)
+      return res.status(404).json({ message: "Account không tồn tại" });
+
+    if (email) account.email = email;
+    await account.save();
+
+    const user = await User.findOne({ accountId });
+    if (!user)
+      return res.status(404).json({ message: "User không tồn tại" });
+
+    if (name) user.name = name;
+    if (avatarUrl) user.avatarUrl = avatarUrl;
+
+    await user.save();
+
+    res.json({
+      success: true,
+      message: "Cập nhật hồ sơ thành công!",
+      account,
+      user,
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Lỗi server", error: err.message });
+  }
+});
+
 
 module.exports = router;

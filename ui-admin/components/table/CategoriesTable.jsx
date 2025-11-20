@@ -1,12 +1,9 @@
-// CategoriesTable.jsx
 import React, { useState, useEffect, useCallback } from 'react';
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion';
 import { FiEdit, FiSearch, FiX, FiPlus } from 'react-icons/fi';
-import * as LucideIcons from 'react-icons/lu'; // Sử dụng Lucide Icons
-import axios from 'axios';
+import * as LucideIcons from 'react-icons/lu';
+import { apiClient, endpoints } from '../../src/api';
 import Spinner from '../spinner/Spinner';
-
-const API = "http://localhost:5000/categories";
 
 // Danh sách các Icon khả dụng cho danh mục
 const ICON_LIST = [
@@ -14,9 +11,7 @@ const ICON_LIST = [
     'LuGlobe', 'LuShield', 'LuUser', 'LuLayoutGrid', 'LuMegaphone'
 ];
 
-// Hàm lấy Component Icon từ tên chuỗi
 const getIconComponent = (iconName) => {
-    // Sử dụng FiSearch làm fallback nếu không tìm thấy icon
     return LucideIcons[iconName] || FiSearch; 
 };
 
@@ -39,7 +34,7 @@ const CategoriesTable = () => {
     const [editingCategory, setEditingCategory] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     
-    // NEW STATES FOR ADDING
+    
     const [isModalOpenAdd, setIsModalOpenAdd] = useState(false);
     const [newCategoryName, setNewCategoryName] = useState("");
     const [newCategoryIcon, setNewCategoryIcon] = useState(ICON_LIST[0]);
@@ -50,7 +45,7 @@ const CategoriesTable = () => {
     const fetchCategories = useCallback(async () => {
         try {
             setLoading(true);
-            const res = await axios.get(API);
+            const res = await apiClient.get(endpoints.categories);
             setCategories(res.data);
         } catch (err) {
             console.error("Error loading categories:", err);
@@ -79,7 +74,7 @@ const CategoriesTable = () => {
 
         try {
             setLoading(true);
-            await axios.put(`${API}/${editingCategory._id}`, editingCategory);
+            await apiClient.put(`${endpoints.categories}/${editingCategory._id}`, editingCategory);
             await fetchCategories();
             setIsModalOpen(false);
             window.alert("Cập nhật thành công!");
@@ -100,7 +95,7 @@ const CategoriesTable = () => {
         
         try {
             setLoading(true);
-            const res = await axios.post(API, { name: newCategoryName.trim(), icon: newCategoryIcon });
+            const res = await apiClient.post(endpoints.categories, { name: newCategoryName.trim(), icon: newCategoryIcon });
             
             await fetchCategories();
             
@@ -125,7 +120,7 @@ const CategoriesTable = () => {
         <div className="p-6 pt-24 bg-gray-50 min-h-screen">
             <div className="bg-white p-6 border border-gray-100 rounded-2xl shadow-lg">
                 
-                {/* Header & Search */}
+                
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4 md:gap-0">
                     <h2 className="text-2xl font-bold text-gray-800">Danh sách danh mục</h2>
                     <div className="flex items-center gap-2 w-full md:w-auto">
@@ -147,7 +142,7 @@ const CategoriesTable = () => {
                             { searchQuery ? "Xóa" : "Tìm kiếm" }
                         </button>
 
-                        {/* Nút THÊM MỚI */}
+                        
                         <button
                             className="bg-indigo-600 text-center cursor-pointer text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-700 transition-colors flex items-center gap-2"
                             onClick={() => {
@@ -163,7 +158,7 @@ const CategoriesTable = () => {
                     </div>
                 </div>
 
-                {/* Table */}
+                
                 <div className="overflow-x-auto">
                     <table className="w-full table-auto text-sm text-left border-collapse">
                         <thead className="bg-gray-50 text-gray-500 uppercase text-xs border-b border-gray-200">
@@ -175,14 +170,14 @@ const CategoriesTable = () => {
                                 <th className="py-3 px-4 text-center">Hành động</th>
                             </tr>
                         </thead>
-                        <motion.tbody variants={containerVariants} initial="hidden" animate="visible">
+                        <Motion.tbody variants={containerVariants} initial="hidden" animate="visible">
                             {filteredCategories.map(cat => {
                                 const IconComponent = getIconComponent(cat.icon);
                                 return (
-                                    <motion.tr key={cat._id} variants={rowVariants} className="border-t border-gray-100 hover:bg-gray-50 transition-colors">
+                                    <Motion.tr key={cat._id} variants={rowVariants} className="border-t border-gray-100 hover:bg-gray-50 transition-colors">
                                         <td className="py-3 px-4">{cat._id}</td>
                                         <td className="py-3 px-4 text-center">
-                                            {/* Hiển thị Icon */}
+                                            
                                             {React.createElement(IconComponent, { size: 20, className: 'text-indigo-600 mx-auto' })}
                                         </td>
                                         <td className="py-3 px-4">{cat.name}</td>
@@ -195,10 +190,10 @@ const CategoriesTable = () => {
                                                 <FiEdit className="w-4 h-4" />
                                             </button>
                                         </td>
-                                    </motion.tr>
+                                    </Motion.tr>
                                 );
                             })}
-                        </motion.tbody>
+                        </Motion.tbody>
                     </table>
                 </div>
             </div>

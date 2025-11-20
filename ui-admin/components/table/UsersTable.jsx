@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { FiSearch, FiEdit } from 'react-icons/fi';
-import axios from 'axios';
+import { apiClient, endpoints } from '../../src/api';
 import Spinner from '../spinner/Spinner';
 
-const API = "http://localhost:5000/users";
 const IMAGE_DEFAULT = "https://i.pinimg.com/736x/57/89/d9/5789d95d55ce358b93a99bbab84e3df7.jpg";
 
 const containerVariants = {
@@ -32,7 +31,7 @@ const UsersTable = () => {
     const fetchUsers = useCallback(async () => {
         try {
             setLoading(true);
-            const res = await axios.get(API);
+            const res = await apiClient.get(endpoints.users);
             setUsersData(res.data);
         } catch (err) {
             console.error("Lỗi khi fetch users:", err);
@@ -64,7 +63,7 @@ const UsersTable = () => {
     const handleSave = async () => {
         try {
             setLoading(true);
-            await axios.put(`${API}/${editingUser._id}`, editingUser);
+            await apiClient.put(`${endpoints.users}/${editingUser._id}`, editingUser);
             fetchUsers(); 
             setIsModalOpen(false);
         } catch (err) {

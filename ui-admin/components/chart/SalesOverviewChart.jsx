@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import axios from 'axios';
+import { apiClient, endpoints } from '../../src/api';
 import Spinner from '../spinner/Spinner';
 
-const API = "http://localhost:5000/orders";
+// orders endpoint centralized in src/api
 
 const cardVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -19,7 +19,7 @@ function SalesOverviewChart() {
     const fetchOrders = useCallback(async () => {
         try {
             setLoading(true);
-            const res = await axios.get(API);
+            const res = await apiClient.get(endpoints.orders);
             setOrders(res.data);
         } catch (err) { 
             console.error("Lỗi khi lấy dữ liệu đơn hàng:", err);
@@ -56,7 +56,7 @@ function SalesOverviewChart() {
     }
 
     return (
-        <motion.div 
+        <Motion.div 
             className="bg-white p-6 rounded-xl shadow-lg border border-gray-100"
             variants={cardVariants}
             initial="hidden"
@@ -93,7 +93,7 @@ function SalesOverviewChart() {
                     </ResponsiveContainer>
                 )}
             </div>
-        </motion.div>
+        </Motion.div>
     );
 }
 

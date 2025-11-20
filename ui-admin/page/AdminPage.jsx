@@ -23,7 +23,6 @@ const AdminPage = () => {
         <DashboardHeader />
 
         <Routes>
-          {/* Nested routes relative to /admin */}
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="users" element={<UsersTable />} />
           <Route path="accounts" element={<AccountsTable />} />
@@ -33,7 +32,6 @@ const AdminPage = () => {
           <Route path="orders" element={<OrdersTable />} />
           <Route path="setting" element={<SettingsLayout />} />
 
-          {/* Redirect /admin → /admin/dashboard */}
           <Route path="" element={<Navigate to="dashboard" replace />} />
         </Routes>
       </main>

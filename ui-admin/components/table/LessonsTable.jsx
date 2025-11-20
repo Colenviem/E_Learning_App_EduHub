@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 import { FiEdit, FiSearch, FiX } from "react-icons/fi";
-import axios from "axios";
+import { apiClient, endpoints } from '../../src/api';
 import Spinner from "../spinner/Spinner";
 
-const API_COURSES = "http://localhost:5000/courses";
-const API_LESSONS = "http://localhost:5000/lessons";
-const API_LESSON_DETAILS = "http://localhost:5000/lesson-details";
 const IMAGE_DEFAULT = "https://i.pinimg.com/736x/57/89/d9/5789d95d55ce358b93a99bbab84e3df7.jpg";
 
 const containerVariants = {
@@ -114,7 +111,7 @@ const LessonsTable = () => {
     const fetchLessons = useCallback(async () => {
         setLoading(true);
         try {
-            const res = await axios.get(API_LESSONS);
+            const res = await apiClient.get(endpoints.lessons);
             setLessonsData(res.data);
         } catch (err) {
             console.error("Không thể load lessons", err);
@@ -124,7 +121,7 @@ const LessonsTable = () => {
 
     const fetchCourses = useCallback(async () => {
         try {
-            const res = await axios.get(API_COURSES);
+            const res = await apiClient.get(endpoints.courses);
             setCoursesData(res.data);
         } catch (err) {
             console.error("Không thể load courses", err);
@@ -146,7 +143,7 @@ const LessonsTable = () => {
     const handleOpenModal = async (lesson) => {
         setEditingLesson(lesson);
         try {
-            const res = await axios.get(`${API_LESSON_DETAILS}/${lesson._id}`);
+            const res = await apiClient.get(`${endpoints.lessonDetails}/${lesson._id}`);
             setEditLessonDetails(res.data);
         } catch (err) {
             console.error("Không thể load lesson details", err);
@@ -172,7 +169,7 @@ const LessonsTable = () => {
         try {
             // Bước 1: Gửi request PUT
             // Backend nhận editingLesson (bao gồm courseId, title, content) và editLessonDetails
-            const res = await axios.put(`${API_LESSON_DETAILS}/${editingLesson._id}`, {
+            const res = await apiClient.put(`${endpoints.lessonDetails}/${editingLesson._id}`, {
                 ...editingLesson,
                 lessonDetails: editLessonDetails,
             });
@@ -253,9 +250,9 @@ const LessonsTable = () => {
                             </tr>
                         </thead>
 
-                        <motion.tbody variants={containerVariants} initial="hidden" animate="visible">
+                        <Motion.tbody variants={containerVariants} initial="hidden" animate="visible">
                             {filteredLessons.map((lesson) => (
-                                <motion.tr
+                                <Motion.tr
                                     key={lesson._id}
                                     variants={rowVariants}
                                     className="border-b border-gray-100 last:border-b-0 hover:bg-indigo-50 transition-colors duration-200"
@@ -301,9 +298,9 @@ const LessonsTable = () => {
                                             <FiEdit className="w-4 h-4" />
                                         </button>
                                     </td>
-                                </motion.tr>
+                                </Motion.tr>
                             ))}
-                        </motion.tbody>
+                        </Motion.tbody>
                     </table>
                 </div>
             </div>

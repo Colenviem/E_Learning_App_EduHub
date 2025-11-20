@@ -143,4 +143,38 @@ router.post("/byAccount/:accountId/avatar", upload.single("avatar"), async (req,
   }
 });
 
+router.put("/update-profile/:accountId", async (req, res) => {
+  try {
+    const { name, email, avatarUrl } = req.body;
+
+    const account = await Account.findById(req.params.accountId);
+    if (!account) return res.status(404).json({ message: "Account not found" });
+
+    if (email) {
+      const exists = await Account.findOne({ email, _id: { $ne: account._id } });
+      if (exists) return res.status(400).json({ message: "Email đã tồn tại" });
+      account.email = email;
+    }
+    await account.save();
+
+    const user = await User.findOne({ accountId: req.params.accountId });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    if (name) user.name = name;
+    if (avatarUrl) user.avatarUrl = avatarUrl;
+
+    await user.save();
+
+    res.json({
+      message: "Cập nhật thành công",
+      account,
+      user
+    });
+
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+});
+
+
 module.exports = router;

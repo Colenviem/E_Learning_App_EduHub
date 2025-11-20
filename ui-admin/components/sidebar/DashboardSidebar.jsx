@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { 
     FiHome, FiUser, FiClipboard, FiBookOpen, FiBarChart2,
@@ -36,7 +36,7 @@ const itemVariants = {
 const SidebarItem = ({ item, onLogout }) => {
     if (item.logout) {
         return (
-            <motion.div variants={itemVariants}>
+            <Motion.div variants={itemVariants}>
                 <button
                     onClick={onLogout}
                     className="w-full flex items-center gap-3 p-3 rounded-lg text-sm text-gray-600 hover:bg-red-50 hover:text-red-600 font-medium transition-all"
@@ -44,12 +44,12 @@ const SidebarItem = ({ item, onLogout }) => {
                     {item.icon}
                     {item.label}
                 </button>
-            </motion.div>
+            </Motion.div>
         );
     }
 
     return (
-        <motion.div variants={itemVariants}>
+        <Motion.div variants={itemVariants}>
             <NavLink
                 to={item.path}
                 className={({ isActive }) =>
@@ -63,7 +63,7 @@ const SidebarItem = ({ item, onLogout }) => {
                 {item.icon}
                 {item.label}
             </NavLink>
-        </motion.div>
+        </Motion.div>
     );
 };
 
@@ -71,15 +71,14 @@ const DashboardSidebar = () => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        // Xóa dữ liệu đăng nhập
         localStorage.removeItem('token');
         localStorage.removeItem('userId');
-        localStorage.removeItem('userRole'); // nếu có lưu role
+        localStorage.removeItem('userRole');
         navigate('/login', { replace: true });
     }
 
     return (
-        <motion.aside
+        <Motion.aside
             className="w-64 bg-white flex flex-col border-r border-gray-200 shadow-sm max-h-screen sticky top-0"
             initial={{ x: -64 }}
             animate={{ x: 0 }}
@@ -97,7 +96,7 @@ const DashboardSidebar = () => {
                                 {group.group}
                             </h4>
                         )}
-                        <motion.div
+                        <Motion.div
                             initial="hidden"
                             animate="visible"
                             variants={{ visible: { transition: { staggerChildren: 0.05 } } }}
@@ -105,13 +104,13 @@ const DashboardSidebar = () => {
                             {group.items.map(item => (
                                 <SidebarItem key={item.label} item={item} />
                             ))}
-                        </motion.div>
+                        </Motion.div>
                     </div>
                 ))}
             </nav>
 
             <div className="mt-auto p-4 border-t border-gray-200 space-y-1">
-                <motion.div
+                <Motion.div
                     initial="hidden"
                     animate="visible"
                     variants={{ visible: { transition: { staggerChildren: 0.05 } } }}
@@ -119,9 +118,9 @@ const DashboardSidebar = () => {
                     {setting.items.map(item => (
                         <SidebarItem key={item.label} item={item} onLogout={handleLogout} />
                     ))}
-                </motion.div>
+                </Motion.div>
             </div>
-        </motion.aside>
+        </Motion.aside>
     );
 };
 

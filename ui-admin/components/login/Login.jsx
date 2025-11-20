@@ -1,9 +1,6 @@
-// LoginPage.jsx
 import React, { useState } from 'react';
-import axios from 'axios';
+import { apiClient, endpoints } from '../../src/api';
 import { useNavigate } from 'react-router-dom';
-
-const API_ACCOUNTS = "http://localhost:5000/accounts";
 
 const LoginPage = ({ onLogin }) => {
     const [email, setEmail] = useState('');
@@ -21,24 +18,23 @@ const LoginPage = ({ onLogin }) => {
         }
 
         try {
-            const res = await axios.post(`${API_ACCOUNTS}/login`, { email, password });
+            const res = await apiClient.post(`${endpoints.accounts}/login`, { email, password });
             
             const { token, user } = res.data;
-            
-            // 1. Lưu token và user info vào Local Storage
+
             localStorage.setItem('authToken', token);
             localStorage.setItem('userRole', user.role);
             localStorage.setItem('userId', user._id);
+            if (user.name) localStorage.setItem('userName', user.name);
+            if (user.email) localStorage.setItem('userEmail', user.email);
+            if (user.avatarUrl) localStorage.setItem('userAvatar', user.avatarUrl);
             
-            // 2. Gọi hàm onLogin từ App (nếu dùng Context)
             if (onLogin) onLogin(user);
 
-            // 3. Kiểm tra Role và điều hướng (Role Check)
             if (user.role === 'ADMIN') {
                 navigate('/admin/dashboard');
             } else {
-                // STUDENT hoặc Role khác
-                navigate('/login'); // Hoặc trang phù hợp khác
+                navigate('/login'); 
             }
 
         } catch (err) {

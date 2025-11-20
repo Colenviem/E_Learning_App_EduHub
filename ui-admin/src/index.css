@@ -4,3 +4,29 @@
 body {
   font-family: 'Inter', sans-serif;
 }
+
+/* Basic dark-mode overrides for common utilities (applies when <html> has .dark) */
+.dark body {
+  background-color: #0b1220 !important;
+  color: #e5e7eb !important;
+}
+
+/* Override common Tailwind utility backgrounds used across components */
+.dark .bg-white { background-color: #0b1220 !important; }
+.dark .bg-gray-50 { background-color: #071029 !important; }
+.dark .bg-gray-100 { background-color: #0f1724 !important; }
+.dark .bg-indigo-50 { background-color: #0f1724 !important; }
+
+.dark .text-gray-800, .dark .text-gray-900 { color: #e5e7eb !important; }
+.dark .text-gray-500 { color: #9ca3af !important; }
+.dark .border-gray-100 { border-color: #273244 !important; }
+
+/* Inputs and textareas */
+.dark input, .dark textarea, .dark select {
+  background-color: #071029 !important;
+  color: #e5e7eb !important;
+  border-color: #334155 !important;
+}
+
+/* Button accents */
+.dark .bg-indigo-600 { background-color: #4f46e5 !important; }
