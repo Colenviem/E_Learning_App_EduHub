@@ -224,7 +224,7 @@ export default function SourceLesson() {
         });
     };
 
-    const handleGoBack = () => router.back();
+    const handleGoBack = () => router.push('/(tabs)/home');
     
     const handleStartLearning = () => {
         if (courseSections.length > 0) {
