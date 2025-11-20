@@ -17,7 +17,7 @@ import {
 import { spacing } from '../../src/constants/theme';
 import { useTheme } from '../_layout';
 
-const API_BASE_URL = 'http://192.168.0.102:5000';
+import { API_BASE_URL } from '@/src/api';
 
 interface Course {
   id: string;

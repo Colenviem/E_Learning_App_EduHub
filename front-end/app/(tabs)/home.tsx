@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '@/src/api';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import axios from 'axios';
 import { Stack, useRouter } from 'expo-router';
@@ -13,9 +14,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { spacing, colors as themeColors } from '../../src/constants/theme';
 import { useTheme } from '../_layout';
 
-const API_COURSES = "http://192.168.0.102:5000/courses";
-const API_CATEGORIES = "http://192.168.0.102:5000/categories";
-const API_USERS = "http://192.168.0.102:5000/users";
+const API_COURSES = `${API_BASE_URL}/courses`;
+const API_CATEGORIES = `${API_BASE_URL}/categories`;
+const API_USERS = `${API_BASE_URL}/users`;
 
 const BANNERS = [
   "https://res.cloudinary.com/dixzxzdrd/image/upload/v1762585754/banner2_tlhzfa.jpg",

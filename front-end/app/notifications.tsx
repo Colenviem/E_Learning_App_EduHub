@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '@/src/api';
 import { FontAwesome } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -7,7 +8,7 @@ import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { spacing } from '../src/constants/theme';
 import { useTheme } from './_layout';
 
-const API = "http://192.168.0.102:5000/notifications";
+const API = `${API_BASE_URL}/notifications`;
 
 export default function NotificationsScreen() {
   const router = useRouter();

@@ -6,7 +6,7 @@ import React, { ReactNode, useCallback, useState } from 'react';
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useTheme } from '../../_layout';
 
-const API_BASE_URL = 'http://192.168.0.102:5000';
+import { API_BASE_URL } from '@/src/api';
 
 type TheThongKeProps = { giaTri: string; nhan: string };
 type ThucNangItemProps = { icon: ReactNode; tieuDe: string; phuDe?: string; onPress: () => void };

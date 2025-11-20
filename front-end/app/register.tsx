@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '@/src/api';
 import axios from 'axios';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
@@ -16,7 +17,7 @@ import {
   View,
 } from 'react-native';
 
-const API_ACCOUNT = "http://192.168.0.102:5000/accounts";
+const API_ACCOUNT = `${API_BASE_URL}/accounts`;
 
 export default function Register() {
   const [name, setName] = useState('');

@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '@/src/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { router, Stack, useLocalSearchParams } from 'expo-router';
@@ -19,7 +20,6 @@ import {
 } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import IonIcon from 'react-native-vector-icons/Ionicons';
-
 import EnrollmentModal from '../src/components/EnrollmentModal';
 import PaymentModal from '../src/components/PaymentModal';
 import { useTheme } from './_layout';
@@ -28,7 +28,6 @@ if (Platform.OS === 'android') {
     UIManager.setLayoutAnimationEnabledExperimental?.(true);
 }
 
-const API_BASE_URL = 'http://192.168.0.102:5000';
 const API_COURSES = `${API_BASE_URL}/courses`;
 const API_LESSONS = `${API_BASE_URL}/lessons`;
 const API_ORDERS = `${API_BASE_URL}/orders`;
@@ -278,12 +277,9 @@ export default function SourceLesson() {
 
             let list = user.coursesInProgress || [];
 
-            let existing = list.find((item: any) => item.courseId === courseId);
+            let existing = list.find((item : any) => item.courseId === courseId);
 
             if (existing) {
-                if (existing.isFavorite === undefined) {
-                    existing.isFavorite = false;
-                }
                 existing.isFavorite = !existing.isFavorite;
             } else {
                 list.push({
@@ -297,11 +293,13 @@ export default function SourceLesson() {
                 });
             }
 
-            await axios.patch(`${API_BASE_URL}/users/${user._id}`, {
-                coursesInProgress: list,
-            });
+            await axios.patch(
+                `${API_BASE_URL}/users/byAccount/${user.accountId}/courses`,
+                { coursesInProgress: list }
+            );
 
             setIsSaved((prev) => !prev);
+
         } catch (error) {
             console.error("Error saving course:", error);
         }

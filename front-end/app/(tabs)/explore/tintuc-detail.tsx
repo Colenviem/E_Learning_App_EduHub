@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '@/src/api';
 import { Entypo, Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
@@ -34,7 +35,7 @@ export default function TintucDetail() {
   const [liked, setLiked] = useState(false);
   const [commentText, setCommentText] = useState('');
 
-  const API_BASE_URL = 'http://192.168.0.102:5000';
+  
 
   useLayoutEffect(() => {
     const parent = navigation.getParent();
@@ -89,7 +90,7 @@ export default function TintucDetail() {
 const handleLike = async () => {
   try {
     setLiked(prev => !prev);
-    const res = await fetch(`http://${API_BASE_URL}/news/${newsId}/like`, {
+    const res = await fetch(`${API_BASE_URL}/news/${newsId}/like`, {
       method: 'PUT',
     });
     if (!res.ok) throw new Error('Lỗi khi like');
@@ -109,7 +110,7 @@ const handleAddComment = async () => {
       text: commentText.trim(),
     };
 
-    const res = await fetch(`http://${API_BASE_URL}/news/${newsId}/comment`, {
+    const res = await fetch(`${API_BASE_URL}/news/${newsId}/comment`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newComment),

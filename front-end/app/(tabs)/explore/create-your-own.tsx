@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '@/src/api';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from "expo-image-picker";
 import { Stack, router } from "expo-router";
@@ -19,7 +20,7 @@ export default function CreateYourOwn() {
   const [image, setImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const SERVER_URL = "http://192.168.0.102:5000/posts";
+  const SERVER_URL = `${API_BASE_URL}/posts`;
 
   const CLOUD_NAME = "CLOUD_NAME";
   const UPLOAD_PRESET = "UPLOAD_PRESET";

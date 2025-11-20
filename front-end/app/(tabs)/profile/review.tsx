@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { useTheme } from '../../_layout';
 
-const API_BASE_URL = 'http://192.168.0.102:5000';
+import { API_BASE_URL } from '@/src/api';
 
 export default function OnTapScreen() {
   const [loading, setLoading] = useState(true);

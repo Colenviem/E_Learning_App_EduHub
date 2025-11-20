@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '@/src/api';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -56,7 +57,7 @@ const SuggestionSection: React.FC<{ colors?: SuggestionCardProps['colors'] }> = 
   useEffect(() => {
     const fetchTopRatedCourses = async () => {
       try {
-        const res = await fetch('http://192.168.0.102:5000/courses/top-rated');
+        const res = await fetch(`${API_BASE_URL}/courses/top-rated`);
         const data = await res.json();
         setCourses(data);
       } catch (err) {

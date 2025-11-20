@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '@/src/api';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRouter } from 'expo-router';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
@@ -81,7 +82,7 @@ export default function TinTuc() {
   const [categories, setCategories] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('Tất cả');
 
-  const SERVER_URL = "http://192.168.0.102:5000";
+  
   
   const handleGoBack = () => router.back();
 
@@ -106,7 +107,7 @@ export default function TinTuc() {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const res = await fetch(`${SERVER_URL}/news`);
+        const res = await fetch(`${API_BASE_URL}/news`);
         const data: NewsItem[] = await res.json();
         setNewsData(data);
 

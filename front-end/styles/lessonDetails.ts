@@ -80,8 +80,8 @@ export const Button = styled.TouchableOpacity<IButtonProps>`
   width: 163px;
   height: 56px;
   border-radius: 40px;
-  background-color: ${(props) => (props.white ? '#F0EDF5' : '#FF6680')};
-  ${(props) =>
+  background-color: ${(props : any) => (props.white ? '#F0EDF5' : '#FF6680')};
+  ${(props : any) =>
     props.white &&
     css`
       margin-right: 15px;

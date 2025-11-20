@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '@/src/api';
 import axios from 'axios';
 import { ResizeMode, Video } from 'expo-av';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
@@ -19,8 +20,8 @@ const COLORS = {
   buttonBg: '#EAF4FF',
 };
 
-const LESSON_API = "http://192.168.0.102:5000/lessons";
-const LESSON_DETAIL_API = "http://192.168.0.102:5000/lesson-details";
+const LESSON_API = `${API_BASE_URL}/lessons`;
+const LESSON_DETAIL_API = `${API_BASE_URL}/lesson-details`;
 
 export default function ExerciseDetails() {
   const { id, courseId } = useLocalSearchParams();

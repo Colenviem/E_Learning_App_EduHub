@@ -1,4 +1,6 @@
+import { API_BASE_URL } from '@/src/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   Alert,
@@ -12,7 +14,7 @@ import {
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import axios from 'axios';
+const API = `${API_BASE_URL}/orders`;
 
 export const COLORS = {
   background: '#FFFFFF',
@@ -33,7 +35,7 @@ type paymentMethodProps = {
   courseId: string;       
 };
 
-const API = "http://192.168.0.102:5000/orders";
+
 
 export default function PaymentModal({ 
   visible, 

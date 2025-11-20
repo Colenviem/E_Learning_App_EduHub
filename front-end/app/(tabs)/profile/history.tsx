@@ -14,7 +14,7 @@ import {
     View
 } from 'react-native';
 
-const API_BASE_URL = 'http://192.168.0.102:5000';
+import { API_BASE_URL } from '@/src/api';
 
 export default function LichSuScreen() {
     const router = useRouter();

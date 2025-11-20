@@ -26,7 +26,7 @@ const MAU = {
   accent: "#5E72E4",
 };
 
-const API_BASE_URL = "http://192.168.0.102:5000";
+import { API_BASE_URL } from '@/src/api';
 
 export default function HeatMapStats() {
   const router = useRouter();
