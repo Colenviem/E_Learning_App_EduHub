@@ -196,4 +196,20 @@ router.get("/me", authMiddleware, async (req, res) => {
   res.json(user);
 });
 
+// ==================== UPDATE ====================
+router.put("/:id", async (req, res) => {
+  try {
+    const accountId = req.params.id;
+    const updates = req.body;
+    const account = await Account.findByIdAndUpdate(accountId, updates, { new: true });
+    if (!account) {
+      return res.status(404).json({ message: "Account không tìm thấy" });
+    }
+    res.json({ message: "Cập nhật thành công", account });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Lỗi server" });
+  }
+});
+
 module.exports = router;

@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
-import { FiEdit, FiSearch } from "react-icons/fi";
+import { FiEdit, FiSearch, FiX } from "react-icons/fi";
 import axios from "axios";
 import Spinner from "../spinner/Spinner";
 
-const LESSON_API = "http://localhost:5000/lessons";
-const QUIZZ_API = "http://localhost:5000/quizzes";
+const API_COURSES = "http://localhost:5000/courses";
+const API_LESSONS = "http://localhost:5000/lessons";
+const API_LESSON_DETAILS = "http://localhost:5000/lesson-details";
+const IMAGE_DEFAULT = "https://i.pinimg.com/736x/57/89/d9/5789d95d55ce358b93a99bbab84e3df7.jpg";
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -24,7 +26,7 @@ const formatDate = (dateString) =>
     });
 
 // ---------------------------------- QUIZ ITEM ------------------------------------
-const QuizItem = ({ quiz, onChange }) => {
+const QuizItem = ({ quiz, onChange, onRemove }) => {
     const handleQuestionChange = (e) => onChange({ ...quiz, question: e.target.value });
 
     const handleOptionChange = (idx, value) => {
@@ -42,35 +44,58 @@ const QuizItem = ({ quiz, onChange }) => {
     };
 
     return (
-        <div className="border border-gray-300 rounded-lg p-4 bg-white mb-4">
+        <div className="border border-indigo-200 rounded-xl p-4 bg-indigo-50/50 mb-3 shadow-sm hover:shadow-md transition-shadow relative">
+            
+            {/* Nút XÓA QUIZ */}
+            {onRemove && (
+                <button
+                    type="button"
+                    className="absolute top-2 right-2 text-red-500 hover:text-white p-1 rounded-full hover:bg-red-500 transition-colors z-10"
+                    onClick={onRemove}
+                    title="Xóa Quiz này"
+                >
+                    <FiX size={16} />
+                </button>
+            )}
+
+            {/* Câu hỏi */}
             <input
                 type="text"
                 value={quiz.question}
                 onChange={handleQuestionChange}
-                className="w-full border border-gray-300 rounded-lg p-2 mb-3 text-sm"
-                placeholder="Câu hỏi"
+                className="w-full border-b-2 border-indigo-400 bg-transparent rounded-none p-2 mb-3 text-sm font-semibold placeholder-gray-500 focus:outline-none focus:border-indigo-600 transition-colors"
+                placeholder="Nhập câu hỏi tại đây..."
             />
 
-            {quiz.options?.map((opt, i) => (
-                <div key={i} className="flex items-center gap-2 mb-2">
-                    <input
-                        type="text"
-                        value={opt.option}
-                        onChange={(e) => handleOptionChange(i, e.target.value)}
-                        className="flex-1 border border-gray-300 rounded-lg p-2 text-sm"
-                        placeholder={`Option ${i + 1}`}
-                    />
+            {/* Các đáp án */}
+            <div className='space-y-2'>
+                {quiz.options?.map((opt, i) => (
+                    <div key={i} className={`flex items-center gap-3 p-2 rounded-lg transition-colors ${opt.correct ? "bg-green-100/70 border border-green-300" : "bg-gray-50 border border-gray-200"}`}>
+                        
+                        {/* Radio Button */}
+                        <label className="flex items-center cursor-pointer">
+                            <input
+                                type="radio"
+                                checked={opt.correct}
+                                onChange={() => handleCorrectChange(i)}
+                                className="form-radio h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300"
+                            />
+                        </label>
 
-                    <label className="flex items-center gap-1 text-xs">
+                        {/* Đáp án Input */}
                         <input
-                            type="radio"
-                            checked={opt.correct}
-                            onChange={() => handleCorrectChange(i)}
+                            type="text"
+                            value={opt.option}
+                            onChange={(e) => handleOptionChange(i, e.target.value)}
+                            className="flex-1 bg-transparent text-sm border-none focus:ring-0 p-0"
+                            placeholder={`Đáp án ${i + 1}`}
                         />
-                        Đúng
-                    </label>
-                </div>
-            ))}
+                        
+                        {/* Label Đúng */}
+                        {opt.correct && <span className="text-xs font-bold text-green-700 px-2 py-0.5 rounded-full bg-green-200">ĐÚNG</span>}
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };
@@ -80,67 +105,105 @@ const LessonsTable = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [lessonsData, setLessonsData] = useState([]);
     const [editingLesson, setEditingLesson] = useState(null);
-    const [lessonQuizz, setLessonQuizz] = useState([]);
+    const [lessonDetails, setLessonDetails] = useState([]);
+    const [coursesData, setCoursesData] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [loading, setLoading] = useState(true);
 
     // load lessons
-    const fetchLessons = async () => {
+    const fetchLessons = useCallback(async () => {
         setLoading(true);
         try {
-            const res = await axios.get(LESSON_API);
+            const res = await axios.get(API_LESSONS);
             setLessonsData(res.data);
         } catch (err) {
             console.error("Không thể load lessons", err);
         }
         setLoading(false);
-    };
+    }, []);
+
+    const fetchCourses = useCallback(async () => {
+        try {
+            const res = await axios.get(API_COURSES);
+            setCoursesData(res.data);
+        } catch (err) {
+            console.error("Không thể load courses", err);
+        }
+    }, []);
 
     useEffect(() => {
         fetchLessons();
-    }, []);
+        fetchCourses();
+    }, [fetchLessons, fetchCourses]);
 
-    // Load quiz khi chọn lesson
-    useEffect(() => {
-        const fetchLessonQuiz = async () => {
-            if (!editingLesson) return;
-
-            try {
-                const res = await axios.get(`${QUIZZ_API}?lessonId=${editingLesson._id}`);
-                setLessonQuizz(res.data);
-            } catch (err) {
-                console.error("Cannot load quiz:", err);
-            }
-        };
-
-        fetchLessonQuiz();
-    }, [editingLesson]);
-
-    const filteredLessons = lessonsData.filter(
-        (l) =>
-            l._id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            l.title.toLowerCase().includes(searchQuery.toLowerCase())
+    const filteredLessons = searchQuery.trim() === "" 
+        ? lessonsData 
+        : lessonsData.filter(lesson =>
+            lesson._id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            lesson.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    // SAVE updates
-    const handleSave = async () => {
-        if (!editingLesson) return;
-
+    const handleOpenModal = async (lesson) => {
+        setEditingLesson(lesson);
         try {
-            // update lesson
-            await axios.put(`${LESSON_API}/${editingLesson._id}`, editingLesson);
-
-            // update each quiz
-            await Promise.all(
-                lessonQuizz.map((q) =>
-                    axios.put(`${QUIZZ_API}/${q._id}`, q)
-                )
-            );
-
-            fetchLessons();
-            setIsModalOpen(false);
+            const res = await axios.get(`${API_LESSON_DETAILS}/${lesson._id}`);
+            setLessonDetails(res.data);
         } catch (err) {
-            console.error("Lỗi khi lưu:", err);
+            console.error("Không thể load lesson details", err);
+        }
+        setIsModalOpen(true);
+    };
+
+    const handleRemoveTask = (detailIdx, taskIdx) => {
+        const newDetails = [...lessonDetails];
+        newDetails[detailIdx].tasks.splice(taskIdx, 1);
+        setLessonDetails(newDetails);
+    };
+
+    const handleRemoveQuiz = (detailIdx, quizId) => {
+        const newDetails = [...lessonDetails];
+        const updatedQuizzes = newDetails[detailIdx].quizzes.filter(q => q._id !== quizId);
+        newDetails[detailIdx].quizzes = updatedQuizzes;
+        setLessonDetails(newDetails);
+    };
+
+    const handleSave = async () => {
+        setLoading(true); // Thêm loading state để người dùng biết đang xử lý
+        try {
+            // Bước 1: Gửi request PUT
+            // Backend nhận editingLesson (bao gồm courseId, title, content) và lessonDetails
+            const res = await axios.put(`${API_LESSONS}/${editingLesson._id}`, {
+                ...editingLesson,
+                lessonDetails,
+            });
+
+            // Bước 2: Trích xuất dữ liệu đã cập nhật từ phản hồi của server
+            // Dựa trên code backend, server trả về { lesson, lessonDetails }
+            const { lesson: updatedLesson, lessonDetails: updatedLessonDetails } = res.data;
+            
+            // ❗ Sửa lỗi: Đảm bảo có updatedLesson và nó có _id
+            if (!updatedLesson || !updatedLesson._id) {
+                throw new Error("Server response missing updated lesson data.");
+            }
+
+            // Bước 3: Cập nhật lessonsData trong state (Front-end)
+            const updatedLessons = lessonsData.map(l =>
+                l._id === updatedLesson._id ? updatedLesson : l
+            );
+            setLessonsData(updatedLessons);
+
+            // Cập nhật lessonDetails (cho state hiện tại, nếu cần)
+            setLessonDetails(updatedLessonDetails);
+            
+            // Bước 4: Đóng modal và kết thúc
+            setIsModalOpen(false);
+            alert(`Lưu bài học "${updatedLesson.title}" thành công!`);
+
+        } catch (err) {
+            console.error("Lỗi khi lưu bài học:", err.response?.data || err.message);
+            alert('Lỗi khi lưu bài học! Chi tiết xem console log.');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -163,24 +226,30 @@ const LessonsTable = () => {
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
-                        <button className="bg-indigo-600 w-24 text-center cursor-pointer text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-700 transition-colors flex items-center gap-2">
-                            <FiSearch size={16} /> Tìm
+                        <button 
+                            className="bg-indigo-600 w-24 text-center cursor-pointer text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-700 transition-colors flex items-center gap-2"
+                            onClick={() => {
+                                setSearchQuery("");
+                                fetchLessons();
+                            }}    
+                        >
+                            <FiSearch size={16} /> 
+                            { searchQuery ? "Xóa" : "Tìm" }
                         </button>
                     </div>
                 </div>
 
                 {/* Table */}
                 <div className="overflow-x-auto">
-                    <table className="w-full table-auto text-sm text-left border-collapse">
-                        <thead className="bg-gray-50 text-gray-500 uppercase text-xs border-b border-gray-200">
+                    <table className="w-full table-auto text-sm text-left border-collapse rounded-xl overflow-hidden shadow-lg border border-gray-100">
+                        <thead className="bg-indigo-50/70 text-indigo-800 uppercase text-xs font-bold border-b border-indigo-200 sticky top-0">
                             <tr>
-                                <th className="py-3 px-4">Mã bài học</th>
-                                <th className="py-3 px-4">Khóa học</th>
+                                <th className="py-3 px-4 whitespace-nowrap">Mã bài học</th>
                                 <th className="py-3 px-4">Tiêu đề</th>
-                                <th className="py-3 px-4">Video</th>
-                                <th className="py-3 px-4 text-center">Số câu hỏi</th>
-                                <th className="py-3 px-4">Ngày tạo</th>
-                                <th className="py-3 px-4 text-center">Hành động</th>
+                                <th className="py-3 px-4 text-center">Thời gian</th>
+                                <th className="py-3 px-4 text-center whitespace-nowrap">Số lượng bài học</th>
+                                <th className="py-3 px-4 whitespace-nowrap">Ngày tạo</th>
+                                <th className="py-3 px-4 text-center w-20">Hành động</th>
                             </tr>
                         </thead>
 
@@ -189,39 +258,44 @@ const LessonsTable = () => {
                                 <motion.tr
                                     key={lesson._id}
                                     variants={rowVariants}
-                                    className="border-t border-gray-100 hover:bg-gray-50 transition-colors"
+                                    className="border-b border-gray-100 last:border-b-0 hover:bg-indigo-50 transition-colors duration-200"
                                 >
-                                    <td className="py-3 px-4">{lesson._id}</td>
-                                    <td className="py-3 px-4">{lesson.courseId}</td>
-                                    <td className="py-3 px-4">{lesson.title}</td>
-
+                                    {/* Mã bài học */}
+                                    <td className="py-3 px-4 text-gray-700 font-medium tracking-wider">{lesson._id}</td>
+                                    
+                                    {/* Tiêu đề & Ảnh */}
                                     <td className="py-3 px-4">
-                                        {lesson.videoUrl ? (
-                                            <a
-                                                href={lesson.videoUrl}
-                                                target="_blank"
-                                                rel="noreferrer"
-                                                className="text-indigo-600 underline"
-                                            >
-                                                Xem video
-                                            </a>
-                                        ) : (
-                                            "-"
-                                        )}
+                                        <div className="flex items-center gap-3">
+                                            <img
+                                                src={lesson.image || IMAGE_DEFAULT}
+                                                alt={lesson.title}
+                                                className="w-10 h-10 object-cover rounded-md shadow-sm border border-gray-200"
+                                            />
+                                            <span className="font-semibold text-gray-900 truncate max-w-xs">{lesson.title}</span>
+                                        </div>
                                     </td>
 
-                                    <td className="py-3 px-4 text-center">{lesson.quizIds.length}</td>
+                                    {/* Thời gian */}
+                                    <td className="py-3 px-4 text-center text-gray-700 font-medium">{lesson.time}</td>
+                                    
+                                    {/* Số lượng bài học */}
+                                    <td className="py-3 px-4 text-center text-gray-600">
+                                        <span className="bg-gray-200/50 px-3 py-1 rounded-full text-xs font-medium">
+                                            {lesson.numberOfLessons}
+                                        </span>
+                                    </td>
 
-                                    <td className="py-3 px-4 text-gray-600 whitespace-nowrap">
+                                    {/* Ngày tạo */}
+                                    <td className="py-3 px-4 text-gray-500 whitespace-nowrap">
                                         {formatDate(lesson.createdAt)}
                                     </td>
 
+                                    {/* Hành động */}
                                     <td className="py-3 px-4 text-center">
                                         <button
-                                            className="p-2 text-indigo-600 hover:text-indigo-800 rounded-full hover:bg-indigo-100 transition-colors cursor-pointer"
+                                            className="p-2 text-indigo-600 hover:text-white rounded-full hover:bg-indigo-600 transition-colors duration-200 cursor-pointer"
                                             onClick={() => {
-                                                setEditingLesson(lesson);
-                                                setIsModalOpen(true);
+                                                handleOpenModal(lesson);
                                             }}
                                         >
                                             <FiEdit className="w-4 h-4" />
@@ -236,85 +310,180 @@ const LessonsTable = () => {
 
             {/* Modal Edit */}
             {isModalOpen && editingLesson && (
-                <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-50 overflow-y-auto py-10">
-                    <div className="bg-white rounded-xl shadow-lg w-full max-w-4xl p-6 relative">
-                        <h3 className="text-xl font-semibold mb-4 text-center">Chỉnh sửa bài học</h3>
+                <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-start justify-center z-50 overflow-y-auto py-10">
+                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-5xl p-8 relative transform transition-all duration-300">
+                        <h3 className="text-2xl font-bold mb-6 text-gray-800 border-b pb-3 text-center">
+                            🛠️ Chỉnh sửa Bài học: {editingLesson.title}
+                        </h3>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {/* LEFT */}
-                            <div className="flex flex-col gap-3">
-                                <label className="text-sm font-medium">Tiêu đề</label>
+                        {/* MAIN GRID: Lesson Details (Left) and Quizzes/Tasks (Right) */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            {/* 1. LEFT COLUMN: Main Lesson Content (Giữ nguyên) */}
+                            <div className="flex flex-col gap-4">
+                                <h4 className="text-lg font-semibold text-indigo-700">Thông tin cơ bản</h4>
+
+                                <label className="text-sm font-semibold text-gray-700">Khóa học</label>
+                                <select
+                                    className="border border-gray-300 rounded-xl p-3 text-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"
+                                    value={editingLesson.courseId}
+                                    onChange={(e) =>
+                                        setEditingLesson({ ...editingLesson, courseId: e.target.value })
+                                    }
+                                >
+                                    <option value="">-- Chọn khóa học --</option>
+                                    {coursesData.map((course) => (
+                                        <option key={course._id} value={course._id}>
+                                            {course.title}
+                                        </option>
+                                    ))}
+                                </select>
+
+                                {/* Tiêu đề */}
+                                <label className="text-sm font-semibold text-gray-700">Tiêu đề</label>
                                 <input
                                     type="text"
-                                    className="border border-gray-300 rounded-lg p-2 text-sm"
+                                    className="border border-gray-300 rounded-xl p-3 text-sm focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"
                                     value={editingLesson.title}
                                     onChange={(e) =>
                                         setEditingLesson({ ...editingLesson, title: e.target.value })
                                     }
                                 />
 
-                                <label className="text-sm font-medium">Nội dung</label>
+                                {/* Nội dung */}
+                                <label className="text-sm font-semibold text-gray-700">Nội dung</label>
                                 <textarea
-                                    className="border border-gray-300 rounded-lg p-2 text-sm h-40 resize-none"
+                                    className="border border-gray-300 rounded-xl p-3 text-sm min-h-[150px] resize-y focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"
                                     value={editingLesson.content}
                                     onChange={(e) =>
                                         setEditingLesson({ ...editingLesson, content: e.target.value })
                                     }
                                 />
-
-                                <label className="text-sm font-medium">Video URL</label>
-                                <input
-                                    type="text"
-                                    className="border border-gray-300 rounded-lg p-2 text-sm"
-                                    value={editingLesson.videoUrl}
-                                    onChange={(e) =>
-                                        setEditingLesson({
-                                            ...editingLesson,
-                                            videoUrl: e.target.value,
-                                        })
-                                    }
-                                />
-
-                                {editingLesson.videoUrl && (
-                                    <video
-                                        src={editingLesson.videoUrl}
-                                        controls
-                                        className="w-full h-60 rounded-lg border mt-2"
-                                    />
-                                )}
                             </div>
 
-                            {/* RIGHT QUIZ */}
-                            <div className="overflow-y-auto max-h-[80vh] pr-2">
-                                <h4 className="text-sm font-medium mb-3">Câu hỏi bài quiz</h4>
+                            {/* 2. RIGHT COLUMN: Tasks and Quizzes (Scrollable Area) */}
+                            <div className="flex flex-col gap-4">
+                                <h4 className="text-lg font-semibold text-green-700 border-b pb-2">Nội dung chi tiết & Bài tập</h4>
+                                
+                                {/* Scrollable Container */}
+                                <div className="bg-gray-50 p-4 rounded-xl max-h-[60vh] overflow-y-auto space-y-6">
+                                    {/* Duyệt qua các Lesson Details (mỗi detail là một phần nội dung/quiz) */}
+                                    {lessonDetails && lessonDetails.map((detail, idx) => (
+                                        <div key={idx} className="p-5 border border-gray-200 rounded-xl bg-white shadow-md">
 
-                                {lessonQuizz.map((quizItem, idx) => (
-                                    <QuizItem
-                                        key={quizItem._id}
-                                        quiz={quizItem}
-                                        onChange={(updatedQuiz) => {
-                                            const newArr = [...lessonQuizz];
-                                            newArr[idx] = updatedQuiz;
-                                            setLessonQuizz(newArr);
-                                        }}
-                                    />
-                                ))}
+                                            <h5 className="font-extrabold text-base text-gray-900 mb-4 border-b pb-2 flex justify-between items-center">
+                                                <span>Chi Tiết Nội Dung #{idx + 1}</span>
+                                                {/* Thêm nút xóa chi tiết ở đây nếu cần */}
+                                            </h5>
+
+                                            {/* 📹 Video Preview & URL Input */}
+                                            <div className="mb-4">
+                                                <label className="text-sm font-semibold text-gray-700 mb-2 block">Video URL</label>
+                                                <input
+                                                    type="text"
+                                                    value={detail.videoUrl || ''}
+                                                    placeholder="Link video MP4/URL..."
+                                                    className="w-full border border-gray-300 rounded-xl p-2.5 text-sm focus:border-indigo-500 transition duration-150 mb-2"
+                                                    onChange={(e) => {
+                                                        const newDetails = [...lessonDetails];
+                                                        newDetails[idx].videoUrl = e.target.value;
+                                                        setLessonDetails(newDetails);
+                                                    }}
+                                                />
+                                                {detail.videoUrl && (
+                                                    <video
+                                                        src={detail.videoUrl}
+                                                        controls
+                                                        className="w-full rounded-lg shadow-sm"
+                                                    />
+                                                )}
+                                            </div>
+                                            
+                                            {/* 📝 Task List */}
+                                            <label className="text-sm font-semibold text-gray-700 mt-4 pt-3 border-t block">Mục tiêu bài học (Tasks)</label>
+                                            <div className="space-y-2 mt-2">
+                                                {detail.tasks && detail.tasks.map((task, tIdx) => (
+                                                    <div key={tIdx} className="flex items-center gap-2">
+                                                        <span className="text-indigo-500 text-lg">▪</span>
+                                                        <input
+                                                            type="text"
+                                                            className="border border-gray-200 rounded-lg p-2 text-sm flex-1 focus:border-indigo-500"
+                                                            value={task}
+                                                            onChange={(e) => {
+                                                                const newDetails = [...lessonDetails];
+                                                                newDetails[idx].tasks[tIdx] = e.target.value;
+                                                                setLessonDetails(newDetails);
+                                                            }}
+                                                        />
+                                                        <button
+                                                            type="button"
+                                                            className="text-red-500 hover:text-red-700 p-1 rounded-full hover:bg-red-50 transition-colors"
+                                                            onClick={() => handleRemoveTask(idx, tIdx)}
+                                                        >
+                                                            <FiX size={14} />
+                                                        </button>
+                                                    </div>
+                                                ))}
+                                                {/* Nút thêm Task mới */}
+                                            </div>
+
+                                            {/* ❓ Quiz Items */}
+                                            <label className="text-sm font-semibold text-gray-700 mt-6 pt-4 border-t block">Bài kiểm tra (Quizzes)</label>
+                                            {detail.quizzes && detail.quizzes.map((quiz, qIdx) => (
+                                                <QuizItem
+                                                    key={quiz._id || qIdx} // Sử dụng _id nếu có, nếu không dùng qIdx
+                                                    quiz={quiz}
+                                                    // Truyền hàm xóa quiz xuống component QuizItem
+                                                    onRemove={() => handleRemoveQuiz(idx, quiz._id)} 
+                                                    onChange={(updatedQuiz) => {
+                                                        const newQuizzes = [...detail.quizzes];
+                                                        newQuizzes[qIdx] = updatedQuiz;
+                                                        const newDetails = [...lessonDetails];
+                                                        newDetails[idx].quizzes = newQuizzes;
+                                                        setLessonDetails(newDetails);
+                                                    }}
+                                                />
+                                            ))}
+                                            
+                                            {/* Nút thêm Quiz (Đã tối ưu CSS) */}
+                                            <button
+                                                className="mt-4 px-4 py-2 text-sm bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-colors shadow-sm font-medium flex items-center gap-2"
+                                                onClick={() => {
+                                                    const newDetails = [...lessonDetails];
+                                                    newDetails[idx].quizzes.push({
+                                                        _id: `QUIZ_${Date.now()}`,
+                                                        question: "Câu hỏi mới",
+                                                        options: [
+                                                            { option: "Đáp án A", correct: false },
+                                                            { option: "Đáp án B", correct: false },
+                                                            { option: "Đáp án C", correct: false },
+                                                            { option: "Đáp án D", correct: true }, // Mặc định 1 đáp án đúng
+                                                        ],
+                                                    });
+                                                    setLessonDetails(newDetails);
+                                                }}
+                                            >
+                                                + Thêm Quiz mới
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
 
-                        <div className="mt-6 flex justify-end gap-3">
+                        {/* Action Buttons (Giữ nguyên phong cách tối ưu) */}
+                        <div className="mt-8 pt-4 border-t flex justify-end gap-3">
                             <button
-                                className="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 transition cursor-pointer"
+                                className="px-5 py-2 rounded-xl bg-gray-200 text-gray-700 font-medium hover:bg-gray-300 transition-colors duration-150"
                                 onClick={() => setIsModalOpen(false)}
                             >
                                 Hủy
                             </button>
 
                             <button
-                                className="px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition cursor-pointer"
+                                className="px-5 py-2 rounded-xl bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition-colors duration-150 shadow-md shadow-indigo-200/50"
                                 onClick={handleSave}
                             >
-                                Lưu
+                                Lưu thay đổi
                             </button>
                         </div>
                     </div>

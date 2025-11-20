@@ -30,6 +30,8 @@ const AccountsTable = () => {
     const [editingAccount, setEditingAccount] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [loading, setLoading] = useState(true);
+    const roles = ["STUDENT", "TEACHER", "ADMIN"];
+    const actions = ["active", "inactive"];
 
     const fetchAccounts = useCallback(async () => {
         try {
@@ -47,9 +49,11 @@ const AccountsTable = () => {
         fetchAccounts();
     }, [fetchAccounts]);
 
-    const filteredAccounts = accountsData.filter(acc =>
-        acc._id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        acc.email.toLowerCase().includes(searchQuery.toLowerCase())
+    const filteredAccounts = searchQuery == ""
+        ? accountsData
+        : accountsData.filter(acc =>
+            acc._id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            acc.email.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     const handleSave = async () => {
@@ -82,9 +86,15 @@ const AccountsTable = () => {
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
-                        <button className="bg-indigo-600 w-24 text-center cursor-pointer text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-700 transition-colors flex items-center gap-2">
+                        <button 
+                            className="bg-indigo-600 w-24 text-center cursor-pointer text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-700 transition-colors flex items-center gap-2"
+                            onClick={() => {
+                                setSearchQuery("");
+                                fetchAccounts(); // ← LOAD LẠI FULL LIST
+                            }}
+                        >
                             <FiSearch size={16} />
-                            Tìm
+                            {searchQuery ? "Xóa" : "Tìm"}
                         </button>
                     </div>
                 </div>
@@ -154,9 +164,9 @@ const AccountsTable = () => {
                                 value={editingAccount.role}
                                 onChange={(e) => setEditingAccount({...editingAccount, role: e.target.value})}
                             >
-                                <option>student</option>
-                                <option>teacher</option>
-                                <option>admin</option>
+                                {roles.map(role => (
+                                    <option key={role} value={role}>{role}</option>
+                                ))}
                             </select>
 
                             <label className="text-sm font-medium">Trạng thái</label>
@@ -165,8 +175,9 @@ const AccountsTable = () => {
                                 value={editingAccount.status ? "Active" : "Inactive"}
                                 onChange={(e) => setEditingAccount({...editingAccount, status: e.target.value === "Active"})}
                             >
-                                <option>Active</option>
-                                <option>Inactive</option>
+                                {actions.map(action => (
+                                    <option key={action} value={action.charAt(0).toUpperCase() + action.slice(1)}>{action.charAt(0).toUpperCase() + action.slice(1)}</option>
+                                ))}
                             </select>
                         </div>
 

@@ -11,20 +11,20 @@ const menuStructure = [
         group: null,
         items: [
             { label: "Dashboard", icon: <FiHome />, path: "/" },
-            { label: "Users", icon: <FiUser />, path: "/users" },
-            { label: "Accounts", icon: <FiClipboard />, path: "/accounts" },
-            { label: "Courses", icon: <FiBookOpen />, path: "/courses" }, 
-            { label: "Lessons", icon: <FiList />, path: "/lessons" }, 
+            { label: "Người dùng", icon: <FiUser />, path: "/users" },
+            { label: "Tài khoản", icon: <FiClipboard />, path: "/accounts" },
+            { label: "Khóa học", icon: <FiBookOpen />, path: "/courses" }, 
+            { label: "Bài học", icon: <FiList />, path: "/lessons" }, 
             { label: "Categories", icon: <FiTag />, path: "/categories" },
-            { label: "Orders", icon: <FiDollarSign />, path: "/orders" }, 
+            { label: "Hóa đơn", icon: <FiDollarSign />, path: "/orders" }, 
         ],
     },
 ];
 
 const setting = {
     items: [
-        { label: "Settings", icon: <FiSettings />, path: "/setting" },
-        { label: "Logout", icon: <FiLogOut />, path: "/logout" },
+        { label: "Cài đặt", icon: <FiSettings />, path: "/setting" },
+        { label: "Đăng xuất", icon: <FiLogOut />, path: "/logout" },
     ]
 }
 
