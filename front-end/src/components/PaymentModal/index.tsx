@@ -9,7 +9,9 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
+  Image,
+  TextInput,
 } from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -47,6 +49,9 @@ export default function PaymentModal({
   const [selected, setSelected] = useState('credit_card');
   const modalAnim = useRef(new Animated.Value(0)).current;
   const [userId, setUserId] = useState<string | null>(null);
+  const [cardNumber, setCardNumber] = useState('');
+  const [cardExpiry, setCardExpiry] = useState('');
+  const [cardCvv, setCardCvv] = useState('');
   
   useEffect(() => {
     if (visible) {
@@ -74,7 +79,22 @@ export default function PaymentModal({
 
       console.log({ userId, courseId, amount: Number(amount), paymentMethod: selected });
 
-      const res = await axios.post(API, { userId, courseId, amount: Number(amount), paymentMethod: selected });
+      // Basic validation for credit card flow
+      if (selected === 'credit_card') {
+        const raw = cardNumber.replace(/\s+/g, '');
+        if (raw.length < 12) return Alert.alert('Lỗi', 'Số thẻ không hợp lệ');
+        if (!/^[0-9]{2}\/\d{2,4}$/.test(cardExpiry) && cardExpiry.length < 3) return Alert.alert('Lỗi', 'Ngày hết hạn không hợp lệ (MM/YY)');
+        if (cardCvv.replace(/\s+/g, '').length < 3) return Alert.alert('Lỗi', 'Mã CVV không hợp lệ');
+      }
+
+      // Prepare payload; include minimal metadata for card if available
+      const payload: any = { userId, courseId, amount: Number(amount), paymentMethod: selected };
+      if (selected === 'credit_card') {
+        const raw = cardNumber.replace(/\s+/g, '');
+        payload.paymentDetails = { cardLast4: raw.slice(-4) };
+      }
+
+      const res = await axios.post(API, payload);
 
       if (res.status === 200 || res.status === 201) {
         Alert.alert('Thành công', 'Thanh toán thành công!', [
@@ -131,6 +151,57 @@ export default function PaymentModal({
             </TouchableOpacity>
           ))}
 
+          {/* Credit card form */}
+          {selected === 'credit_card' && (
+            <View style={{ marginTop: 10 }}>
+              <TextInput
+                placeholder="Số thẻ"
+                keyboardType="numeric"
+                value={cardNumber}
+                onChangeText={setCardNumber}
+                style={{ borderWidth: 1, borderColor: COLORS.border, borderRadius: 10, padding: 10, marginBottom: 8, backgroundColor: COLORS.cardBg }}
+              />
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <TextInput
+                  placeholder="MM/YY"
+                  value={cardExpiry}
+                  onChangeText={setCardExpiry}
+                  style={{ flex: 1, borderWidth: 1, borderColor: COLORS.border, borderRadius: 10, padding: 10, marginBottom: 8, marginRight: 8, backgroundColor: COLORS.cardBg }}
+                />
+                <TextInput
+                  placeholder="CVV"
+                  keyboardType="numeric"
+                  value={cardCvv}
+                  onChangeText={setCardCvv}
+                  style={{ width: 100, borderWidth: 1, borderColor: COLORS.border, borderRadius: 10, padding: 10, marginBottom: 8, backgroundColor: COLORS.cardBg }}
+                />
+              </View>
+            </View>
+          )}
+
+          {/* QR view for e-wallet payments */}
+          {selected === 'e_wallet' && (
+            <View style={styles.qrContainer}>
+              <Text style={styles.qrTitle}>Quét mã QR để thanh toán</Text>
+              <Image
+                source={{ uri: `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(JSON.stringify({ userId, courseId, amount }))}` }}
+                style={styles.qrImage}
+              />
+              <Text style={styles.qrNote}>Mở ứng dụng ví (Momo, ZaloPay...) và quét mã QR để chuyển tiền. Sau khi chuyển xong, nhấn "Xác nhận thanh toán".</Text>
+            </View>
+          )}
+
+          {/* Bank transfer instructions */}
+          {selected === 'bank_transfer' && (
+            <View style={{ marginTop: 12, paddingHorizontal: 8 }}>
+              <Text style={{ fontWeight: '700', marginBottom: 6 }}>Chuyển khoản ngân hàng</Text>
+              <Text style={{ marginBottom: 4 }}>Ngân hàng: Ngân hàng Việt Nam</Text>
+              <Text style={{ marginBottom: 4 }}>Số tài khoản: 0123456789</Text>
+              <Text style={{ marginBottom: 6 }}>Chủ tài khoản: Công ty EduHub</Text>
+              <Text style={{ color: COLORS.textSecondary }}>Vui lòng chuyển đúng số tiền. Sau khi chuyển, nhấn "Xác nhận thanh toán" để hoàn tất.</Text>
+            </View>
+          )}
+
           <TouchableOpacity
             style={styles.continueButton}
             onPress={handleCompletePayment}>
@@ -175,4 +246,8 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
   },
   continueText: { fontSize: 16, fontWeight: '700', color: COLORS.background },
+  qrContainer: { alignItems: 'center', marginTop: 12, paddingHorizontal: 10 },
+  qrTitle: { fontSize: 16, fontWeight: '700', marginBottom: 8, textAlign: 'center' },
+  qrImage: { width: 200, height: 200, borderRadius: 12, marginBottom: 8 },
+  qrNote: { fontSize: 13, color: COLORS.textSecondary, textAlign: 'center' },
 });
