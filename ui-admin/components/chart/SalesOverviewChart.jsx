@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import axios from 'axios';
+import Spinner from '../spinner/Spinner';
 
 const API = "http://localhost:5000/orders";
 
@@ -13,12 +14,17 @@ const cardVariants = {
 function SalesOverviewChart() {
     const [orders, setOrders] = useState([]);
     const [selectedMonth, setSelectedMonth] = useState(null);
+    const [loading, setLoading] = useState(true);
+
     const fetchOrders = useCallback(async () => {
         try {
+            setLoading(true);
             const res = await axios.get(API);
             setOrders(res.data);
         } catch (err) { 
             console.error("Lỗi khi lấy dữ liệu đơn hàng:", err);
+        } finally {
+            setLoading(false);
         }
     }, []);
 
@@ -45,6 +51,10 @@ function SalesOverviewChart() {
 
     const data = useMemo(() => aggregateByDay(orders, selectedMonth), [orders, selectedMonth, aggregateByDay]);
 
+    if (loading) {
+        return <Spinner size={12} />;
+    }
+
     return (
         <motion.div 
             className="bg-white p-6 rounded-xl shadow-lg border border-gray-100"
@@ -54,7 +64,7 @@ function SalesOverviewChart() {
         >
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-semibold text-gray-800">
-                    Doanh thu theo ngày
+                    Doanh thu theo {selectedMonth ? `tháng ${selectedMonth}` : "tất cả tháng"}
                 </h2>
                 <select 
                     className="border border-gray-300 text-sm rounded-lg px-2 py-1 text-gray-600 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"
