@@ -95,20 +95,45 @@ export default function SavedScreen() {
     setLoading(true);
     try {
       const userId = await AsyncStorage.getItem('userId');
-      if (!userId) return console.warn('Chưa lưu userId');
+      if (!userId) {
+        setLoading(false);
+        return console.warn('Chưa lưu userId');
+      }
 
       const res = await fetch(`${API_BASE_URL}/users/byAccount/${userId}`);
       const userData = await res.json();
 
-      const favoriteCourses = userData.coursesInProgress
-        .filter((c: any) => c.isFavorite)
-        .map((c: any) => ({
-          id: c.courseId,
-          name: c.name || 'Khóa học',
-          image: c.image,
-          progress: c.progress,
-          isFavorite: c.isFavorite,
-        }));
+      const list = userData.coursesInProgress || [];
+
+      // Fetch course details for each saved course so we can show title/image reliably
+      const favoriteCourses = await Promise.all(
+        list
+          // Hiển thị nếu là favorite HOẶC đang có progress > 0 (đang học)
+          .filter((c: any) => c.isFavorite || (typeof c.progress === 'number' && c.progress > 0))
+          .map(async (c: any) => {
+            try {
+              const courseRes = await fetch(`${API_BASE_URL}/courses/${c.courseId}`);
+              const courseData = await courseRes.json();
+              return {
+                id: c.courseId,
+                name: courseData.title || courseData.name || 'Khóa học',
+                image: c.image || courseData.image,
+                progress: typeof c.progress === 'number' ? c.progress : 0,
+                isFavorite: !!c.isFavorite,
+              };
+            } catch (e) {
+              // Fallback to stored values if course API fails
+              return {
+                id: c.courseId,
+                name: c.name || 'Khóa học',
+                image: c.image,
+                progress: typeof c.progress === 'number' ? c.progress : 0,
+                isFavorite: !!c.isFavorite,
+              };
+            }
+          })
+      );
+
       setSavedCourses(favoriteCourses);
     } catch (err) {
       console.log('Lỗi load khóa học đã lưu:', err);

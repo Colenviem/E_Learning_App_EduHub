@@ -37,6 +37,7 @@ function Home() {
     background: isDarkMode ? '#121212' : '#F3F4F6',
     cardBg: isDarkMode ? '#1E1E1E' : '#FFF',
     text: isDarkMode ? '#FFF' : '#1A1A1A',
+    textLight: '#FFFFFF',
     subText: isDarkMode ? '#CCC' : '#555',
     primary: themeColors.primary,
     accent: themeColors.primary,
@@ -123,14 +124,13 @@ function Home() {
     <>
       <Stack.Screen options={{ headerShown: false }} />
 
-      <View style={[styles.headerContainer, { backgroundColor: colors.background }]}>
+      <View style={[styles.headerContainer, { backgroundColor: isDarkMode ? '#000' : colors.primary }]}>
         <View style={styles.headerTop}>
-          <Text style={[styles.greeting, { color: colors.primary }]}>EduHub</Text>
+          <Text style={[styles.greeting, { color: colors.textLight }]}>EduHub</Text>
           <TouchableOpacity onPress={() => router.push('../notifications')}>
-            <FontAwesome name="bell-o" size={24} color={colors.primary} />
+            <FontAwesome name="bell-o" size={24} color={colors.textLight} />
           </TouchableOpacity>
         </View>
-
 
         <View style={[styles.searchBar, { backgroundColor: isDarkMode ? '#2A2A2A' : '#F4F4F5' }]}>
           <FontAwesome name="search" size={16} color="#666" style={{ marginRight: 10 }} />
