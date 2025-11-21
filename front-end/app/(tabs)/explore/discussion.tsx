@@ -216,9 +216,6 @@ export default function Discussion() {
     );
 }
 
-/** ─────────────────────────────────────────
- *  STYLES
- *  ─────────────────────────────────────────*/
 const styles = StyleSheet.create({
     imageButton: {
         flexDirection: "row",

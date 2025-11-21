@@ -55,9 +55,16 @@ export default function Register() {
       setEmailError('Email không hợp lệ');
       hasError = true;
     }
-    const exists = await checkEmailExists();
-    if (exists) {
-      setEmailError("Email đã tồn tại");
+    const emailCheck = await checkEmailExists();
+    // if emailCheck === null -> request failed (timeout / network) so abort and show message
+    if (emailCheck === null) {
+      setEmailError('Không thể kiểm tra email lúc này. Vui lòng kiểm tra kết nối và thử lại.');
+      return;
+    }
+    // emailCheck is the full response data from server; expect { exists: boolean, message?: string }
+    console.log('Email check response:', emailCheck);
+    if (emailCheck.exists) {
+      setEmailError(emailCheck.message || "Email đã tồn tại");
       return;
     }
     if (!password) {
@@ -101,13 +108,14 @@ export default function Register() {
   const checkEmailExists = async () => {
     try {
       const response = await axios.get(`${API_ACCOUNT}/check-email`, {
-        params: { email }
+        params: { email: encodeURIComponent(email) },
+        timeout: 10000
       });
-      return response.data.exists;
+      console.log('check-email raw response:', response.data);
+      return response.data;
     } catch (error: any) {
-      // If 404 or other errors, assume email doesn't exist or server issue
-      console.error('Error checking email:', error.message);
-      return false;
+      console.error("Email check failed:", error.message);
+      return null;
     }
   };
 

@@ -1,5 +1,6 @@
 const express = require("express");
 const multer = require("multer");
+const os = require("os");  
 const cloudinary = require("cloudinary").v2;
 const fs = require("fs");
 const Post = require("../models/Post");
@@ -13,31 +14,31 @@ cloudinary.config({
   api_secret: process.env.CLOUD_API_SECRET,
 });
 
-// Multer lưu tạm file vào folder 'uploads/'
-const upload = multer({ dest: "uploads/" });
+const upload = multer({ dest: os.tmpdir() });
 
-// POST tạo bài viết kèm ảnh
-router.post("/", upload.single("image"), async (req, res) => {
+
+router.post("/", async (req, res) => {
   try {
-    const { topic, content } = req.body;
-    let imageUrl = null;
+    const { topic, content, image } = req.body;
 
-    if (req.file) {
-      const result = await cloudinary.uploader.upload(req.file.path, {
-        folder: "posts",
-      });
-      imageUrl = result.secure_url;
-      fs.unlinkSync(req.file.path); // Xóa file tạm
-    }
+    const post = new Post({
+      topic,
+      content,
+      image: image || null,
+      likes: 0,
+      comments: [],
+    });
 
-    const post = new Post({ topic, content, image: imageUrl, likes: 0, comments: [] });
     await post.save();
-    res.status(201).json(post);
 
+    res.status(201).json(post);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.log("Create post error:", err);
+    res.status(500).json({ error: "Create post failed" });
   }
 });
+
+
 
 // GET tất cả bài viết
 router.get("/", async (req, res) => {

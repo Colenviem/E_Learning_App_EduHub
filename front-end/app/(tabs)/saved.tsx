@@ -45,10 +45,21 @@ const CourseCard: React.FC<CourseCardProps> = ({ item, isGridMode, onLongPress, 
   >
     <View style={isGridMode ? styles.imageContainerGrid : styles.imageContainerList}>
       <Image
-        source={{ uri: item.image && item.image.startsWith('http') ? item.image : `${API_BASE_URL}${item.image}` }}
-        style={{ width: '100%', height: '100%', borderRadius: isGridMode ? 14 : 10 }}
+        source={{
+          uri: item.image?.startsWith("data:image")
+            ? item.image      
+            : item.image?.startsWith("http")
+              ? item.image            
+              : `${API_BASE_URL}/${item.image?.replace(/^\//, "")}`
+        }}
+        style={{
+          width: "100%",
+          height: 120,
+          borderRadius: 10,
+        }}
         resizeMode="cover"
       />
+
       <TouchableOpacity
         onPress={() => {
           toggleFavorite(item);
@@ -91,6 +102,8 @@ export default function SavedScreen() {
     textLight: '#FFFFFF',
   }), [isDarkMode]);
 
+
+
   const fetchSavedCourses = useCallback(async () => {
     setLoading(true);
     try {
@@ -105,10 +118,8 @@ export default function SavedScreen() {
 
       const list = userData.coursesInProgress || [];
 
-      // Fetch course details for each saved course so we can show title/image reliably
       const favoriteCourses = await Promise.all(
         list
-          // Hiển thị nếu là favorite HOẶC đang có progress > 0 (đang học)
           .filter((c: any) => c.isFavorite || (typeof c.progress === 'number' && c.progress > 0))
           .map(async (c: any) => {
             try {
@@ -117,12 +128,11 @@ export default function SavedScreen() {
               return {
                 id: c.courseId,
                 name: courseData.title || courseData.name || 'Khóa học',
-                image: c.image || courseData.image,
+                image: c.image,
                 progress: typeof c.progress === 'number' ? c.progress : 0,
                 isFavorite: !!c.isFavorite,
               };
             } catch (e) {
-              // Fallback to stored values if course API fails
               return {
                 id: c.courseId,
                 name: c.name || 'Khóa học',

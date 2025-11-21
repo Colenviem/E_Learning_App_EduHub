@@ -1,10 +1,10 @@
 import { API_BASE_URL } from '@/src/api';
+import { useAsyncStorage } from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { ResizeMode, Video } from 'expo-av';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useAsyncStorage } from '@react-native-async-storage/async-storage';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { QuizComponent } from '../src/components/Quiz/QuizComponent';
@@ -152,9 +152,12 @@ router.replace({ pathname: "/lesson-details", params: { id: nextId, courseId } }
 
 /** ----------- LOADING STATE ------------ */
 if (loadingDetail || !lessonDetail) {
-return (
-<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}> <ActivityIndicator size={30} /> <Text>Đang tải bài học...</Text> </View>
-);
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <ActivityIndicator size={30} />
+      <Text style={{ marginTop: 8 }}>Đang tải bài học...</Text>
+    </View>
+  );
 }
 
 /** ----------- UI RENDER ------------ */
