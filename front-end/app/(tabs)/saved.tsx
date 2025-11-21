@@ -45,10 +45,21 @@ const CourseCard: React.FC<CourseCardProps> = ({ item, isGridMode, onLongPress, 
   >
     <View style={isGridMode ? styles.imageContainerGrid : styles.imageContainerList}>
       <Image
-        source={{ uri: item.image && item.image.startsWith('http') ? item.image : `${API_BASE_URL}${item.image}` }}
-        style={{ width: '100%', height: '100%', borderRadius: isGridMode ? 14 : 10 }}
+        source={{
+          uri: item.image?.startsWith("data:image")
+            ? item.image      
+            : item.image?.startsWith("http")
+              ? item.image            
+              : `${API_BASE_URL}/${item.image?.replace(/^\//, "")}`
+        }}
+        style={{
+          width: "100%",
+          height: 120,
+          borderRadius: 10,
+        }}
         resizeMode="cover"
       />
+
       <TouchableOpacity
         onPress={() => {
           toggleFavorite(item);
@@ -90,6 +101,8 @@ export default function SavedScreen() {
     background: isDarkMode ? '#121212' : '#F8F8F8',
     textLight: '#FFFFFF',
   }), [isDarkMode]);
+
+
 
   const fetchSavedCourses = useCallback(async () => {
     setLoading(true);
