@@ -38,7 +38,9 @@ const OrdersTable = () => {
     try {
       setLoading(true);
       const res = await apiClient.get(endpoints.orders);
-      setOrders(res.data);
+      setOrders(
+        res.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      );
     } catch (err) {
       console.error("Error fetching orders:", err);
     } finally {
@@ -69,7 +71,7 @@ const OrdersTable = () => {
   };
 
   if (loading) {
-    return <Spinner size={12}/>;
+    return <Spinner size={12} />;
   }
 
   return (
