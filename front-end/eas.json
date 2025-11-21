@@ -17,8 +17,5 @@
   },
   "submit": {
     "production": {}
-  },
-  "workspace": {
-    "path": "front-end"
   }
 }
