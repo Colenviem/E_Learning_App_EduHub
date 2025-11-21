@@ -3,6 +3,8 @@ import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from "expo-image-picker";
 import { Stack, router } from "expo-router";
 import React, { useState } from "react";
+import { Platform } from "react-native";
+
 import {
   Alert,
   Image,
@@ -22,20 +24,47 @@ export default function CreateYourOwn() {
 
   const SERVER_URL = `${API_BASE_URL}/posts`;
 
-  const CLOUD_NAME = "CLOUD_NAME";
-  const UPLOAD_PRESET = "UPLOAD_PRESET";
+  const CLOUD_NAME = "dibguk5n6";
+  const UPLOAD_PRESET = "eduhub";
+
 
   const uploadToCloudinary = async () => {
     if (!image) return null;
-    const data = new FormData();
-    data.append("file", { uri: image, type: "image/jpeg", name: "photo.jpg" } as any);
-    data.append("upload_preset", UPLOAD_PRESET);
-    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
-      method: "POST",
-      body: data,
-    });
-    const json = await res.json();
-    return json.secure_url;
+
+    if (Platform.OS === "web") {
+      console.warn("Cloudinary upload không hỗ trợ Web cho kiểu file URI.");
+      Alert.alert("Không hỗ trợ Web", "Tính năng tải ảnh chỉ hoạt động trên iOS và Android.");
+      return null;
+    }
+
+    try {
+      const fileToUpload = {
+        uri: image,
+        type: "image/jpeg",
+        name: "photo.jpg",
+      };
+
+      const formData = new FormData();
+      formData.append("file", fileToUpload as any);
+      formData.append("upload_preset", UPLOAD_PRESET);
+
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+        {
+          method: "POST",
+          body: formData,
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+
+      const json = await response.json();
+      console.log("Cloudinary response:", json);
+
+      return json.secure_url || null;
+    } catch (error) {
+      console.error("Upload error:", error);
+      return null;
+    }
   };
 
   const pickImage = async () => {
@@ -44,8 +73,12 @@ export default function CreateYourOwn() {
       allowsEditing: true,
       quality: 0.7,
     });
-    if (!result.canceled) setImage(result.assets[0].uri);
+
+    if (!result.canceled && result.assets && result.assets.length > 0) {
+      setImage(result.assets[0].uri);
+    }
   };
+
 
   const takePhoto = async () => {
     const permission = await ImagePicker.requestCameraPermissionsAsync();
@@ -53,12 +86,17 @@ export default function CreateYourOwn() {
       Alert.alert("Không có quyền truy cập camera");
       return;
     }
+
     const result = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
       quality: 0.7,
     });
-    if (!result.canceled) setImage(result.assets[0].uri);
+
+    if (!result.canceled && result.assets && result.assets.length > 0) {
+      setImage(result.assets[0].uri);
+    }
   };
+
 
   const handleCreate = async () => {
     if (!topic.trim() || !content.trim()) {
@@ -69,20 +107,32 @@ export default function CreateYourOwn() {
     setLoading(true);
 
     try {
-      let imageUrl = null;
-      if (image) imageUrl = await uploadToCloudinary();
+      let imageUrl: string | null = null;
+      if (image) {
+        imageUrl = await uploadToCloudinary();
+        console.log('upload result imageUrl:', imageUrl);
+        if (!imageUrl) {
+          Alert.alert('Lỗi tải ảnh', 'Không thể tải ảnh lên máy chủ. Vui lòng thử lại hoặc bỏ ảnh.');
+          setLoading(false);
+          return;
+        }
+      }
+
+      const payload: any = { topic, content };
+      if (imageUrl) payload.image = imageUrl; // only include image when available
+      console.log('Create post payload:', payload);
 
       const res = await fetch(SERVER_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          topic,
-          content,
-          image: imageUrl,
-        }),
+        body: JSON.stringify(payload),
       });
 
-      if (!res.ok) throw new Error("Không thể tạo bài viết");
+      if (!res.ok) {
+        const text = await res.text();
+        console.error('Create post failed:', res.status, text);
+        throw new Error('Không thể tạo bài viết');
+      }
 
       setTopic("");
       setContent("");
@@ -91,7 +141,8 @@ export default function CreateYourOwn() {
       Alert.alert("Thành công", "Bài viết đã được tạo!");
       router.push("/explore/discussion");
     } catch (err: any) {
-      Alert.alert("Lỗi", err.message);
+      console.error('Create post error:', err);
+      Alert.alert("Lỗi", err.message || 'Có lỗi xảy ra');
     } finally {
       setLoading(false);
     }

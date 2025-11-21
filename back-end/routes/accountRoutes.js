@@ -44,6 +44,18 @@ router.get("/profile/:accountId", async (req, res) => {
 });
 
 
+router.get("/check-email", async (req, res) => {
+  try {
+    const { email } = req.query;
+    if (!email) return res.status(400).json({ message: "Thiếu email" });
+
+    const exists = await Account.exists({ email });
+    res.json({ exists: !!exists });
+  } catch (err) {
+    res.status(500).json({ message: "Lỗi server" });
+  }
+});
+
 
 router.get("/:id", async (req, res) => {
   try {
@@ -112,18 +124,6 @@ router.post("/verify-otp", async (req, res) => {
     res.json({ verified: true, message: "Xác thực OTP thành công" });
   } catch (err) {
     res.status(500).json({ message: "Lỗi server khi xác thực OTP" });
-  }
-});
-
-router.get("/check-email", async (req, res) => {
-  try {
-    const { email } = req.query;
-    if (!email) return res.status(400).json({ message: "Thiếu email" });
-
-    const exists = await Account.exists({ email });
-    res.json({ exists: !!exists });
-  } catch (err) {
-    res.status(500).json({ message: "Lỗi server" });
   }
 });
 

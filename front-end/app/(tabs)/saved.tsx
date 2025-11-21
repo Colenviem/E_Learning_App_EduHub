@@ -105,10 +105,8 @@ export default function SavedScreen() {
 
       const list = userData.coursesInProgress || [];
 
-      // Fetch course details for each saved course so we can show title/image reliably
       const favoriteCourses = await Promise.all(
         list
-          // Hiển thị nếu là favorite HOẶC đang có progress > 0 (đang học)
           .filter((c: any) => c.isFavorite || (typeof c.progress === 'number' && c.progress > 0))
           .map(async (c: any) => {
             try {
@@ -117,12 +115,11 @@ export default function SavedScreen() {
               return {
                 id: c.courseId,
                 name: courseData.title || courseData.name || 'Khóa học',
-                image: c.image || courseData.image,
+                image: c.image,
                 progress: typeof c.progress === 'number' ? c.progress : 0,
                 isFavorite: !!c.isFavorite,
               };
             } catch (e) {
-              // Fallback to stored values if course API fails
               return {
                 id: c.courseId,
                 name: c.name || 'Khóa học',

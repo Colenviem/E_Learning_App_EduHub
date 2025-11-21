@@ -63,7 +63,7 @@ const SuggestionDetailList: React.FC = () => {
   useEffect(() => {
     const fetchAllCourses = async () => {
       try {
-        const res = await fetch(`${API_BASE_URL}/courses/top-rated`);
+        const res = await fetch(`${API_BASE_URL}/courses`);
         const data: Course[] = await res.json();
         setCourses(data);
       } catch (err) {
@@ -96,8 +96,9 @@ const SuggestionDetailList: React.FC = () => {
         <Text style={styles.subtitle}>{item.subtitle}</Text>
         <View style={styles.infoRow}>
           <Text>⭐ {item.rating}</Text>
-          <Text>{item.numberOfParticipants} học viên</Text>
-          <Text>⏱ {item.time}</Text>
+          <Text>{item.numberOfParticipants} học viên
+            {"\n"}
+            ⏱ {item.time}</Text>
         </View>
         <View style={styles.priceRow}>
           {item.discount > 0 && <Text style={styles.oldPrice}>{item.price.toLocaleString('vi-VN')}đ</Text>}

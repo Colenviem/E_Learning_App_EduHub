@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   aiMsg: { alignSelf: 'flex-start', backgroundColor: '#E0E0E0' },
   userMsg: { alignSelf: 'flex-end', backgroundColor: '#A78BFA' },
   msgText: { color: '#000' },
-  inputRow: { flexDirection: 'row', padding: 8, backgroundColor: '#fff', alignItems: 'center' },
+  inputRow: { flexDirection: 'row', padding: 8, backgroundColor: '#fff', alignItems: 'center', marginBottom: 90},
   input: { flex: 1, padding: 10, backgroundColor: '#eee', borderRadius: 20, marginRight: 8 },
   sendBtn: { backgroundColor: '#A78BFA', borderRadius: 20, padding: 10 },
 });

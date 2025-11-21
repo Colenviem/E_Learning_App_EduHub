@@ -35,16 +35,24 @@ export default function VerifyOtpScreen() {
         setLoading(true);
         setOtpError('');
         try {
-            const res = await axios.post(`${API_ACCOUNT}/verify-otp`, { email, otp });
+            // add a timeout so we can show a clearer message when the backend doesn't respond
+            const res = await axios.post(`${API_ACCOUNT}/verify-otp`, { email, otp }, { timeout: 10000 });
             if (res.data.verified) {
-                await axios.post(`${API_ACCOUNT}/register`, { name, email, password });
+                await axios.post(`${API_ACCOUNT}/register`, { name, email, password }, { timeout: 10000 });
                 Alert.alert('Thành công', 'Tài khoản đã được tạo!');
                 router.replace('/login');
             } else {
                 setOtpError(res.data.message || 'OTP không hợp lệ');
             }
         } catch (err: any) {
-            setOtpError(err.response?.data?.message || 'Lỗi xác thực OTP');
+            // handle timeout separately
+            if (err.code === 'ECONNABORTED' || String(err.message).toLowerCase().includes('timeout')) {
+                setOtpError('Yêu cầu xác thực đã quá thời gian chờ. Vui lòng thử lại.');
+            } else if (!err.response) {
+                setOtpError('Không thể kết nối tới máy chủ. Kiểm tra mạng và thử lại.');
+            } else {
+                setOtpError(err.response?.data?.message || 'Lỗi xác thực OTP');
+            }
         } finally {
             setLoading(false);
         }
@@ -54,20 +62,27 @@ export default function VerifyOtpScreen() {
         if (countdown > 0) return;
         setResendLoading(true);
         try {
-            await axios.post(`${API_ACCOUNT}/send-otp`, { email, type: 'register' });
+            await axios.post(`${API_ACCOUNT}/send-otp`, { email, type: 'register' }, { timeout: 10000 });
             setCountdown(30);
         } catch (err: any) {
-            Alert.alert('Lỗi', err.response?.data?.message || 'Không thể gửi OTP');
+            if (err.code === 'ECONNABORTED' || String(err.message).toLowerCase().includes('timeout')) {
+                Alert.alert('Lỗi', 'Yêu cầu gửi OTP đã quá thời gian chờ. Vui lòng thử lại.');
+            } else if (!err.response) {
+                Alert.alert('Lỗi', 'Không thể kết nối tới máy chủ. Kiểm tra mạng và thử lại.');
+            } else {
+                Alert.alert('Lỗi', err.response?.data?.message || 'Không thể gửi OTP');
+            }
         } finally {
             setResendLoading(false);
         }
     };
 
     useEffect(() => {
-        if (countdown > 0) {
-            const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
-            return () => clearTimeout(timer);
-        }
+        if (countdown <= 0) return;
+        const interval = setInterval(() => {
+            setCountdown((c) => (c > 0 ? c - 1 : 0));
+        }, 1000);
+        return () => clearInterval(interval);
     }, [countdown]);
 
     return (

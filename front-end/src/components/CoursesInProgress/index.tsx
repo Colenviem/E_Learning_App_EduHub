@@ -45,7 +45,7 @@ export default function CoursesInProgress({ courses }: Props) {
             style={[styles.card, { width: SCREEN_WIDTH * 0.65 }]}
             onPress={() => router.push({
               pathname: '/course-lessons',
-              params: { id: item.courseId }
+              params: { courseId: item.courseId }
             })}
           >
             <Image
