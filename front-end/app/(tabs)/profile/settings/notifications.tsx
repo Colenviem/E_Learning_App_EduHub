@@ -1,7 +1,6 @@
-// import * as Notifications from "expo-notifications";
 // NOTE: expo-notifications removed from Expo Go SDK 53
-// Use Development Build instead for push notifications
-import * as Permissions from "expo-permissions";
+// Vẫn dùng được khi chạy Development Build hoặc EAS Build
+import * as Notifications from "expo-notifications";
 import { Stack } from "expo-router";
 import React, { useState } from "react";
 import { Alert, Platform, ScrollView, StyleSheet, Switch, Text, View } from "react-native";
@@ -22,18 +21,20 @@ const NotificationsScreen = () => {
 
   const registerForPushNotifications = async () => {
     try {
-      // if (Platform.OS === 'android') {
-      //   await Notifications.setNotificationChannelAsync('default', {
-      //     name: 'default',
-      //     importance: Notifications.AndroidImportance.MAX,
-      //   });
-      // }
+      // Android: cần channel
+      if (Platform.OS === 'android') {
+        await Notifications.setNotificationChannelAsync('default', {
+          name: 'default',
+          importance: Notifications.AndroidImportance.MAX,
+        });
+      }
 
-      const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+      // 🔥 Quyền thông báo mới API SDK 54
+      const { status: existingStatus } = await Notifications.getPermissionsAsync();
       let finalStatus = existingStatus;
 
       if (existingStatus !== 'granted') {
-        const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+        const { status } = await Notifications.requestPermissionsAsync();
         finalStatus = status;
       }
 
@@ -41,6 +42,7 @@ const NotificationsScreen = () => {
         Alert.alert('Thông báo', 'Bạn cần cho phép thông báo để nhận thông tin.');
         return false;
       }
+
       return true;
     } catch (error) {
       console.log(error);
@@ -53,10 +55,6 @@ const NotificationsScreen = () => {
     if (value) {
       const granted = await registerForPushNotifications();
       if (granted) {
-        // await Notifications.scheduleNotificationAsync({
-        //   content: { title: "Thông báo thử", body: "Bạn đã bật thông báo thành công!" },
-        //   trigger: { type: 'timeInterval', seconds: 1, repeats: false } as Notifications.TimeIntervalTriggerInput,
-        // });
         Alert.alert("Thông báo", "Bạn đã bật thông báo thành công!");
       }
     } else {
@@ -66,6 +64,7 @@ const NotificationsScreen = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
+
       <Stack.Screen
         options={{
           title: "Cài đặt thông báo",
