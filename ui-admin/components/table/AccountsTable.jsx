@@ -4,8 +4,6 @@ import { FiEdit, FiSearch } from 'react-icons/fi';
 import { apiClient, endpoints } from '../../src/api';
 import Spinner from '../spinner/Spinner';
 
-// accounts endpoint centralised in src/api
-
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1, transition: { delayChildren: 0.2, staggerChildren: 0.05 } }
@@ -31,14 +29,12 @@ const AccountsTable = () => {
     const [editingAccount, setEditingAccount] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // Add form fields
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [role, setRole] = useState("ADMIN");
     const [errorEmail, setErrorEmail] = useState("");
     const [passwordError, setPasswordError] = useState("");
 
-    // OTP States
     const [otpModal, setOtpModal] = useState(false);
     const [otp, setOtp] = useState("");
     const [otpError, setOtpError] = useState("");
@@ -73,7 +69,6 @@ const AccountsTable = () => {
             (acc.email || '').toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    // Edit account save
     const handleSave = async () => {
         if (!editingAccount || !editingAccount._id) return;
         try {
@@ -91,7 +86,6 @@ const AccountsTable = () => {
         }
     };
 
-    // Start add flow: validate -> send OTP -> open OTP modal
     const handleAdd = async () => {
         setErrorEmail("");
         setPasswordError("");
@@ -108,10 +102,8 @@ const AccountsTable = () => {
 
         try {
             setLoading(true);
-            // store email to verify later
             setEmailForOtp(email.trim());
 
-            // call backend to send OTP to that email
             await apiClient.post(`${endpoints.accounts}/send-otp`, { email: email.trim() });
 
             // open OTP modal and close add modal
@@ -149,7 +141,6 @@ const AccountsTable = () => {
             return;
         }
 
-        // 2. create account
         const createRes = await apiClient.post(`${endpoints.accounts}/register-admin`, {
             email: emailForOtp,
             password,
@@ -158,10 +149,8 @@ const AccountsTable = () => {
 
         if (createRes.data && createRes.data.success) {
             window.alert("Tạo tài khoản thành công!");
-            // refresh list
             await fetchAccounts();
 
-            // reset add form
             setEmail("");
             setPassword("");
             setRole("ADMIN");
@@ -179,7 +168,6 @@ const AccountsTable = () => {
         }
     };
 
-    // Optional: resend OTP (cooldown not implemented here)
     const handleResendOtp = async () => {
         if (!emailForOtp) return;
         try {
@@ -225,7 +213,6 @@ const AccountsTable = () => {
                         <button
                             className="bg-indigo-600 text-center cursor-pointer text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-700 transition-colors flex items-center gap-2"
                             onClick={() => {
-                                // open add modal and reset fields
                                 setEmail("");
                                 setPassword("");
                                 setRole("ADMIN");
@@ -239,7 +226,6 @@ const AccountsTable = () => {
                     </div>
                 </div>
 
-                {/* Table */}
                 <div className="overflow-x-auto">
                     <table className="w-full table-auto text-sm text-left border-collapse">
                         <thead className="bg-gray-50 text-gray-500 uppercase text-xs border-b border-gray-200">
@@ -283,7 +269,6 @@ const AccountsTable = () => {
                 </div>
             </div>
 
-            {/* Modal Edit */}
             {isModalOpen && editingAccount && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-6 relative">
