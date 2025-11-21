@@ -4,7 +4,7 @@
     "lessonId": "LESSON001",
     "name": "Giới thiệu về biến (Variables)",
     "videoTitle": "Hiểu về biến trong JavaScript",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "10 phút",
     "tasks": [
       "Biến là gì trong JavaScript?",
@@ -101,7 +101,7 @@
     "lessonId": "LESSON001",
     "name": "Hằng số (Constants) trong JavaScript",
     "videoTitle": "Sử dụng const trong JavaScript",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "8 phút",
     "tasks": [
       "Hằng số const là gì?",
@@ -172,7 +172,7 @@
     "lessonId": "LESSON001",
     "name": "Các kiểu dữ liệu cơ bản (Data Types)",
     "videoTitle": "Tổng quan các kiểu dữ liệu trong JavaScript",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "15 phút",
     "tasks": [
       "String, Number, Boolean trong JavaScript.",
@@ -269,7 +269,7 @@
     "lessonId": "LESSON001",
     "name": "Thực hành: Viết chương trình tính toán đơn giản",
     "videoTitle": "Thực hành lập trình cơ bản",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "12 phút",
     "tasks": [
       "Viết chương trình tính tổng hai số.",
@@ -340,7 +340,7 @@
     "lessonId": "LESSON002",
     "name": "Toán tử số học và gán",
     "videoTitle": "Arithmetic & Assignment Operators",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "15 phút",
     "tasks": [
       "Giới thiệu các toán tử +, -, *, /, %.",
@@ -437,7 +437,7 @@
     "lessonId": "LESSON002",
     "name": "Toán tử so sánh và logic",
     "videoTitle": "Comparison & Logical Operators",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "15 phút",
     "tasks": [
       "Các toán tử >, <, <=, >=, ==, ===.",
@@ -534,7 +534,7 @@
     "lessonId": "LESSON002",
     "name": "Thực hành với biểu thức",
     "videoTitle": "Practice with Expressions",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "10 phút",
     "tasks": [
       "Kết hợp nhiều toán tử.",
@@ -605,7 +605,7 @@
     "lessonId": "LESSON003",
     "name": "Câu lệnh if và else",
     "videoTitle": "If & Else Statements",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "15 phút",
     "tasks": [
       "Viết câu lệnh điều kiện cơ bản.",
@@ -676,7 +676,7 @@
     "lessonId": "LESSON003",
     "name": "Câu lệnh else if và switch",
     "videoTitle": "Else If & Switch Case",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "15 phút",
     "tasks": [
       "Khi nào nên dùng else if?",
@@ -747,7 +747,7 @@
     "lessonId": "LESSON003",
     "name": "Toán tử điều kiện",
     "videoTitle": "Conditional (Ternary) Operator",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "10 phút",
     "tasks": [
       "Cú pháp toán tử ? :",
@@ -818,7 +818,7 @@
     "lessonId": "LESSON003",
     "name": "Thực hành: So sánh giá trị",
     "videoTitle": "Practice: Compare Values",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "10 phút",
     "tasks": [
       "So sánh số.",
@@ -889,7 +889,7 @@
     "lessonId": "LESSON004",
     "name": "Vòng lặp for",
     "videoTitle": "For Loop in JavaScript",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "15 phút",
     "tasks": [
       "Cấu trúc vòng lặp for.",
@@ -960,7 +960,7 @@
     "lessonId": "LESSON004",
     "name": "Vòng lặp while và do-while",
     "videoTitle": "While & Do-While Loops",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "15 phút",
     "tasks": [
       "Giới thiệu vòng while.",
@@ -1031,7 +1031,7 @@
     "lessonId": "LESSON004",
     "name": "Vòng lặp lồng nhau",
     "videoTitle": "Nested Loops",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "15 phút",
     "tasks": [
       "Lặp mảng 2 chiều.",
@@ -1102,7 +1102,7 @@
     "lessonId": "LESSON004",
     "name": "Thực hành: Tạo bảng nhân",
     "videoTitle": "Practice: Multiplication Table",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "10 phút",
     "tasks": [
       "Sử dụng vòng lặp for để tạo bảng nhân.",
@@ -1173,7 +1173,7 @@
     "lessonId": "LESSON005",
     "name": "Khai báo hàm",
     "videoTitle": "Function Declaration",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "10 phút",
     "tasks": [
       "Hàm là gì trong JavaScript?",
@@ -1244,7 +1244,7 @@
     "lessonId": "LESSON005",
     "name": "Tham số và giá trị trả về",
     "videoTitle": "Parameters & Return Values",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "15 phút",
     "tasks": [
       "Truyền tham số.",
@@ -1315,7 +1315,7 @@
     "lessonId": "LESSON005",
     "name": "Phạm vi biến",
     "videoTitle": "Understanding Scope",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "15 phút",
     "tasks": [
       "Local và global scope.",
@@ -1386,7 +1386,7 @@
     "lessonId": "LESSON005",
     "name": "Thực hành: Hàm tính toán",
     "videoTitle": "Practice: Math Functions",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "10 phút",
     "tasks": [
       "Viết hàm tính tổng.",
@@ -1457,7 +1457,7 @@
     "lessonId": "LESSON006",
     "name": "Mảng trong JavaScript",
     "videoTitle": "Arrays in JavaScript",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "15 phút",
     "tasks": [
       "Khai báo mảng.",
@@ -1528,7 +1528,7 @@
     "lessonId": "LESSON006",
     "name": "Đối tượng trong JavaScript",
     "videoTitle": "Objects in JavaScript",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "15 phút",
     "tasks": [
       "Khai báo object.",
@@ -1599,7 +1599,7 @@
     "lessonId": "LESSON006",
     "name": "Truy cập và thao tác dữ liệu",
     "videoTitle": "Data Accessing & Manipulation",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "15 phút",
     "tasks": [
       "Sửa đổi dữ liệu.",
@@ -1670,7 +1670,7 @@
     "lessonId": "LESSON006",
     "name": "Thực hành: Quản lý danh sách",
     "videoTitle": "Practice: List Management",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "15 phút",
     "tasks": [
       "Tạo danh sách người dùng.",
@@ -1740,7 +1740,7 @@
     "lessonId": "LESSON007",
     "name": "Giới thiệu DOM",
     "videoTitle": "Introduction to DOM",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "10 phút",
     "tasks": [
       "DOM là gì?",
@@ -1811,7 +1811,7 @@
     "lessonId": "LESSON007",
     "name": "Thao tác nội dung và phần tử",
     "videoTitle": "Manipulating Elements",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "15 phút",
     "tasks": [
       "Thay đổi textContent.",
@@ -1882,7 +1882,7 @@
     "lessonId": "LESSON007",
     "name": "Quản lý sự kiện",
     "videoTitle": "Handling Events",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "15 phút",
     "tasks": [
       "Lắng nghe sự kiện click.",
@@ -1953,7 +1953,7 @@
     "lessonId": "LESSON007",
     "name": "Thực hành: Tạo ứng dụng To-Do",
     "videoTitle": "Practice: To-Do App",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "15 phút",
     "tasks": [
       "Tạo giao diện To-Do.",
@@ -2024,7 +2024,7 @@
     "lessonId": "LESSON008",
     "name": "Sự kiện cơ bản",
     "videoTitle": "Basic Events",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "15 phút",
     "tasks": [
       "Khái niệm event trong JS.",
@@ -2095,7 +2095,7 @@
     "lessonId": "LESSON008",
     "name": "Event Listeners",
     "videoTitle": "Using Event Listeners",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "15 phút",
     "tasks": [
       "Thêm event listener.",
@@ -2166,7 +2166,7 @@
     "lessonId": "LESSON008",
     "name": "Thực hành: Bắt sự kiện click",
     "videoTitle": "Practice: Click Events",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "20 phút",
     "tasks": [
       "Tạo button và bắt sự kiện click.",
@@ -2237,7 +2237,7 @@
     "lessonId": "LESSON009",
     "name": "Callback Functions",
     "videoTitle": "Understanding Callbacks",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "15 phút",
     "tasks": [
       "Callback là gì?",
@@ -2308,7 +2308,7 @@
     "lessonId": "LESSON009",
     "name": "Arrow Functions",
     "videoTitle": "Arrow Functions Explained",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "15 phút",
     "tasks": [
       "Cú pháp arrow function.",
@@ -2379,7 +2379,7 @@
     "lessonId": "LESSON009",
     "name": "Closures",
     "videoTitle": "Mastering Closures",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "15 phút",
     "tasks": [
       "Closure là gì?",
@@ -2450,7 +2450,7 @@
     "lessonId": "LESSON009",
     "name": "Thực hành nâng cao",
     "videoTitle": "Advanced Function Practice",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "15 phút",
     "tasks": [
       "Kết hợp callback và closure.",
@@ -2521,7 +2521,7 @@
     "lessonId": "LESSON010",
     "name": "Promises",
     "videoTitle": "Understanding Promises",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "15 phút",
     "tasks": [
       "Promise là gì?",
@@ -2592,7 +2592,7 @@
     "lessonId": "LESSON010",
     "name": "Async/Await",
     "videoTitle": "Async & Await Explained",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "20 phút",
     "tasks": [
       "Async function là gì?",
@@ -2663,7 +2663,7 @@
     "lessonId": "LESSON010",
     "name": "Fetch API",
     "videoTitle": "Fetch API Overview",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "15 phút",
     "tasks": [
       "Giới thiệu Fetch API.",
@@ -2734,7 +2734,7 @@
     "lessonId": "LESSON010",
     "name": "Thực hành: Gọi API",
     "videoTitle": "Practice: API Requests",
-    "videoUrl": "https://rr4---sn-8pxuuxa-nbols.googlevideo.com/videoplayback?expire=1763663479&ei=FwofacueCtGYsfIPrpe6yQM&ip=89.249.192.67&id=o-AKpek22SbaQ9FX-IIPmlpKE9XAyMpG55Q6elslsyP2mm&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=0&rms=au%2Cau&bui=AdEuB5QEmWC23wq6Z7M6XEJflWutr2VJPveNKIYfape1OBA2WmW75ITlnhx2lHF6WK32LjyII8KiMy11&spc=6b0G_Gsm-hceZEgV_HMp_bRJOjIzblcKG7tFk8fXF4rtKRdjxprvhPkYrsV2B5PlP28&vprv=1&svpuc=1&mime=video%2Fmp4&rqh=1&cnr=14&ratebypass=yes&dur=118.979&lmt=1658758264272871&fexp=51552689,51565116,51565681,51580968&c=ANDROID&txp=5318224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Ccnr%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgV0_X7ci7Gmu219J6CyxV4QM1QBibprC3T-t2BMhmvk8CIG83hf8mPx3TfYbYrrSMKuhxpfmAiIKyCksJV7XKlHDv&redirect_counter=1&rm=sn-a5mele7s&rrc=104&req_id=7bf4f3e3dd9fa3ee&cms_redirect=yes&cmsv=e&ipbypass=yes&met=1763641886,&mh=SF&mip=2401:d800:a6f:e959:e02e:9656:24ae:fad0&mm=31&mn=sn-8pxuuxa-nbols&ms=au&mt=1763641519&mv=m&mvi=4&pl=44&lsparams=cps,ipbypass,met,mh,mip,mm,mn,ms,mv,mvi,pl,rms&lsig=APaTxxMwRgIhAPAPr_8bUrOWco5dANyyQF1x4Roxp7pUPHQOBq-5Nm8fAiEA-BePy6dcBgV7yhekB9I3iLHq7fOltbAYxzeyeUoQTo8%3D",
+    "videoUrl": "https://res.cloudinary.com/dixzxzdrd/video/upload/v1763706035/videoplayback_zxlxse.mp4",
     "time": "15 phút",
     "tasks": [
       "Gọi API thật từ server.",

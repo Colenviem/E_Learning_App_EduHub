@@ -6,73 +6,95 @@ const Document = require("../models/Document");
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 function cosineSim(a, b) {
-  const dot = a.reduce((sum, v, i) => sum + v * b[i], 0);
-  const normA = Math.sqrt(a.reduce((s, v) => s + v * v, 0));
-  const normB = Math.sqrt(b.reduce((s, v) => s + v * v, 0));
-  return dot / (normA * normB);
+    const dot = a.reduce((sum, v, i) => sum + v * b[i], 0);
+    const normA = Math.sqrt(a.reduce((s, v) => s + v * v, 0));
+    const normB = Math.sqrt(b.reduce((s, v) => s + v * v, 0));
+    return dot / (normA * normB);
 }
 
 router.post("/ask-gemini", async (req, res) => {
-  try {
-    const { prompt } = req.body;
+    try {
+        const { prompt } = req.body;
 
-    const embedModel = genAI.getGenerativeModel({
-      model: "text-embedding-004",
-    });
+        const embedModel = genAI.getGenerativeModel({
+            model: "text-embedding-004",
+        });
 
-    const embedResult = await embedModel.embedContent(prompt);
-    const queryVector = embedResult.embedding.values;
+        const embedResult = await embedModel.embedContent(prompt);
+        const queryVector = embedResult.embedding.values;
 
-    const docs = await Document.find();
-    let bestDoc = null;
-    let bestScore = -1;
+        const docs = await Document.find();
+        
+        // 1. TÍNH ĐIỂM TƯƠNG ĐỒNG CHO TẤT CẢ VÀ SẮP XẾP
+        const scoredDocs = docs.map(doc => ({
+            doc,
+            score: cosineSim(queryVector, doc.vector)
+        }))
+        .sort((a, b) => b.score - a.score); // Sắp xếp giảm dần theo điểm
 
-    // Find best match
-    for (let doc of docs) {
-        const sim = cosineSim(queryVector, doc.vector);
-        if (sim > bestScore) {
-            bestScore = sim;
-            bestDoc = doc;
-        }
-    }
+        // 2. CHỌN TOP K TÀI LIỆU
+        const K = 5; 
+        const topKDocs = scoredDocs.slice(0, K);
 
-    const shouldUseContext =
-        bestDoc && bestScore > 0.45 && ["course", "lesson", "detail"].includes(bestDoc.type);
+        // 3. LỌC CÁC TÀI LIỆU CÓ ĐIỂM TRÊN NGƯỠNG
+        // Ngưỡng 0.45, hoặc có thể hạ xuống 0.40 để bao quát hơn
+        const USEFUL_THRESHOLD = 0.45; 
+        const usefulContexts = topKDocs
+            .filter(item => 
+                item.score > USEFUL_THRESHOLD && 
+                ["course", "lesson", "detail"].includes(item.doc.type)
+            );
 
-    let finalPrompt;
+        // 4. KIỂM TRA XEM CÓ NÊN SỬ DỤNG NGỮ CẢNH HAY KHÔNG
+        const shouldUseContext = usefulContexts.length > 0;
 
-    if (shouldUseContext) {
-        finalPrompt = `
-            Bạn là E-Learning.AI, một trợ lý AI cho nền tảng học trực tuyến. Hãy sử dụng dữ liệu được trích xuất bên dưới để trả lời câu hỏi.
+        let finalPrompt;
+        let contextText = usefulContexts.map(item => item.doc.text).join("\n---\n"); // Ghép các ngữ cảnh lại
 
-            DƯỚI ĐÂY LÀ DỮ LIỆU ĐƯỢC TRÍCH XUẤT:
-            ${bestDoc.text}
+        if (shouldUseContext) {
+            // Trường hợp 1: Có tài liệu phù hợp → Dùng RAG
+            finalPrompt = `
+            Bạn là E-Learning.AI, trợ lý AI cho nền tảng học trực tuyến. 
+            Hãy trả lời CHỈ dựa trên dữ liệu dưới đây.
 
-            NHIỆM VỤ:
-            - Chỉ sử dụng thông tin từ dữ liệu trên.
-            - Khi trả lời, đừng dùng ** để in đậm. Thay toàn bộ bằng dấu gạch đầu dòng -
+            DỮ LIỆU:
+            ${contextText}
+
+            LƯU Ý:
+            - Chỉ trả lời từ dữ liệu trên.
+            - Nếu thông tin không có trong dữ liệu, trả lời: "Tôi không tìm thấy thông tin phù hợp trong cơ sở dữ liệu".
+            - Không sử dụng **, thay bằng dấu -.
 
             CÂU HỎI:
             ${prompt}
         `;
-    } else {
-      finalPrompt = prompt;
-    }
+        } else {
+            // Trường hợp 2: KHÔNG có tài liệu nào phù hợp → Fallback về LLM thuần túy
+            // Chỉ truyền câu hỏi gốc cho mô hình để nó trả lời bằng kiến thức chung.
+            finalPrompt = `
+                Bạn là E-Learning.AI, một trợ lý AI. 
+                Câu hỏi dưới đây không có dữ liệu phù hợp trong cơ sở dữ liệu, 
+                vì vậy hãy trả lời dựa trên kiến thức chung của bạn.
 
-    const model = genAI.getGenerativeModel({
-        model: "gemini-2.0-flash-lite",
-    });
+                CÂU HỎI:
+                ${prompt}
+            `;
+        }
 
-    const result = await model.generateContent(finalPrompt);
-        res.json({
-            answer: result.response.text(),
-            matched: bestDoc?.type,
-            score: bestScore,
+        const model = genAI.getGenerativeModel({
+            model: "gemini-2.0-flash-lite",
         });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "AI error" });
-    }
+
+        const result = await model.generateContent(finalPrompt);
+            res.json({
+                answer: result.response.text(),
+                matched: usefulContexts.length > 0 ? "multiple" : "none", 
+                score: usefulContexts.length > 0 ? usefulContexts[0].score : -1,
+            });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: "AI error" });
+        }
 });
 
 module.exports = router;
