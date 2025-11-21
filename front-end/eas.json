@@ -14,7 +14,7 @@
     "production": {
       "autoIncrement": true,
       "resourceClass": "medium", 
-      "node": "20.x"
+      "node": "20.11.1"
     }
   },
   "submit": {
