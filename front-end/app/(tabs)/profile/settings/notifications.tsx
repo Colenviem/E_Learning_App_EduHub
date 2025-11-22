@@ -1,59 +1,69 @@
-// NOTE: expo-notifications removed from Expo Go SDK 53
-// Vẫn dùng được khi chạy Development Build hoặc EAS Build
+import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import { Stack } from "expo-router";
 import React, { useState } from "react";
-import { Alert, Platform, ScrollView, StyleSheet, Switch, Text, View } from "react-native";
-import { useTheme } from '../../../_layout';
+import { Alert, ScrollView, StyleSheet, Switch, Text, View, Platform } from "react-native";
+import { useTheme } from "../../../_layout";
 
 const NotificationsScreen = () => {
-  const { isDarkMode } = useTheme(); 
+  const { isDarkMode } = useTheme();
+
   const colors = {
-    background: isDarkMode ? '#121212' : '#F7F7F7',
-    cardBg: isDarkMode ? '#1E1E1E' : '#FFF',
-    accent: '#A78BFA',
-    text: isDarkMode ? '#FFF' : '#333',
-    sub: isDarkMode ? '#CCC' : '#666',
+    background: isDarkMode ? "#121212" : "#F7F7F7",
+    cardBg: isDarkMode ? "#1E1E1E" : "#FFF",
+    accent: "#A78BFA",
+    text: isDarkMode ? "#FFF" : "#333",
+    sub: isDarkMode ? "#CCC" : "#666",
   };
 
   const [pushNotif, setPushNotif] = useState(true);
   const [reminders, setReminders] = useState(true);
 
-  const registerForPushNotifications = async () => {
+  // ---- FIXED FUNCTION ----
+  const requestNotificationPermission = async () => {
+    if (!Device.isDevice) {
+      Alert.alert("Thông báo", "Bạn phải dùng thiết bị thật để bật thông báo.");
+      return false;
+    }
+
     try {
-      // Android: cần channel
-      if (Platform.OS === 'android') {
-        await Notifications.setNotificationChannelAsync('default', {
-          name: 'default',
+      // Android: setup channel
+      if (Platform.OS === "android") {
+        await Notifications.setNotificationChannelAsync("default", {
+          name: "default",
           importance: Notifications.AndroidImportance.MAX,
         });
       }
 
-      // 🔥 Quyền thông báo mới API SDK 54
+      // Lấy trạng thái quyền hiện tại
       const { status: existingStatus } = await Notifications.getPermissionsAsync();
       let finalStatus = existingStatus;
 
-      if (existingStatus !== 'granted') {
+      // Chưa cấp thì xin quyền
+      if (existingStatus !== "granted") {
         const { status } = await Notifications.requestPermissionsAsync();
         finalStatus = status;
       }
 
-      if (finalStatus !== 'granted') {
-        Alert.alert('Thông báo', 'Bạn cần cho phép thông báo để nhận thông tin.');
+      // Nếu vẫn không được cấp
+      if (finalStatus !== "granted") {
+        Alert.alert("Thông báo", "Bạn chưa cấp quyền thông báo.");
         return false;
       }
 
       return true;
+
     } catch (error) {
-      console.log(error);
+      console.log("Notification error:", error);
       return false;
     }
   };
 
-  const togglePushNotif = async (value: boolean) => {
+  const togglePushNotif = async (value) => {
     setPushNotif(value);
+
     if (value) {
-      const granted = await registerForPushNotifications();
+      const granted = await requestNotificationPermission();
       if (granted) {
         Alert.alert("Thông báo", "Bạn đã bật thông báo thành công!");
       }
@@ -64,7 +74,6 @@ const NotificationsScreen = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-
       <Stack.Screen
         options={{
           title: "Cài đặt thông báo",
@@ -108,7 +117,18 @@ const styles = StyleSheet.create({
   container: { flex: 1, padding: 20 },
   scroll: { paddingBottom: 40 },
   desc: { fontSize: 15, textAlign: "center", lineHeight: 22, marginBottom: 20 },
-  card: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: 16, borderRadius: 12, marginBottom: 16, shadowColor: "#000", shadowOpacity: 0.05, shadowRadius: 4, elevation: 2 },
+  card: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 16,
+    shadowColor: "#000",
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+  },
   label: { fontSize: 16 },
 });
 

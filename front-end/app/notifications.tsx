@@ -7,7 +7,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { spacing } from '../src/constants/theme';
 import { useTheme } from './_layout';
-
 const API = `${API_BASE_URL}/notifications`;
 
 export default function NotificationsScreen() {
