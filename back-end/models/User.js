@@ -25,6 +25,8 @@ const userSchema = new mongoose.Schema(
     createdAt: { type: Date, default: Date.now },
     lastLogin: { type: Date },
     streak: { type: Number, default: 0 },
+    lastActiveDate: { type: String, default: null },
+
     totalActiveMinutes: { type: Number, default: 0 },
     preferences: { type: preferencesSchema, default: () => ({}) }
   },

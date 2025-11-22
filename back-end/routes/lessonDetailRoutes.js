@@ -15,6 +15,79 @@ router.get("/", async (req, res) => {
     }
 });
 
+router.post("/update", async (req, res) => {
+    try {
+        const { userId, seconds } = req.body;
+
+        if (!userId || seconds == null) {
+            return res.status(400).json({ message: "Missing userId or seconds" });
+        }
+
+        const User = require("../models/User");
+        const user = await User.findOne({ accountId: userId });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // -------------------------
+        // 1️⃣ Cộng thời gian học
+        // -------------------------
+        const minutes = Math.floor(seconds / 60);
+        user.totalActiveMinutes += minutes;
+
+        // -------------------------
+        // 2️⃣ Tính streak theo ngày
+        // -------------------------
+        const VN_TZ_OFFSET = 7 * 60 * 60 * 1000; // +7h
+
+        const today = new Date(Date.now() + VN_TZ_OFFSET);
+        today.setHours(0, 0, 0, 0);
+
+        const lastLogin = user.lastLogin
+            ? new Date(user.lastLogin.getTime() + VN_TZ_OFFSET)
+            : null;
+
+        if (lastLogin) {
+            lastLogin.setHours(0, 0, 0, 0);
+        }
+
+        if (!lastLogin) {
+            // Lần đầu học
+            user.streak = 1;
+        } else {
+            const diffDays = Math.floor((today - lastLogin) / (1000 * 60 * 60 * 24));
+
+            if (diffDays === 0) {
+                // Đã học hôm nay → không tăng streak
+            } else if (diffDays === 1) {
+                // Hôm nay học tiếp → tăng streak
+                user.streak += 1;
+            } else {
+                // Bỏ quá 1 ngày → reset streak
+                user.streak = 1;
+            }
+        }
+
+        // Cập nhật ngày học gần nhất
+        user.lastLogin = new Date();
+
+        await user.save();
+
+        return res.json({
+            message: "Progress + streak updated",
+            totalActiveMinutes: user.totalActiveMinutes,
+            streak: user.streak,
+            lastLogin: user.lastLogin
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error", error: error.message });
+    }
+});
+
+
 router.get("/detail/:id", async (req, res) => {
     try {
         const detail = await LessonDetail.findById(req.params.id);

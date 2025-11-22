@@ -3,7 +3,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const { GoogleGenerativeAI } = require('@google/generative-ai');
-const geminiRoute = require('./routes/geminiRoute')
 
 const app = express();
 
@@ -48,6 +47,7 @@ app.use("/reviews", reviewRoutes);
 app.use("/news", newsRoutes);
 app.use("/posts", postRoutes);
 app.use('/api', geminiRoutes);
+
 
 const cloudinary = require("./config/cloudinary");
 if (cloudinary.config().cloud_name) {
