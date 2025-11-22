@@ -2,7 +2,7 @@ import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import { Stack } from "expo-router";
 import React, { useState } from "react";
-import { Alert, ScrollView, StyleSheet, Switch, Text, View } from "react-native";
+import { Alert, ScrollView, StyleSheet, Switch, Text, View, Platform } from "react-native";
 import { useTheme } from "../../../_layout";
 
 const NotificationsScreen = () => {
@@ -19,23 +19,47 @@ const NotificationsScreen = () => {
   const [pushNotif, setPushNotif] = useState(true);
   const [reminders, setReminders] = useState(true);
 
+  // ---- FIXED FUNCTION ----
   const requestNotificationPermission = async () => {
     if (!Device.isDevice) {
       Alert.alert("Thông báo", "Bạn phải dùng thiết bị thật để bật thông báo.");
       return false;
     }
 
-    const { status } = await Notifications.requestPermissionsAsync();
+    try {
+      // Android: setup channel
+      if (Platform.OS === "android") {
+        await Notifications.setNotificationChannelAsync("default", {
+          name: "default",
+          importance: Notifications.AndroidImportance.MAX,
+        });
+      }
 
-    if (status !== "granted") {
-      Alert.alert("Thông báo", "Bạn chưa cấp quyền thông báo.");
+      // Lấy trạng thái quyền hiện tại
+      const { status: existingStatus } = await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+
+      // Chưa cấp thì xin quyền
+      if (existingStatus !== "granted") {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+
+      // Nếu vẫn không được cấp
+      if (finalStatus !== "granted") {
+        Alert.alert("Thông báo", "Bạn chưa cấp quyền thông báo.");
+        return false;
+      }
+
+      return true;
+
+    } catch (error) {
+      console.log("Notification error:", error);
       return false;
     }
-
-    return true;
   };
 
-  const togglePushNotif = async (value: boolean) => {
+  const togglePushNotif = async (value) => {
     setPushNotif(value);
 
     if (value) {

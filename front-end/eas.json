@@ -12,7 +12,14 @@
       "distribution": "internal"
     },
     "production": {
-      "autoIncrement": true
+      "autoIncrement": true,
+      "resourceClass": "medium",
+      "env": {
+        "EXPO_USE_NODE_VERSION": "20.11.1"
+      },
+      "android": {
+        "buildType": "apk"
+      }
     }
   },
   "submit": {
