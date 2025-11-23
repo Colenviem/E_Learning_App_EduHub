@@ -91,12 +91,14 @@ router.post("/send-otp", async (req, res) => {
     };
 
     const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    });
+      host: "smtp.gmail.com",
+      port: 465, // Sử dụng 465 cho kết nối bảo mật (SMTPS)
+      secure: true, // Bật SSL/TLS
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS, // Đây PHẢI là Mật khẩu ứng dụng
+      },
+    });
 
     await transporter.sendMail({
       from: `"EduHub" <${process.env.SMTP_USER}>`,
