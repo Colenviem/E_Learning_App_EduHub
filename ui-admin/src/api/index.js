@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://e-learning-app-eduhub.onrender.com';
+const BASE_URL = 'https://e-learning-app-eduhub-1.onrender.com';
 
 const apiClient = axios.create({
   baseURL: BASE_URL,
