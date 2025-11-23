@@ -7,7 +7,7 @@
     "scheme": "frontend",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "owner": "anh22706331",
+    "owner": "colenviem",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.colenviem.frontend",
@@ -49,8 +49,11 @@
     },
     "extra": {
       "router": {},
+      "extra": {
+        "router": {}
+      },
       "eas": {
-        "projectId": "6a9829ac-7967-404a-89f3-de5031c1ef3d"
+        "projectId": "939ec6b1-7d6f-4f0c-a516-42e17358e5ac"
       }
     }
   }
