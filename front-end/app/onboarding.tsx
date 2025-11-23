@@ -8,7 +8,16 @@ import { StartButton } from '../src/components/StartButton';
 const Onboarding = () => {
   const [started, setStarted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { messages, sendBotMessage, handleAnswer, handlePickTime, flatListRef } = useChat();
+  const {
+    messages,
+    sendBotMessage,
+    handleAnswer,
+    handlePickTime,
+    flatListRef,
+    showPicker,
+    pickedTime
+  } = useChat();
+
 
   if (!started) {
     return (
@@ -54,7 +63,10 @@ const Onboarding = () => {
           flatListRef={flatListRef}
           handleAnswer={handleAnswer}
           handlePickTime={handlePickTime}
+          showPicker={showPicker}
+          pickedTime={pickedTime}
         />
+
       ) : null}
     </SafeAreaView>
   );
