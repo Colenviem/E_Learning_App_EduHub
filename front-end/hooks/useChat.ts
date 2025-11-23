@@ -1,15 +1,20 @@
+import * as Notifications from 'expo-notifications';
 import { router } from 'expo-router';
 import { useRef, useState } from 'react';
-import { Alert, FlatList } from 'react-native';
+import { FlatList, Platform } from 'react-native';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
+
 import type { ChatMessage } from './dataBot';
 import { QUESTIONS } from './dataBot';
 
 export const useChat = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [currentStep, setCurrentStep] = useState(0);
-  const flatListRef = useRef<FlatList>(null);
+  const [showPicker, setShowPicker] = useState(false);
+  const [pickedTime, setPickedTime] = useState<Date>(new Date());
+
+  const flatListRef = useRef<FlatList<any> | null>(null);
 
   const scrollToBottom = () => {
     setTimeout(() => flatListRef.current?.scrollToEnd({ animated: true }), 100);
@@ -39,7 +44,7 @@ export const useChat = () => {
     );
     scrollToBottom();
 
-    setTimeout(() => {
+    setTimeout(async () => {
       if (currentStep === QUESTIONS.length - 1) {
         if (answer === 'Có') {
           addMessage({
@@ -48,15 +53,18 @@ export const useChat = () => {
             sender: 'bot',
             showTimePicker: true,
           });
+
+          setShowPicker(true); // mở timepicker
         } else {
           addMessage({
             id: uuidv4(),
-            text: 'Không sao! Bạn có thể vào Cài đặt -> Thông báo -> Chọn EduHub để bật thông báo sau.',
+            text: 'Không sao! Bạn có thể bật thông báo sau trong Cài đặt.',
             sender: 'bot',
           });
+
           setTimeout(() => {
-            addMessage({ id: uuidv4(), text: 'Cảm ơn bạn! Hãy bắt đầu đến khóa học ngay thôi nào!', sender: 'bot' });
-            setTimeout(() => router.replace('/login'), 4000);
+            addMessage({ id: uuidv4(), text: 'Cảm ơn bạn! Hãy bắt đầu học ngay thôi nào!', sender: 'bot' });
+            setTimeout(() => router.replace('/login'), 2000);
           }, 800);
         }
         return;
@@ -68,66 +76,75 @@ export const useChat = () => {
     }, 600);
   };
 
-  const handlePickTime = () => {
-    const typingId = uuidv4();
-    addMessage({ id: typingId, text: '...', sender: 'typing' });
+  // =====================================================================
+  // 📌 HÀM LÊN LỊCH THÔNG BÁO
+  // =====================================================================
 
-    setTimeout(() => {
-      setMessages(prev => prev.filter(m => m.id !== typingId));
+  const scheduleDailyNotification = async (hour: number, minute: number) => {
+    const trigger = new Date(Date.now());
+    trigger.setHours(hour);
+    trigger.setMinutes(minute);
+    trigger.setSeconds(0);
 
-      Alert.alert(
-        'Thông báo học tập',
-        'Bạn có muốn bật thông báo nhắc học không?',
-        [
-          {
-            text: 'Không',
-            onPress: () => {
-              setMessages(prev =>
-                prev.map(m => (m.showTimePicker ? { ...m, showTimePicker: false } : m))
-              );
-              addMessage({
-                id: uuidv4(),
-                text: 'Không sao! Bạn có thể vào cài đặt -> thông báo -> chọn EduHub để bật thông báo sau.',
-                sender: 'bot',
-              });
-              setTimeout(() => {
-                addMessage({ id: uuidv4(), text: 'Cảm ơn bạn! Hãy bắt đầu đến khóa học ngay thôi nào!', sender: 'bot' });
-                setTimeout(() => router.replace('/login'), 2000);
-              }, 800);
-            },
-            style: 'cancel',
-          },
-          {
-            text: 'Có',
-            onPress: () => {
-              Alert.prompt(
-                'Chọn giờ học',
-                'Vui lòng nhập giờ bạn muốn nhận thông báo (ví dụ: 14:00)',
-                [
-                  {
-                    text: 'Xác nhận',
-                    onPress: (time : any) => {
-                      setMessages(prev =>
-                        prev.map(m => (m.showTimePicker ? { ...m, showTimePicker: false } : m))
-                      );
-                      addMessage({
-                        id: uuidv4(),
-                        text: `Tuyệt vời! Bạn đã đặt giờ nhắc học vào lúc ${time}.`,
-                        sender: 'bot',
-                      });
-                      setTimeout(() => router.replace('/login'), 1000);
-                    },
-                  },
-                ],
-                'plain-text',
-                '08:00'
-              );
-            },
-          },
-        ]
-      );
-    }, 400);
+    if (trigger.getTime() < Date.now()) {
+      trigger.setDate(trigger.getDate() + 1);
+    }
+
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Nhắc học bài!",
+        body: "Đến giờ học rồi bạn ơi!",
+      },
+      trigger: trigger,
+    });
   };
 
-  return { messages, sendBotMessage, handleAnswer, handlePickTime, flatListRef };
+
+
+
+  // =====================================================================
+  // 📌 HANDLE PICK TIME
+  // =====================================================================
+
+  const handlePickTime = (event: any, selectedTime?: Date) => {
+    if (Platform.OS === 'android') setShowPicker(false);
+
+    if (!selectedTime) return;
+
+    setPickedTime(selectedTime);
+
+    const hour = selectedTime.getHours().toString().padStart(2, "0");
+    const minute = selectedTime.getMinutes().toString().padStart(2, "0");
+
+    addMessage({
+      id: uuidv4(),
+      text: `Bạn đã chọn giờ học: ${hour}:${minute}.`,
+      sender: "user",
+    });
+
+    scheduleDailyNotification(
+      selectedTime.getHours(),
+      selectedTime.getMinutes()
+    );
+
+    addMessage({
+      id: uuidv4(),
+      text: `Tuyệt vời! Mình sẽ nhắc bạn học mỗi ngày lúc ${hour}:${minute}.`,
+      sender: "bot",
+    });
+
+    setTimeout(() => router.replace("/login"), 1500);
+  };
+
+
+  return {
+    messages,
+    sendBotMessage,
+    handleAnswer,
+    handlePickTime,
+    flatListRef,
+    showPicker,
+    pickedTime,
+    setShowPicker,
+  };
 };
