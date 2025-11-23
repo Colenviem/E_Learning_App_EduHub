@@ -59,7 +59,7 @@ const NotificationsScreen = () => {
     }
   };
 
-  const togglePushNotif = async (value) => {
+  const togglePushNotif = async (value: any) => {
     setPushNotif(value);
 
     if (value) {
