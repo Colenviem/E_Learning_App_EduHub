@@ -107,7 +107,8 @@ router.post("/send-otp", async (req, res) => {
 
     res.json({ success: true, message: "OTP đã gửi thành công" });
   } catch (err) {
-    res.status(500).json({ message: "Lỗi server khi gửi OTP" });
+    console.error("Send OTP error:", err);
+    res.status(500).json({ message: "Lỗi server khi gửi OTP", error: err.message });
   }
 });
 
@@ -123,8 +124,7 @@ router.post("/verify-otp", async (req, res) => {
     record.used = true;
     res.json({ verified: true, message: "Xác thực OTP thành công" });
   } catch (err) {
-    console.error("Send OTP error:", err);
-    res.status(500).json({ message: "Lỗi server khi gửi OTP", error: err.message });
+    res.status(500).json({ message: "Lỗi server khi xác thực OTP" });
   }
 });
 
